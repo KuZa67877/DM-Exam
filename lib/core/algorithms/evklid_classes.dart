@@ -2,10 +2,6 @@ import 'dart:math';
 import 'evklid_alg.dart';
 
 abstract class Task {
-  late List<int> firstline;
-  late List<int> secondline;
-  late List<int> thirdline;
-  late List<int> fourthLine;
   late final List<List<int>> data;
   int linesCount = 4; // По умолчанию устанавливаем 4 строки
 
@@ -21,10 +17,6 @@ class AxBy1 extends Task {
   late int yCondition;
   late int xAnswer;
   late int yAnswer;
-  late List<int> firstline;
-  late List<int> secondline;
-  late List<int> thirdline;
-  late List<int> fourthLine;
 
   @override
   List<List<int>> generateVariant() {
@@ -54,10 +46,6 @@ class AxBy1 extends Task {
     yCondition = data[0][1];
     xAnswer = data[2][data[2].length - 2];
     yAnswer = data[3][data[3].length - 2];
-    firstline = data[0];
-    secondline = data[1];
-    thirdline = data[2];
-    fourthLine = data[3];
   }
 }
 
@@ -99,7 +87,7 @@ class NOD extends Task {
       result = evklidLinesMinus(num1, num2);
     } while (result[0].length < 4 || result[0].length > 7);
 
-    return result;
+    return result.sublist(0, result.length ~/ 2);
   }
 
   @override
