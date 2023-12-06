@@ -6,6 +6,7 @@ import 'package:dmiti_project/res/colors.dart';
 import 'package:dmiti_project/res/text.dart';
 import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EducationScreen extends StatefulWidget {
   //TODO заблокировать нажатие кнопки, ну или сделать отсутствие кликабельности
