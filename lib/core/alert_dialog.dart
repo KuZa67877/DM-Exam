@@ -26,7 +26,7 @@ class DefaultDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       child: Container(
         width: 273,
-        height: 167,
+        height: 187,
         decoration: BoxDecoration(
             color: AppColors.white, borderRadius: BorderRadius.circular(20)),
         child: Column(children: [
@@ -37,9 +37,15 @@ class DefaultDialog extends StatelessWidget {
               style: getTheme().textTheme.bodyLarge,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(infoText, style: getTheme().textTheme.bodyLarge),
+          // SizedBox(
+          //   height: 20,
+          // ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(infoText, style: getTheme().textTheme.bodyLarge),
+            ),
           ),
           DefaultButton(
               info: buttonText,

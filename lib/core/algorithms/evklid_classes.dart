@@ -7,6 +7,7 @@ abstract class Task {
   late List<int> thirdline;
   late List<int> fourthLine;
   late final List<List<int>> data;
+  int linesCount = 4; // По умолчанию устанавливаем 4 строки
 
   Task();
 
@@ -78,6 +79,7 @@ class NOD extends Task {
     secondline = data[1];
     thirdline = [];
     fourthLine = [];
+    linesCount = 2; // Устанавливаем 2 строки
   }
 
   @override
@@ -124,6 +126,7 @@ class ContinuedFraction extends Task {
     secondline = data[1];
     thirdline = [];
     fourthLine = [];
+    linesCount = 2;
     answer = '';
     if (secondline[2] == 0) {
       answer = '[${secondline[3]},';

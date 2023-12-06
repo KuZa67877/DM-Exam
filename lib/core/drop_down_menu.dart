@@ -15,6 +15,7 @@ class DropDownMenuButton extends StatefulWidget {
 
 class _DropDownMenuButtonState extends State<DropDownMenuButton> {
   List<String> list = <String>[
+    "Информация",
     AppStrings.diofantLittle,
     AppStrings.inverseElevent,
     AppStrings.nod,

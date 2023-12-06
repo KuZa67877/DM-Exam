@@ -8,9 +8,16 @@ import 'package:dmiti_project/res/text.dart';
 import 'package:flutter/material.dart';
 
 class FieldMatrix extends StatefulWidget {
+  final bool isExample;
   bool isSolved;
   final Task task;
-  FieldMatrix({Key? key, required this.task, required this.isSolved})
+  final Function(bool)? onAnswer;
+  FieldMatrix(
+      {Key? key,
+      required this.task,
+      required this.isSolved,
+      required this.isExample,
+      required this.onAnswer})
       : super(key: key);
 
   @override
@@ -21,24 +28,38 @@ class _FieldMatrixState extends State<FieldMatrix> {
   List<TextEditingController> controllers = []; // Добавлено
   List<String> allData = []; // Перенесено сюда
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   for (List<int> dataList in widget.task.data) {
+  //     for (int i = 0; i < dataList.length; i++) {
+  //       allData.add(dataList[i].toString());
+  //       controllers.add(TextEditingController()); // Создание контроллеров здесь
+  //     }
+  //   }
+  // }
   @override
   void initState() {
     super.initState();
+    int count = 0;
     for (List<int> dataList in widget.task.data) {
-      for (int i = 0; i < dataList.length; i++) {
-        allData.add(dataList[i].toString());
-        controllers.add(TextEditingController()); // Создание контроллеров здесь
+      if (count >= widget.task.linesCount) {
+        break;
       }
+      controllers.addAll(
+          List.generate(dataList.length, (index) => TextEditingController()));
+      allData.addAll(dataList.map((item) => item.toString()));
+      count++;
     }
   }
 
-  // @override
-  // void dispose() {
-  //   // Вариант с удалением каждого контроллера
-  //   controllers.forEach((controller) => controller.dispose());
+  @override
+  void dispose() {
+    // Вариант с удалением каждого контроллера
+    controllers.forEach((controller) => controller.dispose());
 
-  //   super.dispose();
-  // }
+    super.dispose();
+  }
 
   List<String> getValues() {
     return controllers
@@ -47,18 +68,36 @@ class _FieldMatrixState extends State<FieldMatrix> {
         .toList();
   }
 
+  // @override
+  // void didUpdateWidget(covariant FieldMatrix oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+  //   if (oldWidget.task != widget.task) {
+  //     controllers.clear();
+  //     allData.clear();
+  //     for (List<int> dataList in widget.task.data) {
+  //       for (int i = 0; i < dataList.length; i++) {
+  //         allData.add(dataList[i].toString());
+  //         controllers
+  //             .add(TextEditingController()); // Создание контроллеров здесь
+  //       }
+  //     }
+  //   }
+  // }
   @override
   void didUpdateWidget(covariant FieldMatrix oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.task != widget.task) {
       controllers.clear();
       allData.clear();
+      int count = 0;
       for (List<int> dataList in widget.task.data) {
-        for (int i = 0; i < dataList.length; i++) {
-          allData.add(dataList[i].toString());
-          controllers
-              .add(TextEditingController()); // Создание контроллеров здесь
+        if (count >= widget.task.linesCount) {
+          break;
         }
+        controllers.addAll(
+            List.generate(dataList.length, (index) => TextEditingController()));
+        allData.addAll(dataList.map((item) => item.toString()));
+        count++;
       }
     }
   }
@@ -67,6 +106,7 @@ class _FieldMatrixState extends State<FieldMatrix> {
     List<String> inputValues = getValues();
 
     print(inputValues);
+
     print(allData);
     if (inputValues.length == allData.length &&
         inputValues.asMap().entries.every((entry) {
@@ -106,6 +146,28 @@ class _FieldMatrixState extends State<FieldMatrix> {
     }
   }
 
+  void printValues1() {
+    //для теста версии с экзаменом, пока не убирать
+    List<String> inputValues = getValues();
+
+    print(inputValues);
+    print(allData);
+    if (inputValues.length == allData.length &&
+        inputValues.asMap().entries.every((entry) {
+          return entry.value == allData[entry.key];
+        })) {
+      setState(() {
+        widget.isSolved = true;
+      });
+      widget.onAnswer!(true);
+    } else {
+      setState(() {
+        widget.isSolved = false;
+      });
+      widget.onAnswer!(false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -114,7 +176,8 @@ class _FieldMatrixState extends State<FieldMatrix> {
         DefaultButton(
           buttonColor: AppColors.green,
           info: AppStrings.send,
-          onPressedFunction: printValues,
+          onPressedFunction:
+              widget.onAnswer == null ? printValues : printValues1,
         ),
       ],
     );
@@ -139,9 +202,9 @@ class _FieldMatrixState extends State<FieldMatrix> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 3, right: 3),
                 child: FieldCell(
-                  maxLenght: number.toString().length,
-                  controller: controllers[controllerIndex++],
-                ),
+                    answer: number,
+                    controller: controllers[controllerIndex++],
+                    isExample: widget.isExample),
               ),
             );
           } else {

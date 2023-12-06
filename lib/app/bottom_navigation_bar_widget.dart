@@ -1,3 +1,5 @@
+import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
+import 'package:dmiti_project/features/exam_screen/exam_screen.dart';
 import 'package:dmiti_project/res/colors.dart';
 import 'package:flutter/material.dart';
 import '../features/education_screen/education_screen.dart';
@@ -15,7 +17,16 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
   final List<Widget> _widgets = [
     const EducationScreen(),
     const StudyScreen(),
-    const EducationScreen(),
+    TaskScreen(
+      tasks: [
+        AxBy1(),
+        NOD(),
+        ContinuedFraction(),
+        InverseNumber(),
+        SuitableFractions(),
+        Diafant()
+      ],
+    ),
     const StudyScreen(),
     const EducationScreen()
   ];
@@ -24,6 +35,18 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
   void onTap(int index) {
     setState(() {
       _currentIndex = index;
+      if (_currentIndex == 2) {
+        _widgets[2] = TaskScreen(
+          tasks: [
+            AxBy1(),
+            NOD(),
+            ContinuedFraction(),
+            InverseNumber(),
+            SuitableFractions(),
+            Diafant()
+          ],
+        );
+      }
     });
   }
 
