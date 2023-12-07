@@ -143,7 +143,7 @@ class ContinuedFraction extends Task {
       result = evklidLinesMinus(num1, num2);
     } while (result[0].length < 4 || result[0].length > 7);
 
-    return result;
+    return result.sublist(0, result.length ~/ 2);
   }
 
   @override
