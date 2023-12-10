@@ -1,5 +1,6 @@
 import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
 import 'package:dmiti_project/features/exam_screen/exam_screen.dart';
+import 'package:dmiti_project/features/user_profile.dart';
 import 'package:dmiti_project/res/colors.dart';
 import 'package:flutter/material.dart';
 import '../features/education_screen/education_screen.dart';
@@ -27,8 +28,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
         Diafant()
       ],
     ),
-    const StudyScreen(),
-    const EducationScreen()
+    const UserProfile()
   ];
   int _currentIndex = 0;
 

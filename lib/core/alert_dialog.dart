@@ -9,7 +9,7 @@ class DefaultDialog extends StatelessWidget {
   final String buttonText;
   final Color colorButton;
   final VoidCallback onPressedFunction;
-  const DefaultDialog(
+  DefaultDialog(
       {super.key,
       required this.context,
       required this.colorButton,
@@ -19,7 +19,6 @@ class DefaultDialog extends StatelessWidget {
       required this.onPressedFunction});
 
   final BuildContext context;
-
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -47,10 +46,26 @@ class DefaultDialog extends StatelessWidget {
               child: Text(infoText, style: getTheme().textTheme.bodyLarge),
             ),
           ),
-          DefaultButton(
-              info: buttonText,
-              buttonColor: colorButton,
-              onPressedFunction: onPressedFunction)
+          if (buttonText != "Начать заново")
+            Padding(
+              padding: const EdgeInsets.only(top: 30),
+              child: DefaultButton(
+                info: buttonText,
+                buttonColor: colorButton,
+                onPressedFunction: onPressedFunction,
+                isSettings: false,
+              ),
+            )
+          else
+            Padding(
+              padding: const EdgeInsets.only(top: 5),
+              child: DefaultButton(
+                info: buttonText,
+                buttonColor: colorButton,
+                onPressedFunction: onPressedFunction,
+                isSettings: false,
+              ),
+            )
         ]),
       ),
     );

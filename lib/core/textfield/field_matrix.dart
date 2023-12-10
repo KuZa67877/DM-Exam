@@ -1,3 +1,4 @@
+import 'package:dmiti_project/app/helper.dart';
 import 'package:dmiti_project/core/alert_dialog.dart';
 import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
 import 'package:dmiti_project/core/default_button.dart';
@@ -6,6 +7,7 @@ import 'package:dmiti_project/res/colors.dart';
 import 'package:dmiti_project/res/text.dart';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FieldMatrix extends StatefulWidget {
   final bool isExample;
@@ -25,19 +27,9 @@ class FieldMatrix extends StatefulWidget {
 }
 
 class _FieldMatrixState extends State<FieldMatrix> {
-  List<TextEditingController> controllers = []; // Добавлено
-  List<String> allData = []; // Перенесено сюда
+  List<TextEditingController> controllers = [];
+  List<String> allData = [];
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   for (List<int> dataList in widget.task.data) {
-  //     for (int i = 0; i < dataList.length; i++) {
-  //       allData.add(dataList[i].toString());
-  //       controllers.add(TextEditingController()); // Создание контроллеров здесь
-  //     }
-  //   }
-  // }
   @override
   void initState() {
     super.initState();
@@ -46,11 +38,32 @@ class _FieldMatrixState extends State<FieldMatrix> {
       if (count >= widget.task.linesCount) {
         break;
       }
-      controllers.addAll(
-          List.generate(dataList.length, (index) => TextEditingController()));
+      controllers.addAll(List.generate(
+          dataList.length,
+          (index) => TextEditingController(
+              text:
+                  widget.isExample == true ? dataList[index].toString() : '')));
       allData.addAll(dataList.map((item) => item.toString()));
       count++;
+      _loadCounter();
     }
+  }
+
+  // Loading counter value on start
+  void _loadCounter() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      Helper.counter = (prefs.getInt('counter') ?? 0);
+    });
+  }
+
+  // Incrementing counter after click
+  void _incrementCounter() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      Helper.counter = (prefs.getInt('counter') ?? 0) + 1;
+      prefs.setInt('counter', Helper.counter);
+    });
   }
 
   @override
@@ -68,21 +81,6 @@ class _FieldMatrixState extends State<FieldMatrix> {
         .toList();
   }
 
-  // @override
-  // void didUpdateWidget(covariant FieldMatrix oldWidget) {
-  //   super.didUpdateWidget(oldWidget);
-  //   if (oldWidget.task != widget.task) {
-  //     controllers.clear();
-  //     allData.clear();
-  //     for (List<int> dataList in widget.task.data) {
-  //       for (int i = 0; i < dataList.length; i++) {
-  //         allData.add(dataList[i].toString());
-  //         controllers
-  //             .add(TextEditingController()); // Создание контроллеров здесь
-  //       }
-  //     }
-  //   }
-  // }
   @override
   void didUpdateWidget(covariant FieldMatrix oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -114,6 +112,7 @@ class _FieldMatrixState extends State<FieldMatrix> {
         })) {
       setState(() {
         widget.isSolved = true;
+        _incrementCounter();
       });
       showDialog(
         context: context,
@@ -178,6 +177,7 @@ class _FieldMatrixState extends State<FieldMatrix> {
           info: AppStrings.send,
           onPressedFunction:
               widget.onAnswer == null ? printValues : printValues1,
+          isSettings: false,
         ),
       ],
     );

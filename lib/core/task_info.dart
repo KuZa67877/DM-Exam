@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 class TaskInfo extends StatelessWidget {
   final Task taskGenerator;
-  final String info;
-  const TaskInfo({super.key, required this.taskGenerator, required this.info});
+
+  const TaskInfo({super.key, required this.taskGenerator});
 
   @override
   Widget build(BuildContext context) {
@@ -15,14 +15,6 @@ class TaskInfo extends StatelessWidget {
       child: Container(
           width: 330,
           child: Column(children: [
-            Align(
-              alignment: Alignment.topCenter,
-              child: Text(
-                info,
-                style: getTheme().textTheme.bodyLarge,
-                textAlign: TextAlign.center,
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.only(top: 10),
               child: Text(

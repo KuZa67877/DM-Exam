@@ -42,4 +42,9 @@ ThemeData getTheme() => ThemeData(
             color: AppColors.red,
             fontFamily: "WorkSans",
             fontSize: 16,
-            fontWeight: FontWeight.bold)));
+            fontWeight: FontWeight.bold),
+        headlineLarge: TextStyle(
+            fontFamily: "Cygre",
+            fontSize: 50,
+            fontWeight: FontWeight.w900,
+            color: AppColors.black)));

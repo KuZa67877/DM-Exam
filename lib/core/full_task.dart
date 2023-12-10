@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class FullTask extends StatefulWidget {
   final bool isExample;
-  final String taskInfo;
+
   bool isSolved;
   Task taskGenerator;
   String helpText = "Показать подсказку";
@@ -16,7 +16,6 @@ class FullTask extends StatefulWidget {
       {super.key,
       required this.isSolved,
       required this.taskGenerator,
-      required this.taskInfo,
       required this.isExample,
       required this.onAnswer});
 
@@ -55,7 +54,7 @@ class _FullTaskState extends State<FullTask> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          TaskInfo(taskGenerator: widget.taskGenerator, info: widget.taskInfo),
+          TaskInfo(taskGenerator: widget.taskGenerator),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(

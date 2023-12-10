@@ -53,8 +53,8 @@ class _StudyScreenState extends State<StudyScreen> {
               children: [
                 Center(
                   child: Text(
-                    AppStrings.education,
-                    style: theme.textTheme.titleLarge,
+                    "Самоконтроль",
+                    style: theme.textTheme.headlineLarge,
                   ),
                 ),
               ],
@@ -70,6 +70,14 @@ class _StudyScreenState extends State<StudyScreen> {
               alignment: Alignment.bottomLeft,
               child: DropDownMenuButton(
                 updateWidgets: updateWidgets,
+                list: [
+                  AppStrings.diofantLittle,
+                  AppStrings.inverseElevent,
+                  AppStrings.nod,
+                  AppStrings.continuedFraction,
+                  AppStrings.suitableFraction,
+                  AppStrings.diafantBig
+                ],
               ),
             ),
           ),
@@ -96,7 +104,6 @@ class _StudyScreenState extends State<StudyScreen> {
                       return FullTask(
                         isSolved: false,
                         taskGenerator: snapshot.data!,
-                        taskInfo: AppStrings.diofantLittleTask,
                         isExample: false,
                         onAnswer: null,
                       );
@@ -109,8 +116,7 @@ class _StudyScreenState extends State<StudyScreen> {
               child: FullTask(
                 isSolved: false,
                 taskGenerator: InverseNumber(),
-                taskInfo:
-                    AppStrings.inverseNumberTask, //поменять, лишняя строка
+                //поменять, лишняя строка
                 isExample: false,
                 onAnswer: null,
               ),
@@ -121,7 +127,6 @@ class _StudyScreenState extends State<StudyScreen> {
               child: FullTask(
                 isSolved: false,
                 taskGenerator: NOD(),
-                taskInfo: AppStrings.nodTask,
                 isExample: false,
                 onAnswer: null,
               ),
@@ -132,7 +137,6 @@ class _StudyScreenState extends State<StudyScreen> {
               child: FullTask(
                 isSolved: false,
                 taskGenerator: ContinuedFraction(),
-                taskInfo: AppStrings.continuedFractionTask,
                 isExample: false,
                 onAnswer: null,
               ),
@@ -143,7 +147,6 @@ class _StudyScreenState extends State<StudyScreen> {
               child: FullTask(
                 isSolved: false,
                 taskGenerator: SuitableFractions(),
-                taskInfo: AppStrings.suitableFractionTask,
                 isExample: false,
                 onAnswer: null,
               ),
@@ -154,7 +157,6 @@ class _StudyScreenState extends State<StudyScreen> {
               child: FullTask(
                 isSolved: false,
                 taskGenerator: Diafant(),
-                taskInfo: AppStrings.diafantBigTask,
                 isExample: false,
                 onAnswer: null,
               ),

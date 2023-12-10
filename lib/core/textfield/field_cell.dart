@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class FieldCell extends StatefulWidget {
   final bool isExample;
   final int answer;
-  final TextEditingController controller; // добавлено
+  final TextEditingController controller;
   const FieldCell(
       {Key? key,
       required this.answer,
@@ -19,15 +19,6 @@ class FieldCell extends StatefulWidget {
 }
 
 class _FieldCellState extends State<FieldCell> {
-  //final textController = TextEditingController(); Перенесено в параметры
-
-  // @override
-  // void dispose() {
-  //   // textController.dispose(); Изменено
-  //   widget.controller.dispose();
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,8 +29,10 @@ class _FieldCellState extends State<FieldCell> {
           borderRadius: BorderRadius.circular(16)),
       child: TextField(
         enabled: widget.isExample == false,
-        controller: widget.controller, // Изменено
-        maxLength: widget.answer.toString().length,
+        controller: widget.controller,
+        maxLength: widget.answer.toInt() >= 0
+            ? widget.answer.toString().length
+            : widget.answer.toString().length + 1,
         keyboardType: TextInputType.number,
         textAlignVertical: TextAlignVertical.center,
         textAlign: TextAlign.center,
