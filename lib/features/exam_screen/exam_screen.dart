@@ -94,6 +94,7 @@ class _TaskScreenState extends State<TaskScreen> {
           taskGenerator: widget.tasks[_currentIndex],
           isExample: false,
           onAnswer: _checkAnswer,
+          isEducation: false,
         ),
       ),
     );

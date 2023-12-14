@@ -11,7 +11,7 @@ class AppStrings {
   static const continuedFraction = "Цепная дробь";
   static const suitableFraction = "Подходящие дроби";
   static const diafantBig = "Диофантово уравнение";
-  static const education = "Обучение";
+  static const education = "Демонстрация";
   static const euclid = "Алгоритм Евклида";
   static const writeAnswer = "Введите правильный ответ:";
   static const diofantLittleTask = "Найти (x,y) удволетворяющие условию:";

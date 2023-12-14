@@ -133,6 +133,7 @@ class _EducationScreenState extends State<EducationScreen> {
                               taskGenerator: snapshot.data!,
                               isExample: true,
                               onAnswer: null,
+                              isEducation: false,
                             );
                           }
                         },
@@ -167,7 +168,7 @@ class _EducationScreenState extends State<EducationScreen> {
                     FullTask(
                       isSolved: false,
                       taskGenerator: InverseNumber(),
-
+                      isEducation: false,
                       isExample: true, //поменять, лишняя строка
                       onAnswer: _checkAnswer,
                     ),
@@ -202,7 +203,7 @@ class _EducationScreenState extends State<EducationScreen> {
                     FullTask(
                       isSolved: false,
                       taskGenerator: NOD(),
-
+                      isEducation: false,
                       isExample: true, //поменять, лишняя строка
                       onAnswer: _checkAnswer,
                     ),
@@ -237,7 +238,7 @@ class _EducationScreenState extends State<EducationScreen> {
                     FullTask(
                       isSolved: false,
                       taskGenerator: ContinuedFraction(),
-
+                      isEducation: false,
                       isExample: true, //поменять, лишняя строка
                       onAnswer: _checkAnswer,
                     ),
@@ -272,7 +273,7 @@ class _EducationScreenState extends State<EducationScreen> {
                     FullTask(
                       isSolved: false,
                       taskGenerator: SuitableFractions(),
-
+                      isEducation: false,
                       isExample: true, //поменять, лишняя строка
                       onAnswer: _checkAnswer,
                     ),
@@ -307,7 +308,7 @@ class _EducationScreenState extends State<EducationScreen> {
                     FullTask(
                       isSolved: false,
                       taskGenerator: Diafant(),
-
+                      isEducation: false,
                       isExample: true, //поменять, лишняя строка
                       onAnswer: _checkAnswer,
                     ),

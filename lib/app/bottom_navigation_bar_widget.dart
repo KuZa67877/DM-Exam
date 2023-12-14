@@ -17,36 +17,38 @@ class BottomNavigationBarWidget extends StatefulWidget {
 class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
   final List<Widget> _widgets = [
     const EducationScreen(),
-    const StudyScreen(),
-    TaskScreen(
-      tasks: [
-        AxBy1(),
-        NOD(),
-        ContinuedFraction(),
-        InverseNumber(),
-        SuitableFractions(),
-        Diafant()
-      ],
+    const StudyScreen(
+      isEducation: true,
+      title: "Тестирование",
+    ),
+    const StudyScreen(
+      isEducation: false,
+      title: "Контроль",
     ),
     const UserProfile()
   ];
   int _currentIndex = 0;
 
+  // void onTap(int index) {
+  //   setState(() {
+  //     _currentIndex = index;
+  //     if (_currentIndex == 2) {
+  //       _widgets[2] = TaskScreen(
+  //         tasks: [
+  //           AxBy1(),
+  //           NOD(),
+  //           ContinuedFraction(),
+  //           InverseNumber(),
+  //           SuitableFractions(),
+  //           Diafant()
+  //         ],
+  //       );
+  //     }
+  //   });
+  // }
   void onTap(int index) {
     setState(() {
       _currentIndex = index;
-      if (_currentIndex == 2) {
-        _widgets[2] = TaskScreen(
-          tasks: [
-            AxBy1(),
-            NOD(),
-            ContinuedFraction(),
-            InverseNumber(),
-            SuitableFractions(),
-            Diafant()
-          ],
-        );
-      }
     });
   }
 
