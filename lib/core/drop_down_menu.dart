@@ -4,7 +4,9 @@ import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';
 
 class DropDownMenuButton extends StatefulWidget {
-  const DropDownMenuButton({Key? key, required this.updateWidgets})
+  final List<String> list;
+  const DropDownMenuButton(
+      {Key? key, required this.updateWidgets, required this.list})
       : super(key: key);
 
   final Function(String) updateWidgets;
@@ -14,18 +16,8 @@ class DropDownMenuButton extends StatefulWidget {
 }
 
 class _DropDownMenuButtonState extends State<DropDownMenuButton> {
-  List<String> list = <String>[
-    "Информация",
-    AppStrings.diofantLittle,
-    AppStrings.inverseElevent,
-    AppStrings.nod,
-    AppStrings.continuedFraction,
-    AppStrings.suitableFraction,
-    AppStrings.diafantBig
-  ];
-  String? dropItem = AppStrings.diofantLittle;
   final theme = getTheme();
-
+  String? dropItem = AppStrings.diofantLittle;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -41,7 +33,7 @@ class _DropDownMenuButtonState extends State<DropDownMenuButton> {
             padding: const EdgeInsets.all(4.0),
             child: DropdownButton<String>(
               value: dropItem,
-              items: list
+              items: widget.list
                   .map(
                     (item) => DropdownMenuItem<String>(
                       value: item,
@@ -51,7 +43,7 @@ class _DropDownMenuButtonState extends State<DropDownMenuButton> {
                   .toList(),
               onChanged: (item) {
                 setState(() {
-                  dropItem = item;
+                  dropItem = item!;
                 });
                 widget.updateWidgets(item!);
               },

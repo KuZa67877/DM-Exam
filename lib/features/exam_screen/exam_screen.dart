@@ -22,7 +22,7 @@ class CustomScaffold extends StatelessWidget {
               Center(
                 child: Text(
                   "Тестирование",
-                  style: getTheme().textTheme.titleLarge,
+                  style: getTheme().textTheme.headlineLarge,
                 ),
               ),
             ],
@@ -92,9 +92,9 @@ class _TaskScreenState extends State<TaskScreen> {
         child: FullTask(
           isSolved: false,
           taskGenerator: widget.tasks[_currentIndex],
-          taskInfo: 'taskInfo',
           isExample: false,
           onAnswer: _checkAnswer,
+          isEducation: false,
         ),
       ),
     );

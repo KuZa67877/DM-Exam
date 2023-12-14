@@ -7,7 +7,10 @@ import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';
 
 class StudyScreen extends StatefulWidget {
-  const StudyScreen({Key? key}) : super(key: key);
+  final bool isEducation;
+  final String title;
+  const StudyScreen({Key? key, required this.isEducation, required this.title})
+      : super(key: key);
 
   @override
   State<StudyScreen> createState() => _StudyScreenState();
@@ -53,8 +56,8 @@ class _StudyScreenState extends State<StudyScreen> {
               children: [
                 Center(
                   child: Text(
-                    AppStrings.education,
-                    style: theme.textTheme.titleLarge,
+                    widget.title,
+                    style: theme.textTheme.headlineLarge,
                   ),
                 ),
               ],
@@ -70,6 +73,14 @@ class _StudyScreenState extends State<StudyScreen> {
               alignment: Alignment.bottomLeft,
               child: DropDownMenuButton(
                 updateWidgets: updateWidgets,
+                list: const [
+                  AppStrings.diofantLittle,
+                  AppStrings.inverseElevent,
+                  AppStrings.nod,
+                  AppStrings.continuedFraction,
+                  AppStrings.suitableFraction,
+                  AppStrings.diafantBig
+                ],
               ),
             ),
           ),
@@ -80,7 +91,7 @@ class _StudyScreenState extends State<StudyScreen> {
           if (showWidgetOne)
             //var generator = AxBy1();
             Padding(
-                padding: EdgeInsets.only(top: 70),
+                padding: EdgeInsets.only(top: 120),
                 child: FutureBuilder<Task>(
                   future: generateTask(),
                   builder:
@@ -96,23 +107,23 @@ class _StudyScreenState extends State<StudyScreen> {
                       return FullTask(
                         isSolved: false,
                         taskGenerator: snapshot.data!,
-                        taskInfo: AppStrings.diofantLittleTask,
                         isExample: false,
                         onAnswer: null,
+                        isEducation: widget.isEducation,
                       );
                     }
                   },
                 )),
           if (showWidgetTwo)
             Padding(
-              padding: EdgeInsets.only(top: 70),
+              padding: EdgeInsets.only(top: 120),
               child: FullTask(
                 isSolved: false,
                 taskGenerator: InverseNumber(),
-                taskInfo:
-                    AppStrings.inverseNumberTask, //поменять, лишняя строка
+                //поменять, лишняя строка
                 isExample: false,
                 onAnswer: null,
+                isEducation: widget.isEducation,
               ),
             ),
           if (showWidgetThree)
@@ -121,42 +132,42 @@ class _StudyScreenState extends State<StudyScreen> {
               child: FullTask(
                 isSolved: false,
                 taskGenerator: NOD(),
-                taskInfo: AppStrings.nodTask,
                 isExample: false,
                 onAnswer: null,
+                isEducation: widget.isEducation,
               ),
             ),
           if (showWidgetFour)
             Padding(
-              padding: EdgeInsets.only(top: 70),
+              padding: EdgeInsets.only(top: 120),
               child: FullTask(
                 isSolved: false,
                 taskGenerator: ContinuedFraction(),
-                taskInfo: AppStrings.continuedFractionTask,
                 isExample: false,
                 onAnswer: null,
+                isEducation: widget.isEducation,
               ),
             ),
           if (showWidgetFive)
             Padding(
-              padding: EdgeInsets.only(top: 70),
+              padding: EdgeInsets.only(top: 120),
               child: FullTask(
                 isSolved: false,
                 taskGenerator: SuitableFractions(),
-                taskInfo: AppStrings.suitableFractionTask,
                 isExample: false,
                 onAnswer: null,
+                isEducation: widget.isEducation,
               ),
             ),
           if (showWidgetSix)
             Padding(
-              padding: EdgeInsets.only(top: 70),
+              padding: EdgeInsets.only(top: 120),
               child: FullTask(
                 isSolved: false,
                 taskGenerator: Diafant(),
-                taskInfo: AppStrings.diafantBigTask,
                 isExample: false,
                 onAnswer: null,
+                isEducation: widget.isEducation,
               ),
             ),
         ],

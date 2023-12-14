@@ -67,7 +67,7 @@ class _EducationScreenState extends State<EducationScreen> {
                 Center(
                   child: Text(
                     AppStrings.education,
-                    style: theme.textTheme.titleLarge,
+                    style: theme.textTheme.headlineLarge,
                   ),
                 ),
               ],
@@ -83,6 +83,15 @@ class _EducationScreenState extends State<EducationScreen> {
               alignment: Alignment.bottomLeft,
               child: DropDownMenuButton(
                 updateWidgets: updateWidgets,
+                list: [
+                  "Информация",
+                  AppStrings.diofantLittle,
+                  AppStrings.inverseElevent,
+                  AppStrings.nod,
+                  AppStrings.continuedFraction,
+                  AppStrings.suitableFraction,
+                  AppStrings.diafantBig
+                ],
               ),
             ),
           ),
@@ -122,9 +131,9 @@ class _EducationScreenState extends State<EducationScreen> {
                             return FullTask(
                               isSolved: false,
                               taskGenerator: snapshot.data!,
-                              taskInfo: AppStrings.diofantLittleTask,
                               isExample: true,
                               onAnswer: null,
+                              isEducation: false,
                             );
                           }
                         },
@@ -159,7 +168,7 @@ class _EducationScreenState extends State<EducationScreen> {
                     FullTask(
                       isSolved: false,
                       taskGenerator: InverseNumber(),
-                      taskInfo: AppStrings.inverseNumberTask,
+                      isEducation: false,
                       isExample: true, //поменять, лишняя строка
                       onAnswer: _checkAnswer,
                     ),
@@ -194,7 +203,7 @@ class _EducationScreenState extends State<EducationScreen> {
                     FullTask(
                       isSolved: false,
                       taskGenerator: NOD(),
-                      taskInfo: AppStrings.inverseNumberTask,
+                      isEducation: false,
                       isExample: true, //поменять, лишняя строка
                       onAnswer: _checkAnswer,
                     ),
@@ -229,7 +238,7 @@ class _EducationScreenState extends State<EducationScreen> {
                     FullTask(
                       isSolved: false,
                       taskGenerator: ContinuedFraction(),
-                      taskInfo: AppStrings.inverseNumberTask,
+                      isEducation: false,
                       isExample: true, //поменять, лишняя строка
                       onAnswer: _checkAnswer,
                     ),
@@ -264,7 +273,7 @@ class _EducationScreenState extends State<EducationScreen> {
                     FullTask(
                       isSolved: false,
                       taskGenerator: SuitableFractions(),
-                      taskInfo: AppStrings.inverseNumberTask,
+                      isEducation: false,
                       isExample: true, //поменять, лишняя строка
                       onAnswer: _checkAnswer,
                     ),
@@ -299,7 +308,7 @@ class _EducationScreenState extends State<EducationScreen> {
                     FullTask(
                       isSolved: false,
                       taskGenerator: Diafant(),
-                      taskInfo: AppStrings.inverseNumberTask,
+                      isEducation: false,
                       isExample: true, //поменять, лишняя строка
                       onAnswer: _checkAnswer,
                     ),

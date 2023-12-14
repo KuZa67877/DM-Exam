@@ -43,7 +43,8 @@ class AxBy1 extends Task {
 
   @override
   String writeQuestion() {
-    String resultString = "$xCondition x + $yCondition y = 1";
+    String resultString =
+        "Найти (x,y), удволетворяющие условию:\n$xCondition x + $yCondition y = 1";
     return resultString;
   }
 
@@ -103,7 +104,7 @@ class NOD extends Task {
 
   @override
   String writeQuestion() {
-    String resultString = "НОД($xCondition;$yCondition)";
+    String resultString = "Найдите НОД($xCondition;$yCondition)";
     return resultString;
   }
 }
@@ -159,7 +160,8 @@ class ContinuedFraction extends Task {
 
   @override
   String writeQuestion() {
-    String resultString = "Дана дробь $xCondition/$yCondition";
+    String resultString =
+        "Найдите представление рационального числа $xCondition/$yCondition непрерывной дробью";
     return resultString;
   }
 }
@@ -329,7 +331,7 @@ class Diafant extends Task {
 
   @override
   String writeQuestion() {
-    String resultString = "Решите уравнение $A x + $B y = $C";
+    String resultString = "Решите диофантово уравнение:\n $A x + $B y = $C";
     return resultString;
   }
 }
