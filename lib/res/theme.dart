@@ -45,6 +45,6 @@ ThemeData getTheme() => ThemeData(
             fontWeight: FontWeight.bold),
         headlineLarge: TextStyle(
             fontFamily: "Cygre",
-            fontSize: 50,
+            fontSize: 40,
             fontWeight: FontWeight.w900,
             color: AppColors.black)));

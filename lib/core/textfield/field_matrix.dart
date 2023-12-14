@@ -124,7 +124,7 @@ class _FieldMatrixState extends State<FieldMatrix> {
         })) {
       setState(() {
         widget.isSolved = true;
-        // _incrementCounter();
+        _incrementCounter();
       });
       showDialog(
         context: context,
