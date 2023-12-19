@@ -14,9 +14,9 @@ class QuickPow extends Task {
   @override
   List<List<int>> generateVariant() {
     num = 2 + Random().nextInt(2);
-    int power_limit;
-    (num > 2) ? (power_limit = 10) : (power_limit = 15);
-    power = 5 + Random().nextInt(power_limit);
+    (num > 2)
+        ? (power = 4 + Random().nextInt(6))
+        : (power = 7 + Random().nextInt(8));
     List<List<int>> result = quick_pow(num, power);
     return result;
   }
