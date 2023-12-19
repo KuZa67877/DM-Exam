@@ -8,20 +8,27 @@ class TransferNumSystem extends Task {
 
   TransferNumSystem() {
     data = generateVariant();
+    lines = data;
+    linesCount = 2;
   }
 
   @override
   List<List<int>> generateVariant() {
     sourceSystem = 2 + Random().nextInt(9);
-    num = int.parse(Random().nextInt(10000).toRadixString(sourceSystem));
     toTransferSystem = 2 + Random().nextInt(9);
+    while (toTransferSystem == sourceSystem) {
+      toTransferSystem = 2 + Random().nextInt(9);
+    }
+    num = int.parse(Random()
+        .nextInt(pow(sourceSystem, 7).toInt())
+        .toRadixString(sourceSystem));
     return transferNumSystem(num, sourceSystem, toTransferSystem);
   }
 
   @override
   String writeQuestion() {
     String question =
-        "Переведите число ${data[0]}, представленное в ${data[1]}-ной системе счисления в ${data[2]}-ную";
+        "Переведите число $num, представленное в $sourceSystem-ной системе счисления в $toTransferSystem-ную";
     return question;
   }
 
@@ -31,8 +38,9 @@ class TransferNumSystem extends Task {
         num.toString().split('').map((x) => int.parse(x)).toList();
     List<int> values = [];
     values.add(numList[0]);
-    for (int i = 1; i < numList.length; i++)
+    for (int i = 1; i < numList.length; i++) {
       values.add(numSystem * values[i - 1] + numList[i]);
+    }
     List<int> valuesInSystem = values
         .map((x) => int.parse(x.toRadixString(toTransferSystem)))
         .toList();

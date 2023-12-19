@@ -1,15 +1,6 @@
 import 'dart:math';
 import 'evklid_alg.dart';
-
-abstract class Task {
-  late final List<List<int>> data;
-  int linesCount = 4; // По умолчанию устанавливаем 4 строки
-
-  Task();
-
-  List<List<int>> generateVariant();
-  String writeQuestion();
-}
+import 'task_interface.dart';
 
 class AxBy1 extends Task {
   //ax+by=1
@@ -46,6 +37,7 @@ class AxBy1 extends Task {
     yCondition = data[0][1];
     xAnswer = data[2][data[2].length - 2];
     yAnswer = data[3][data[3].length - 2];
+    lines = data;
   }
 }
 
@@ -54,20 +46,13 @@ class NOD extends Task {
   late int xCondition;
   late int yCondition;
   late int answer;
-  late List<int> firstline;
-  late List<int> secondline;
-  late List<int> thirdline;
-  late List<int> fourthLine;
 
   NOD() {
     data = generateVariant();
     xCondition = data[0][0];
     yCondition = data[0][1];
     answer = data[0][data[0].length - 2];
-    firstline = data[0];
-    secondline = data[1];
-    thirdline = [];
-    fourthLine = [];
+    lines = [data[0], data[1]];
     linesCount = 2; // Устанавливаем 2 строки
   }
 
@@ -87,7 +72,7 @@ class NOD extends Task {
       result = evklidLinesMinus(num1, num2);
     } while (result[0].length < 4 || result[0].length > 7);
 
-    return result.sublist(0, result.length ~/ 2);
+    return result;
   }
 
   @override
@@ -102,19 +87,13 @@ class ContinuedFraction extends Task {
   late int xCondition;
   late int yCondition;
   late String answer;
-  late List<int> firstline;
-  late List<int> secondline;
-  late List<int> thirdline;
-  late List<int> fourthLine;
 
   ContinuedFraction() {
     data = generateVariant();
     xCondition = data[0][0];
     yCondition = data[0][1];
-    firstline = data[0];
-    secondline = data[1];
-    thirdline = [];
-    fourthLine = [];
+    List<int> secondline = data[1];
+    lines = [data[0], data[1]];
     linesCount = 2;
     answer = '';
     if (secondline[2] == 0) {
@@ -143,7 +122,7 @@ class ContinuedFraction extends Task {
       result = evklidLinesMinus(num1, num2);
     } while (result[0].length < 4 || result[0].length > 7);
 
-    return result.sublist(0, result.length ~/ 2);
+    return result;
   }
 
   @override
@@ -159,10 +138,6 @@ class InverseNumber extends Task {
   late int xCondition;
   late int yCondition;
   late int answer;
-  late List<int> firstline;
-  late List<int> secondline;
-  late List<int> thirdline;
-  late List<int> fourthLine;
 
   InverseNumber() {
     this.data = generateVariant();
@@ -173,10 +148,11 @@ class InverseNumber extends Task {
     } else {
       answer = data[3][data[3].length - 2] + xCondition;
     }
-    firstline = data[0];
-    secondline = data[1];
-    thirdline = List.filled(data[2].length, 0);
-    fourthLine = data[3];
+    List<int> firstline = data[0];
+    List<int> secondline = data[1];
+    List<int> thirdline = List.filled(data[2].length, 0);
+    List<int> fourthLine = data[3];
+    lines = [firstline, secondline, thirdline, fourthLine];
     answer = 0;
   }
 
@@ -209,19 +185,12 @@ class SuitableFractions extends Task {
   late int xCondition;
   late int yCondition;
   late List answer;
-  late List<int> firstline;
-  late List<int> secondline;
-  late List<int> thirdline;
-  late List<int> fourthLine;
 
   SuitableFractions() {
     data = generateVariant();
     xCondition = data[0][0];
     yCondition = data[0][1];
-    firstline = data[0];
-    secondline = data[1];
-    thirdline = data[2];
-    fourthLine = data[3];
+    lines = [data[0], data[1], data[2], data[3]];
     answer = []; // инициализация answer
     for (int i = 2; i < data[2].length; i++) {
       int numerator = data[2][i];
@@ -271,10 +240,7 @@ class Diafant extends Task {
   late int tY;
   late String xAnswer;
   late String yAnswer;
-  late List<int> firstline;
-  late List<int> secondline;
-  late List<int> thirdline;
-  late List<int> fourthLine;
+
   Diafant() {
     data = generateVariant();
     a1 = data[0][0];
@@ -293,10 +259,7 @@ class Diafant extends Task {
     tX = (-1) * data[2][data[2].length - 1];
     tY = (-1) * data[3][data[3].length - 1];
 
-    firstline = data[0];
-    secondline = data[1];
-    thirdline = data[2];
-    fourthLine = data[3];
+    lines = [data[0], data[1], data[2], data[3]];
     xAnswer = '$x1Answer + $tX t';
     yAnswer = '$y1Answer + $tY t';
   }

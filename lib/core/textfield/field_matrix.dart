@@ -197,7 +197,7 @@ class _FieldMatrixState extends State<FieldMatrix> {
   }
 
   List<Widget> _buildMatrix() {
-    var allLines = widget.task.data;
+    var allLines = widget.task.lines;
 
     int controllerIndex = 0;
     return allLines.map((line) {
