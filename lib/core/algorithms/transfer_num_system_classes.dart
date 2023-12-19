@@ -1,6 +1,5 @@
+import 'task_interface.dart';
 import 'dart:math';
-
-import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
 
 class TransferNumSystem extends Task {
   late int num;
@@ -9,10 +8,7 @@ class TransferNumSystem extends Task {
 
   TransferNumSystem() {
     data = generateVariant();
-    firstline = data[0];
-    secondline = data[1];
-    thirdline = [];
-    fourthLine = [];
+    lines = data;
     linesCount = 2;
   }
 

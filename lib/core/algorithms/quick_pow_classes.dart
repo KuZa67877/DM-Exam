@@ -1,6 +1,5 @@
+import 'task_interface.dart';
 import 'dart:math';
-
-import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
 
 class QuickPow extends Task {
   late int num;
@@ -8,10 +7,7 @@ class QuickPow extends Task {
 
   QuickPow() {
     data = generateVariant();
-    firstline = data[0];
-    secondline = data[1];
-    thirdline = [];
-    fourthLine = [];
+    lines = data;
     linesCount = 2;
   }
 
@@ -32,16 +28,14 @@ class QuickPow extends Task {
   }
 
   List<List<int>> quick_pow(int a, int deg) {
-    String binary_deg = deg.toRadixString(2);
-    List<int> binary_deg1 =
-        binary_deg.split('').map((e) => int.parse(e)).toList();
-
+    List<String> binary_str = deg.toRadixString(2).split('');
+    List<int> binary_deg = binary_str.map((str) => int.parse(str)).toList();
     List<int> values = [];
     List<int> degrees = [];
     int res = 1;
     int temp_deg = 0;
     for (int i = 0; i < binary_deg.length; i++) {
-      if (binary_deg[i] == "1") {
+      if (binary_deg[i] == 1) {
         temp_deg = temp_deg * 2 + 1;
         res *= res;
         res *= a;
@@ -54,6 +48,6 @@ class QuickPow extends Task {
         degrees.add(temp_deg);
       }
     }
-    return [binary_deg1, values];
+    return [binary_deg, values];
   }
 }

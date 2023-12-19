@@ -13,6 +13,10 @@ class AppStrings {
   static const diafantBig = "Диофантово уравнение";
   static const education = "Демонстрация";
   static const euclid = "Алгоритм Евклида";
+  static const numSystems = "Перевод в другую СС";
+  static const quickPow = "Быстрое возведение в степень";
+  static const bezu = "Теорема Безу";
+  static const horner = "Схема Горнера";
   static const writeAnswer = "Введите правильный ответ:";
   static const diofantLittleTask = "Найти (x,y) удволетворяющие условию:";
   static const inverseNumberTask = "Найдите обратный элемент:";

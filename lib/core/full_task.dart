@@ -1,4 +1,4 @@
-import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
+import 'package:dmiti_project/core/algorithms/task_interface.dart';
 import 'package:dmiti_project/core/textfield/field_matrix.dart';
 import 'package:dmiti_project/core/task_info.dart';
 import 'package:dmiti_project/res/text.dart';

@@ -1,5 +1,5 @@
 import 'package:dmiti_project/core/alert_dialog.dart';
-import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
+import 'package:dmiti_project/core/algorithms/task_interface.dart';
 import 'package:dmiti_project/core/full_task.dart';
 import 'package:dmiti_project/res/colors.dart';
 import 'package:dmiti_project/res/theme.dart';

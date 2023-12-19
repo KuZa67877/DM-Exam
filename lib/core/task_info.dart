@@ -1,4 +1,5 @@
-import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
+// import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
+import 'package:dmiti_project/core/algorithms/task_interface.dart';
 
 import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';

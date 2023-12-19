@@ -1,5 +1,5 @@
 import 'package:dmiti_project/core/alert_dialog.dart';
-import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
+import 'package:dmiti_project/core/algorithms/task_interface.dart';
 import 'package:dmiti_project/core/default_button.dart';
 import 'package:dmiti_project/core/textfield/field_cell.dart';
 import 'package:dmiti_project/res/colors.dart';
@@ -197,12 +197,7 @@ class _FieldMatrixState extends State<FieldMatrix> {
   }
 
   List<Widget> _buildMatrix() {
-    var allLines = [
-      widget.task.firstline,
-      widget.task.secondline,
-      widget.task.thirdline,
-      widget.task.fourthLine,
-    ];
+    var allLines = widget.task.lines;
 
     int controllerIndex = 0;
     return allLines.map((line) {
