@@ -19,9 +19,12 @@ class TransferNumSystem extends Task {
     while (toTransferSystem == sourceSystem) {
       toTransferSystem = 2 + Random().nextInt(9);
     }
-    num = int.parse(Random()
-        .nextInt(pow(sourceSystem, 7).toInt())
-        .toRadixString(sourceSystem));
+    int to = [pow(sourceSystem, 7).toInt(), pow(toTransferSystem, 5).toInt()]
+        .reduce(min);
+    int from = [pow(sourceSystem, 3).toInt(), pow(toTransferSystem, 4).toInt()]
+        .reduce(min);
+    num = int.parse(
+        (from + Random().nextInt(to - from)).toRadixString(sourceSystem));
     return transferNumSystem(num, sourceSystem, toTransferSystem);
   }
 
