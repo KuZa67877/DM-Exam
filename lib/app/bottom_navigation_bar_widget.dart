@@ -70,7 +70,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: SizedBox(
-        height: 84,
+        height: 90,
         child: BottomNavigationBar(
           unselectedItemColor: AppColors.gray1,
           selectedItemColor: AppColors.white,

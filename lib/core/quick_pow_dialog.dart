@@ -3,6 +3,7 @@ import 'package:dmiti_project/res/colors.dart';
 import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';
 
+//Will bu use later
 class QuickPowDialog extends StatelessWidget {
   var number;
   QuickPowDialog({

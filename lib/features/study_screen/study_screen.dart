@@ -5,7 +5,6 @@ import 'package:dmiti_project/core/algorithms/transfer_num_system_classes.dart';
 import 'package:dmiti_project/core/algorithms/horner_classes.dart';
 import 'package:dmiti_project/core/drop_down_menu.dart';
 import 'package:dmiti_project/core/full_task.dart';
-import 'package:dmiti_project/res/colors.dart';
 import 'package:dmiti_project/res/text.dart';
 import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';

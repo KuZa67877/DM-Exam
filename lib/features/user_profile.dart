@@ -4,6 +4,7 @@ import 'package:dmiti_project/res/colors.dart';
 import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';
 
+//will be use later
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
 
@@ -51,8 +52,6 @@ class _UserProfileState extends State<UserProfile> {
                 child: Column(
                   children: [
                     Text("UserName", style: getTheme().textTheme.bodyLarge),
-                    // Text("Количество решенных задач - ${Helper.counter}",
-                    //     style: getTheme().textTheme.bodyLarge),
                     Text("Результат последней КР",
                         style: getTheme().textTheme.bodyLarge)
                   ],

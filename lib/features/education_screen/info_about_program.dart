@@ -16,12 +16,10 @@ class MainInfo extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.center,
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 32),
-                  child: Text(AppStrings.mainInfo,
-                      style: getTheme().textTheme.bodyLarge),
-                ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 32),
+                child: Text(AppStrings.mainInfo,
+                    style: getTheme().textTheme.bodyLarge),
               ),
             ),
             Padding(

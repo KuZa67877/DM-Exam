@@ -5,6 +5,7 @@ import 'package:dmiti_project/res/colors.dart';
 import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';
 
+//Will be use lated
 class CustomScaffold extends StatelessWidget {
   final Widget body;
 

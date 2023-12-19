@@ -45,40 +45,11 @@ class _FieldMatrixState extends State<FieldMatrix> {
                   widget.isExample == true ? dataList[index].toString() : '')));
       allData.addAll(dataList.map((item) => item.toString()));
       count++;
-      // _loadCounter();
     }
   }
 
-  // Future<void> _loadCounter() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   Helper.counter = (prefs.getInt('counter') ?? 0);
-  // }
-
-  // Future<void> _incrementCounter() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   Helper.counter = (prefs.getInt('counter') ?? 0) + 1;
-  //   prefs.setInt('counter', Helper.counter);
-  // }
-  // Loading counter value on start
-  // void _loadCounter() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     Helper.counter = (prefs.getInt('counter') ?? 0);
-  //   });
-  // }
-
-  // // Incrementing counter after click
-  // void _incrementCounter() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     Helper.counter = (prefs.getInt('counter') ?? 0) + 1;
-  //     prefs.setInt('counter', Helper.counter);
-  //   });
-  // }
-
   @override
   void dispose() {
-    // Вариант с удалением каждого контроллера
     controllers.forEach((controller) => controller.dispose());
 
     super.dispose();
@@ -122,7 +93,6 @@ class _FieldMatrixState extends State<FieldMatrix> {
         })) {
       setState(() {
         widget.isSolved = true;
-        // _incrementCounter();
       });
       showDialog(
         context: context,
@@ -156,7 +126,6 @@ class _FieldMatrixState extends State<FieldMatrix> {
   }
 
   void printValues1() {
-    //для теста версии с экзаменом, пока не убирать
     List<String> inputValues = getValues();
 
     print(inputValues);
@@ -182,8 +151,8 @@ class _FieldMatrixState extends State<FieldMatrix> {
     return Column(
       children: [
         SingleChildScrollView(
-          child: Column(children: [..._buildMatrix()]),
           scrollDirection: Axis.horizontal,
+          child: Column(children: [..._buildMatrix()]),
         ),
         DefaultButton(
           buttonColor: AppColors.green,
@@ -204,7 +173,6 @@ class _FieldMatrixState extends State<FieldMatrix> {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: line.map((number) {
-          // Защита от обращения к элементу вне диапазона
           if (controllerIndex < controllers.length) {
             return SingleChildScrollView(
               child: Padding(
@@ -218,7 +186,7 @@ class _FieldMatrixState extends State<FieldMatrix> {
               ),
             );
           } else {
-            return SizedBox(); // Хз, можно убрать в дальнейшем
+            return SizedBox();
           }
         }).toList(),
       );

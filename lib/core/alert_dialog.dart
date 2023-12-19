@@ -36,9 +36,6 @@ class DefaultDialog extends StatelessWidget {
               style: getTheme().textTheme.bodyLarge,
             ),
           ),
-          // SizedBox(
-          //   height: 20,
-          // ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(

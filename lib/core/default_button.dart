@@ -29,7 +29,7 @@ class _DefaultButtonState extends State<DefaultButton> {
               ),
             ),
             minimumSize: MaterialStateProperty.all<Size>(
-                widget.isSettings ? Size(331, 51) : Size(217, 34)),
+                widget.isSettings ? const Size(331, 51) : const Size(217, 34)),
             backgroundColor:
                 MaterialStateProperty.all<Color>(widget.buttonColor),
             textStyle: MaterialStateProperty.all<TextStyle?>(
