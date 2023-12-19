@@ -6,13 +6,11 @@ import 'package:dmiti_project/core/algorithms/horner_classes.dart';
 import 'package:dmiti_project/core/drop_down_menu.dart';
 import 'package:dmiti_project/core/full_task.dart';
 import 'package:dmiti_project/features/education_screen/info_about_program.dart';
-import 'package:dmiti_project/res/colors.dart';
 import 'package:dmiti_project/res/text.dart';
 import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';
 
 class EducationScreen extends StatefulWidget {
-  //TODO заблокировать нажатие кнопки, ну или сделать отсутствие кликабельности
   const EducationScreen({Key? key}) : super(key: key);
 
   @override
@@ -20,50 +18,63 @@ class EducationScreen extends StatefulWidget {
 }
 
 class _EducationScreenState extends State<EducationScreen> {
-  var showInfo = true;
-  var showWidgetOne = false;
-  var showWidgetTwo = false;
-  var showWidgetThree = false;
-  var showWidgetFour = false;
-  var showWidgetFive = false;
-  var showWidgetSix = false;
-  var showWidgetSeven = false;
-  var showWidgetEight = false; //а как 8??
-  var showWidgetNine = false;
-  var showWidgetTen = false;
-  var theme = getTheme();
+  var showWidgets = List<bool>.filled(11, false);
 
+  var theme = getTheme();
+//TODO - добавить массив со строками, куда будут записываться описания верно решенных задач
   void updateWidgets(String item) {
     setState(() {
-      showInfo = item == "Информация";
-      showWidgetOne = item == AppStrings.diofantLittle;
-      showWidgetTwo = item == AppStrings.inverseElevent;
-      showWidgetThree = item == AppStrings.nod;
-      showWidgetFour = item == AppStrings.continuedFraction;
-      showWidgetFive = item == AppStrings.suitableFraction;
-      showWidgetSix = item == AppStrings.diafantBig;
-      showWidgetSeven = item == AppStrings.numSystems;
-      showWidgetEight = item == AppStrings.quickPow;
-      showWidgetNine = item == AppStrings.bezu;
-      showWidgetTen = item == AppStrings.horner;
+      for (var i = 0; i < 11; i++) {
+        showWidgets[i] = item == getTaskName(i);
+      }
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      showWidgets[0] = true;
+    });
+  }
+
+  String getTaskName(int index) {
+    switch (index) {
+      case 0:
+        return "Информация";
+      case 1:
+        return AppStrings.diofantLittle;
+      case 2:
+        return AppStrings.inverseElevent;
+      case 3:
+        return AppStrings.nod;
+      case 4:
+        return AppStrings.continuedFraction;
+      case 5:
+        return AppStrings.suitableFraction;
+      case 6:
+        return AppStrings.diafantBig;
+      case 7:
+        return AppStrings.numSystems;
+      case 8:
+        return AppStrings.quickPow;
+      case 9:
+        return AppStrings.bezu;
+      case 10:
+        return AppStrings.horner;
+      default:
+        return AppStrings.horner;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     Future<Task> generateTask() async {
-      // Замените это на вашу логику генерации задачи
       await Future.delayed(Duration(milliseconds: 100));
       return AxBy1();
     }
 
-    int _correctAnswers = 0;
-    void _checkAnswer(bool isCorrect) {
-      if (isCorrect) {
-        _correctAnswers++;
-      } //TODO эту временную хуйню потом убрать, прям чувствую себя костылекреейтером
-      //_nextTask();
-    }
+    void _checkAnswer(bool isCorrect) {}
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 250, 252, 254),
@@ -94,7 +105,7 @@ class _EducationScreenState extends State<EducationScreen> {
               alignment: Alignment.bottomLeft,
               child: DropDownMenuButton(
                 updateWidgets: updateWidgets,
-                list: [
+                list: const [
                   "Информация",
                   AppStrings.diofantLittle,
                   AppStrings.inverseElevent,
@@ -110,378 +121,60 @@ class _EducationScreenState extends State<EducationScreen> {
               ),
             ),
           ),
-          if (showInfo)
+          if (showWidgets[0])
             const Padding(
               padding: EdgeInsets.only(top: 70),
               child: MainInfo(),
             ),
-          if (showWidgetOne)
-            Padding(
+          for (var i = 0; i < 11; i++)
+            if (showWidgets[i] && i != 0)
+              Padding(
                 padding: const EdgeInsets.only(top: 70),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 60),
-                        child: Container(
-                          width: 300,
-                          child: Text(
-                              "Верный вариант ввода задачи выглядит следующим образом:",
-                              style: getTheme().textTheme.bodyLarge),
-                        ),
+                      // ...
+                      FullTask(
+                        isSolved: false,
+                        taskGenerator: getTaskGenerator(i),
+                        isEducation: false,
+                        isExample: true,
+                        onAnswer: _checkAnswer,
                       ),
-                      FutureBuilder<Task>(
-                        future: generateTask(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<Task> snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                                child: CircularProgressIndicator(
-                              color: AppColors.green,
-                            ));
-                          } else if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
-                          } else {
-                            return FullTask(
-                              isSolved: false,
-                              taskGenerator: snapshot.data!,
-                              isExample: true,
-                              onAnswer: null,
-                              isEducation: false,
-                            );
-                          }
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 60),
-                        child: Container(
-                          width: 300,
-                          child: Text(
-                              "Таблица заполняется по аналогии с алгоритмом Евклида (Как? См. раздел Информация)",
-                              style: getTheme().textTheme.bodyLarge),
-                        ),
-                      ),
+                      // ...
                     ],
                   ),
-                )),
-          if (showWidgetTwo)
-            Padding(
-              padding: const EdgeInsets.only(top: 70),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Container(
-                        width: 300,
-                        child: Text(
-                            "Верный вариант ввода задачи выглядит следующим образом:",
-                            style: getTheme().textTheme.bodyLarge),
-                      ),
-                    ),
-                    FullTask(
-                      isSolved: false,
-                      taskGenerator: InverseNumber(),
-                      isEducation: false,
-                      isExample: true, //поменять, лишняя строка
-                      onAnswer: _checkAnswer,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Container(
-                        width: 300,
-                        child: Text(
-                            "Таблица заполняется по аналогии с алгоритмом Евклида (Как? См. раздел Информация)",
-                            style: getTheme().textTheme.bodyLarge),
-                      ),
-                    ),
-                  ],
                 ),
               ),
-            ),
-          if (showWidgetThree)
-            Padding(
-              padding: const EdgeInsets.only(top: 70),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Container(
-                        width: 300,
-                        child: Text(
-                            "Верный вариант ввода задачи выглядит следующим образом:",
-                            style: getTheme().textTheme.bodyLarge),
-                      ),
-                    ),
-                    FullTask(
-                      isSolved: false,
-                      taskGenerator: NOD(),
-                      isEducation: false,
-                      isExample: true, //поменять, лишняя строка
-                      onAnswer: _checkAnswer,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Container(
-                        width: 300,
-                        child: Text(
-                            "Таблица заполняется по аналогии с алгоритмом Евклида (Как? См. раздел Информация)",
-                            style: getTheme().textTheme.bodyLarge),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          if (showWidgetFour)
-            Padding(
-              padding: const EdgeInsets.only(top: 70),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Container(
-                        width: 300,
-                        child: Text(
-                            "Верный вариант ввода задачи выглядит следующим образом:",
-                            style: getTheme().textTheme.bodyLarge),
-                      ),
-                    ),
-                    FullTask(
-                      isSolved: false,
-                      taskGenerator: ContinuedFraction(),
-                      isEducation: false,
-                      isExample: true, //поменять, лишняя строка
-                      onAnswer: _checkAnswer,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Container(
-                        width: 300,
-                        child: Text(
-                            "Таблица заполняется по аналогии с алгоритмом Евклида (Как? См. раздел Информация)",
-                            style: getTheme().textTheme.bodyLarge),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          if (showWidgetFive)
-            Padding(
-              padding: const EdgeInsets.only(top: 70),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Container(
-                        width: 300,
-                        child: Text(
-                            "Верный вариант ввода задачи выглядит следующим образом:",
-                            style: getTheme().textTheme.bodyLarge),
-                      ),
-                    ),
-                    FullTask(
-                      isSolved: false,
-                      taskGenerator: SuitableFractions(),
-                      isEducation: false,
-                      isExample: true, //поменять, лишняя строка
-                      onAnswer: _checkAnswer,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Container(
-                        width: 300,
-                        child: Text(
-                            "Таблица заполняется по аналогии с алгоритмом Евклида (Как? См. раздел Информация)",
-                            style: getTheme().textTheme.bodyLarge),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          if (showWidgetSix)
-            Padding(
-              padding: const EdgeInsets.only(top: 70),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Container(
-                        width: 300,
-                        child: Text(
-                            "Верный вариант ввода задачи выглядит следующим образом:",
-                            style: getTheme().textTheme.bodyLarge),
-                      ),
-                    ),
-                    FullTask(
-                      isSolved: false,
-                      taskGenerator: Diafant(),
-                      isEducation: false,
-                      isExample: true, //поменять, лишняя строка
-                      onAnswer: _checkAnswer,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Container(
-                        width: 300,
-                        child: Text(
-                            "Таблица заполняется по аналогии с алгоритмом Евклида (Как? См. раздел Информация)",
-                            style: getTheme().textTheme.bodyLarge),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          if (showWidgetSeven)
-            Padding(
-              padding: const EdgeInsets.only(top: 70),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Container(
-                        width: 300,
-                        child: Text(
-                            "Верный вариант ввода задачи выглядит следующим образом:",
-                            style: getTheme().textTheme.bodyLarge),
-                      ),
-                    ),
-                    FullTask(
-                      isSolved: false,
-                      taskGenerator: TransferNumSystem(),
-                      isEducation: false,
-                      isExample: true, //поменять, лишняя строка
-                      onAnswer: _checkAnswer,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Container(
-                        width: 300,
-                        child: Text(
-                            "Таблица заполняется по аналогии с схемой Горнера (Как? См. раздел Информация)",
-                            style: getTheme().textTheme.bodyLarge),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          if (showWidgetEight)
-            Padding(
-              padding: const EdgeInsets.only(top: 70),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Container(
-                        width: 300,
-                        child: Text(
-                            "Верный вариант ввода задачи выглядит следующим образом:",
-                            style: getTheme().textTheme.bodyLarge),
-                      ),
-                    ),
-                    FullTask(
-                      isSolved: false,
-                      taskGenerator: QuickPow(),
-                      isEducation: false,
-                      isExample: true, //поменять, лишняя строка
-                      onAnswer: _checkAnswer,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Container(
-                        width: 300,
-                        child: Text(
-                            "Таблица заполняется по аналогии с примером в описании (Как? См. раздел Информация)",
-                            style: getTheme().textTheme.bodyLarge),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          if (showWidgetNine)
-            Padding(
-              padding: const EdgeInsets.only(top: 70),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Container(
-                        width: 300,
-                        child: Text(
-                            "Верный вариант ввода задачи выглядит следующим образом:",
-                            style: getTheme().textTheme.bodyLarge),
-                      ),
-                    ),
-                    FullTask(
-                      isSolved: false,
-                      taskGenerator: HornerRoot(),
-                      isEducation: false,
-                      isExample: true, //поменять, лишняя строка
-                      onAnswer: _checkAnswer,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Container(
-                        width: 300,
-                        child: Text(
-                            "Таблица заполняется по аналогии с примером в описании (Как? См. раздел Информация)",
-                            style: getTheme().textTheme.bodyLarge),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          if (showWidgetTen)
-            Padding(
-              padding: const EdgeInsets.only(top: 70),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Container(
-                        width: 300,
-                        child: Text(
-                            "Верный вариант ввода задачи выглядит следующим образом:",
-                            style: getTheme().textTheme.bodyLarge),
-                      ),
-                    ),
-                    FullTask(
-                      isSolved: false,
-                      taskGenerator: HornerPoly(),
-                      isEducation: false,
-                      isExample: true, //поменять, лишняя строка
-                      onAnswer: _checkAnswer,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60),
-                      child: Container(
-                        width: 300,
-                        child: Text(
-                            "Таблица заполняется по аналогии с примером в описании (Как? См. раздел Информация)",
-                            style: getTheme().textTheme.bodyLarge),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
         ],
       ),
     );
+  }
+
+  Task getTaskGenerator(int index) {
+    switch (index) {
+      case 1:
+        return AxBy1();
+      case 2:
+        return InverseNumber();
+      case 3:
+        return NOD();
+      case 4:
+        return ContinuedFraction();
+      case 5:
+        return SuitableFractions();
+      case 6:
+        return Diafant();
+      case 7:
+        return TransferNumSystem();
+      case 8:
+        return QuickPow();
+      case 9:
+        return HornerRoot();
+      case 10:
+        return HornerPoly();
+      default:
+        return AxBy1();
+    }
   }
 }

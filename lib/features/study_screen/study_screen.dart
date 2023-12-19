@@ -22,36 +22,82 @@ class StudyScreen extends StatefulWidget {
 
 class _StudyScreenState extends State<StudyScreen> {
   Future<Task> generateTask() async {
-    // Замените это на вашу логику генерации задачи
     await Future.delayed(Duration(milliseconds: 10));
     return AxBy1();
   }
 
-  var showWidgetOne = true;
-  var showWidgetTwo = false;
-  var showWidgetThree = false;
-  var showWidgetFour = false;
-  var showWidgetFive = false;
-  var showWidgetSix = false;
-  var showWidgetSeven = false;
-  var showWidgetEight = false;
-  var showWidgetNine = false;
-  var showWidgetTen = false;
+  List<bool> showWidgets = List<bool>.filled(11, false);
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      showWidgets[0] = true;
+    });
+  }
+
+  //showWidgets[]
   var theme = getTheme();
 
   void updateWidgets(String item) {
     setState(() {
-      showWidgetOne = item == AppStrings.diofantLittle;
-      showWidgetTwo = item == AppStrings.inverseElevent;
-      showWidgetThree = item == AppStrings.nod;
-      showWidgetFour = item == AppStrings.continuedFraction;
-      showWidgetFive = item == AppStrings.suitableFraction;
-      showWidgetSix = item == AppStrings.diafantBig;
-      showWidgetSeven = item == AppStrings.numSystems;
-      showWidgetEight = item == AppStrings.quickPow;
-      showWidgetNine = item == AppStrings.bezu;
-      showWidgetTen = item == AppStrings.horner;
+      for (var i = 0; i < 11; i++) {
+        showWidgets[i] = item == getTaskName(i);
+      }
     });
+  }
+
+  String getTaskName(int index) {
+    switch (index) {
+      case 0:
+        return AppStrings.diofantLittle;
+      case 1:
+        return AppStrings.inverseElevent;
+      case 2:
+        return AppStrings.nod;
+      case 3:
+        return AppStrings.continuedFraction;
+      case 4:
+        return AppStrings.suitableFraction;
+      case 5:
+        return AppStrings.diafantBig;
+      case 6:
+        return AppStrings.numSystems;
+      case 7:
+        return AppStrings.quickPow;
+      case 8:
+        return AppStrings.bezu;
+      case 9:
+        return AppStrings.horner;
+      default:
+        return AppStrings.horner;
+    }
+  }
+
+  Task getTaskGenerator(int index) {
+    switch (index) {
+      case 0:
+        return AxBy1();
+      case 1:
+        return InverseNumber();
+      case 2:
+        return NOD();
+      case 3:
+        return ContinuedFraction();
+      case 4:
+        return SuitableFractions();
+      case 5:
+        return Diafant();
+      case 6:
+        return TransferNumSystem();
+      case 7:
+        return QuickPow();
+      case 8:
+        return HornerRoot();
+      case 9:
+        return HornerPoly();
+      default:
+        return HornerPoly();
+    }
   }
 
   @override
@@ -100,136 +146,17 @@ class _StudyScreenState extends State<StudyScreen> {
               ),
             ),
           ),
-          // const Padding(
-          //   padding: EdgeInsets.only(left: 330),
-          //   child: HelpButton(),
-          // ),
-          if (showWidgetOne)
-            //var generator = AxBy1();
-            Padding(
+          for (var i = 0; i < 10; i++)
+            if (showWidgets[i])
+              Padding(
                 padding: EdgeInsets.only(top: 120),
-                child: FutureBuilder<Task>(
-                  future: generateTask(),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<Task> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                          child: CircularProgressIndicator(
-                        color: AppColors.green,
-                      ));
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      return FullTask(
-                        isSolved: false,
-                        taskGenerator: snapshot.data!,
-                        isExample: false,
-                        onAnswer: null,
-                        isEducation: widget.isEducation,
-                      );
-                    }
-                  },
-                )),
-          if (showWidgetTwo)
-            Padding(
-              padding: EdgeInsets.only(top: 120),
-              child: FullTask(
-                isSolved: false,
-                taskGenerator: InverseNumber(),
-                //поменять, лишняя строка
-                isExample: false,
-                onAnswer: null,
-                isEducation: widget.isEducation,
-              ),
-            ),
-          if (showWidgetThree)
-            Padding(
-              padding: EdgeInsets.only(top: 70),
-              child: FullTask(
-                isSolved: false,
-                taskGenerator: NOD(),
-                isExample: false,
-                onAnswer: null,
-                isEducation: widget.isEducation,
-              ),
-            ),
-          if (showWidgetFour)
-            Padding(
-              padding: EdgeInsets.only(top: 120),
-              child: FullTask(
-                isSolved: false,
-                taskGenerator: ContinuedFraction(),
-                isExample: false,
-                onAnswer: null,
-                isEducation: widget.isEducation,
-              ),
-            ),
-          if (showWidgetFive)
-            Padding(
-              padding: EdgeInsets.only(top: 120),
-              child: FullTask(
-                isSolved: false,
-                taskGenerator: SuitableFractions(),
-                isExample: false,
-                onAnswer: null,
-                isEducation: widget.isEducation,
-              ),
-            ),
-          if (showWidgetSix)
-            Padding(
-              padding: EdgeInsets.only(top: 120),
-              child: FullTask(
-                isSolved: false,
-                taskGenerator: Diafant(),
-                isExample: false,
-                onAnswer: null,
-                isEducation: widget.isEducation,
-              ),
-            ),
-          if (showWidgetSeven)
-            Padding(
-              padding: EdgeInsets.only(top: 120),
-              child: FullTask(
-                isSolved: false,
-                taskGenerator: TransferNumSystem(),
-                isExample: false,
-                onAnswer: null,
-                isEducation: widget.isEducation,
-              ),
-            ),
-          if (showWidgetEight)
-            Padding(
-              padding: EdgeInsets.only(top: 120),
-              child: FullTask(
-                isSolved: false,
-                taskGenerator: QuickPow(),
-                isExample: false,
-                onAnswer: null,
-                isEducation: widget.isEducation,
-              ),
-            ),
-          if (showWidgetNine)
-            Padding(
-              padding: EdgeInsets.only(top: 120),
-              child: FullTask(
-                isSolved: false,
-                taskGenerator: HornerRoot(),
-                isExample: false,
-                onAnswer: null,
-                isEducation: widget.isEducation,
-              ),
-            ),
-          if (showWidgetTen)
-            Padding(
-              padding: EdgeInsets.only(top: 120),
-              child: FullTask(
-                isSolved: false,
-                taskGenerator: HornerPoly(),
-                isExample: false,
-                onAnswer: null,
-                isEducation: widget.isEducation,
-              ),
-            ),
+                child: FullTask(
+                    isSolved: false,
+                    taskGenerator: getTaskGenerator(i),
+                    isExample: false,
+                    onAnswer: null,
+                    isEducation: widget.isEducation),
+              )
         ],
       ),
     );
