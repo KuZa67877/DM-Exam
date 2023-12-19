@@ -1,4 +1,6 @@
 import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
+import 'package:dmiti_project/core/algorithms/quick_pow.dart';
+import 'package:dmiti_project/core/algorithms/transfer_num_system.dart';
 import 'package:dmiti_project/core/drop_down_menu.dart';
 import 'package:dmiti_project/core/full_task.dart';
 import 'package:dmiti_project/features/education_screen/info_about_program.dart';
@@ -6,7 +8,6 @@ import 'package:dmiti_project/res/colors.dart';
 import 'package:dmiti_project/res/text.dart';
 import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class EducationScreen extends StatefulWidget {
   //TODO заблокировать нажатие кнопки, ну или сделать отсутствие кликабельности
@@ -24,6 +25,8 @@ class _EducationScreenState extends State<EducationScreen> {
   var showWidgetFour = false;
   var showWidgetFive = false;
   var showWidgetSix = false;
+  var showWidgetSeven = false;
+  var showWidgetEight = false; //а как 8??
   var theme = getTheme();
 
   void updateWidgets(String item) {
@@ -35,6 +38,8 @@ class _EducationScreenState extends State<EducationScreen> {
       showWidgetFour = item == AppStrings.continuedFraction;
       showWidgetFive = item == AppStrings.suitableFraction;
       showWidgetSix = item == AppStrings.diafantBig;
+      showWidgetSeven = item == "Перевод в другую СС";
+      showWidgetEight = item == "Возведение в степень";
     });
   }
 
@@ -90,7 +95,9 @@ class _EducationScreenState extends State<EducationScreen> {
                   AppStrings.nod,
                   AppStrings.continuedFraction,
                   AppStrings.suitableFraction,
-                  AppStrings.diafantBig
+                  AppStrings.diafantBig,
+                  "Перевод в другую СС",
+                  "Возведение в степень"
                 ],
               ),
             ),
@@ -318,6 +325,76 @@ class _EducationScreenState extends State<EducationScreen> {
                         width: 300,
                         child: Text(
                             "Таблица заполняется по аналогии с алгоритмом Евклида (Как? См. раздел Информация)",
+                            style: getTheme().textTheme.bodyLarge),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          if (showWidgetSeven)
+            Padding(
+              padding: const EdgeInsets.only(top: 70),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 60),
+                      child: Container(
+                        width: 300,
+                        child: Text(
+                            "Верный вариант ввода задачи выглядит следующим образом:",
+                            style: getTheme().textTheme.bodyLarge),
+                      ),
+                    ),
+                    FullTask(
+                      isSolved: false,
+                      taskGenerator: TransferNumSystem(),
+                      isEducation: false,
+                      isExample: true, //поменять, лишняя строка
+                      onAnswer: _checkAnswer,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 60),
+                      child: Container(
+                        width: 300,
+                        child: Text(
+                            "Таблица заполняется по аналогии с схемой Горнера (Как? См. раздел Информация)",
+                            style: getTheme().textTheme.bodyLarge),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          if (showWidgetEight)
+            Padding(
+              padding: const EdgeInsets.only(top: 70),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 60),
+                      child: Container(
+                        width: 300,
+                        child: Text(
+                            "Верный вариант ввода задачи выглядит следующим образом:",
+                            style: getTheme().textTheme.bodyLarge),
+                      ),
+                    ),
+                    FullTask(
+                      isSolved: false,
+                      taskGenerator: QuickPow(),
+                      isEducation: false,
+                      isExample: true, //поменять, лишняя строка
+                      onAnswer: _checkAnswer,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 60),
+                      child: Container(
+                        width: 300,
+                        child: Text(
+                            "Таблица заполняется по аналогии с примером в описании (Как? См. раздел Информация)",
                             style: getTheme().textTheme.bodyLarge),
                       ),
                     ),

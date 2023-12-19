@@ -1,4 +1,6 @@
 import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
+import 'package:dmiti_project/core/algorithms/quick_pow.dart';
+import 'package:dmiti_project/core/algorithms/transfer_num_system.dart';
 import 'package:dmiti_project/core/drop_down_menu.dart';
 import 'package:dmiti_project/core/full_task.dart';
 import 'package:dmiti_project/res/colors.dart';
@@ -29,6 +31,8 @@ class _StudyScreenState extends State<StudyScreen> {
   var showWidgetFour = false;
   var showWidgetFive = false;
   var showWidgetSix = false;
+  var showWidgetSeven = false;
+  var showWidgetEight = false;
   var theme = getTheme();
 
   void updateWidgets(String item) {
@@ -39,6 +43,8 @@ class _StudyScreenState extends State<StudyScreen> {
       showWidgetFour = item == AppStrings.continuedFraction;
       showWidgetFive = item == AppStrings.suitableFraction;
       showWidgetSix = item == AppStrings.diafantBig;
+      showWidgetSeven = item == "Перевод в другую СС";
+      showWidgetEight = item == "Возведение в степень";
     });
   }
 
@@ -79,7 +85,9 @@ class _StudyScreenState extends State<StudyScreen> {
                   AppStrings.nod,
                   AppStrings.continuedFraction,
                   AppStrings.suitableFraction,
-                  AppStrings.diafantBig
+                  AppStrings.diafantBig,
+                  "Перевод в другую СС",
+                  "Возведение в степень"
                 ],
               ),
             ),
@@ -165,6 +173,28 @@ class _StudyScreenState extends State<StudyScreen> {
               child: FullTask(
                 isSolved: false,
                 taskGenerator: Diafant(),
+                isExample: false,
+                onAnswer: null,
+                isEducation: widget.isEducation,
+              ),
+            ),
+          if (showWidgetSeven)
+            Padding(
+              padding: EdgeInsets.only(top: 120),
+              child: FullTask(
+                isSolved: false,
+                taskGenerator: TransferNumSystem(),
+                isExample: false,
+                onAnswer: null,
+                isEducation: widget.isEducation,
+              ),
+            ),
+          if (showWidgetEight)
+            Padding(
+              padding: EdgeInsets.only(top: 120),
+              child: FullTask(
+                isSolved: false,
+                taskGenerator: QuickPow(),
                 isExample: false,
                 onAnswer: null,
                 isEducation: widget.isEducation,

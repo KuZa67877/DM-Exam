@@ -51,8 +51,8 @@ class _UserProfileState extends State<UserProfile> {
                 child: Column(
                   children: [
                     Text("UserName", style: getTheme().textTheme.bodyLarge),
-                    Text("Количество решенных задач - ${Helper.counter}",
-                        style: getTheme().textTheme.bodyLarge),
+                    // Text("Количество решенных задач - ${Helper.counter}",
+                    //     style: getTheme().textTheme.bodyLarge),
                     Text("Результат последней КР",
                         style: getTheme().textTheme.bodyLarge)
                   ],

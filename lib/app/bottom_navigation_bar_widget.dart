@@ -1,5 +1,6 @@
 import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
 import 'package:dmiti_project/features/exam_screen/exam_screen.dart';
+import 'package:dmiti_project/features/info_profile.dart';
 import 'package:dmiti_project/features/user_profile.dart';
 import 'package:dmiti_project/res/colors.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
       isEducation: false,
       title: "Контроль",
     ),
-    const UserProfile()
+    const InfoProfile()
   ];
   int _currentIndex = 0;
 

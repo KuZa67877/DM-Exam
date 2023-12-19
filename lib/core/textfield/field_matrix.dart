@@ -1,4 +1,3 @@
-import 'package:dmiti_project/app/helper.dart';
 import 'package:dmiti_project/core/alert_dialog.dart';
 import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
 import 'package:dmiti_project/core/default_button.dart';
@@ -7,7 +6,6 @@ import 'package:dmiti_project/res/colors.dart';
 import 'package:dmiti_project/res/text.dart';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class FieldMatrix extends StatefulWidget {
   final bool isEducation;
@@ -51,16 +49,16 @@ class _FieldMatrixState extends State<FieldMatrix> {
     }
   }
 
-  Future<void> _loadCounter() async {
-    final prefs = await SharedPreferences.getInstance();
-    Helper.counter = (prefs.getInt('counter') ?? 0);
-  }
+  // Future<void> _loadCounter() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   Helper.counter = (prefs.getInt('counter') ?? 0);
+  // }
 
-  Future<void> _incrementCounter() async {
-    final prefs = await SharedPreferences.getInstance();
-    Helper.counter = (prefs.getInt('counter') ?? 0) + 1;
-    prefs.setInt('counter', Helper.counter);
-  }
+  // Future<void> _incrementCounter() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   Helper.counter = (prefs.getInt('counter') ?? 0) + 1;
+  //   prefs.setInt('counter', Helper.counter);
+  // }
   // Loading counter value on start
   // void _loadCounter() async {
   //   final prefs = await SharedPreferences.getInstance();
@@ -124,7 +122,7 @@ class _FieldMatrixState extends State<FieldMatrix> {
         })) {
       setState(() {
         widget.isSolved = true;
-        _incrementCounter();
+        // _incrementCounter();
       });
       showDialog(
         context: context,
@@ -181,31 +179,20 @@ class _FieldMatrixState extends State<FieldMatrix> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _loadCounter(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        } else {
-          return Column(
-            children: [
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Column(
-                  children: _buildMatrix(),
-                ),
-              ),
-              DefaultButton(
-                buttonColor: AppColors.green,
-                info: AppStrings.send,
-                onPressedFunction:
-                    widget.onAnswer == null ? printValues : printValues1,
-                isSettings: false,
-              ),
-            ],
-          );
-        }
-      },
+    return Column(
+      children: [
+        SingleChildScrollView(
+          child: Column(children: [..._buildMatrix()]),
+          scrollDirection: Axis.horizontal,
+        ),
+        DefaultButton(
+          buttonColor: AppColors.green,
+          info: AppStrings.send,
+          onPressedFunction:
+              widget.onAnswer == null ? printValues : printValues1,
+          isSettings: false,
+        ),
+      ],
     );
   }
 
