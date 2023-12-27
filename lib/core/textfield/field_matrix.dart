@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dmiti_project/core/alert_dialog.dart';
 import 'package:dmiti_project/core/algorithms/task_interface.dart';
 import 'package:dmiti_project/core/default_button.dart';
@@ -167,28 +169,39 @@ class _FieldMatrixState extends State<FieldMatrix> {
 
   List<Widget> _buildMatrix() {
     var allLines = widget.task.lines;
+    final maxLength = widget.task.lines[0].length;
 
     int controllerIndex = 0;
     return allLines.map((line) {
+      var children = line.map((number) {
+        if (controllerIndex < controllers.length) {
+          return SingleChildScrollView(
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 3, right: 3),
+                  child: FieldCell(
+                    answer: number,
+                    controller: controllers[controllerIndex++],
+                    isExample: widget.isExample,
+                    isEducation: widget.isEducation,
+                  ),
+                ),
+              ],
+            ),
+          );
+        } else {
+          return SizedBox();
+        }
+      }).toList();
+      int diff = maxLength - children.length;
+      if (diff > 0) {
+        children.addAll(List.filled(diff, SizedBox(width: 50, height: 50)));
+      }
+
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: line.map((number) {
-          if (controllerIndex < controllers.length) {
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 3, right: 3),
-                child: FieldCell(
-                  answer: number,
-                  controller: controllers[controllerIndex++],
-                  isExample: widget.isExample,
-                  isEducation: widget.isEducation,
-                ),
-              ),
-            );
-          } else {
-            return SizedBox();
-          }
-        }).toList(),
+        children: children,
       );
     }).toList();
   }
