@@ -78,9 +78,7 @@ class HornerPoly extends Task {
       root = list_root[Random().nextInt(list_root.length)];
       conditions = List<int>.generate(
           rand_len, (i) => list_cond[Random().nextInt(list_cond.length)]);
-      do{
-        conditions[0] = list_cond[Random().nextInt(list_cond.length)];
-      } while(conditions[0] == 0);
+      conditions[0] = list_root[Random().nextInt(list_root.length)];
       current_line = conditions;
       answer.add(current_line);
       for (int i = 0; i < conditions.length; i++) {
@@ -99,7 +97,7 @@ class HornerPoly extends Task {
   String writeQuestion() {
     String monomial = "(x - $root)";
     if (root < 0) {
-      monomial = "(x - ${-root})";
+      monomial = "(x + ${-root})";
     }
     String resultString =
         "Разделите многочлен\n $condition_string\n на одночлен $monomial с помощью схемы Горнера";
