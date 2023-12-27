@@ -78,6 +78,9 @@ class HornerPoly extends Task {
       root = list_root[Random().nextInt(list_root.length)];
       conditions = List<int>.generate(
           rand_len, (i) => list_cond[Random().nextInt(list_cond.length)]);
+      do{
+        conditions[0] = list_cond[Random().nextInt(list_cond.length)];
+      } while(conditions[0] == 0);
       current_line = conditions;
       answer.add(current_line);
       for (int i = 0; i < conditions.length; i++) {
