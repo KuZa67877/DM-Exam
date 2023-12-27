@@ -99,7 +99,7 @@ class HornerPoly extends Task {
       monomial = "(x - ${-root})";
     }
     String resultString =
-        "Разделите многочлен $condition_string на одночлен $monomial с помощью схемы Горнера";
+        "Разделите многочлен\n $condition_string\n на одночлен $monomial с помощью схемы Горнера";
     return resultString;
   }
 
