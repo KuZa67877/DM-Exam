@@ -31,6 +31,14 @@ class AxBy1 extends Task {
     return resultString;
   }
 
+  @override
+  List<String> generateInstruction() {
+    List<String> instruction = [];
+    instruction.add(
+        "Для решения этой задачи нам необходимо воспользоваться расширенным алгоритмом Евклида, как показано в таблице");
+    return instruction;
+  }
+
   AxBy1() {
     data = generateVariant();
     xCondition = data[0][0];
@@ -79,6 +87,15 @@ class NOD extends Task {
   String writeQuestion() {
     String resultString = "Найдите НОД($xCondition;$yCondition)";
     return resultString;
+  }
+
+  @override
+  List<String> generateInstruction() {
+    List<String> instruction = [];
+    instruction.add("Даны числа  $xCondition  и  $yCondition.");
+    instruction.add(
+        "Чтобы найти НОД этих чисел нужно применить стандартный алгоритм Евклида, как показано в таблице");
+    return instruction;
   }
 }
 
@@ -131,6 +148,15 @@ class ContinuedFraction extends Task {
         "Найдите представление рационального числа $xCondition/$yCondition непрерывной дробью";
     return resultString;
   }
+
+  @override
+  List<String> generateInstruction() {
+    List<String> instruction = [];
+    instruction.add("Дана дробь $xCondition/$yCondition");
+    instruction.add(
+        "Возьмем $xCondition и $yCondition и применим алгоритм Евклида, как показано в таблице");
+    return instruction;
+  }
 }
 
 class InverseNumber extends Task {
@@ -140,7 +166,7 @@ class InverseNumber extends Task {
   late int answer;
 
   InverseNumber() {
-    this.data = generateVariant();
+    data = generateVariant();
     xCondition = data[0][0];
     yCondition = data[0][1];
     if (data[3][data[3].length - 2] >= 0) {
@@ -177,6 +203,20 @@ class InverseNumber extends Task {
     String resultString =
         "Найти обратный элемент к $yCondition в поле вычетов по модулю $xCondition";
     return resultString;
+  }
+
+  @override
+  List<String> generateInstruction() {
+    List<String> instruction = [];
+    instruction
+        .add("Классы вычетов определяется остатком по модулю $yCondition");
+    instruction.add("Или другими словами мы имеем уравнение");
+    instruction.add("${xCondition}x = 1 mod $yCondition");
+    instruction.add("где x обратное число, перейдём к уравнению");
+    instruction.add("${xCondition}x - ${yCondition}y = 1");
+    instruction.add(
+        "Применим к $xCondition и $yCondition расширенный алгоритм Евклида.");
+    return instruction;
   }
 }
 
@@ -220,6 +260,15 @@ class SuitableFractions extends Task {
   String writeQuestion() {
     String resultString = "Найти подходящие дроби к $xCondition/$yCondition";
     return resultString;
+  }
+
+  @override
+  List<String> generateInstruction() {
+    List<String> instruction = [];
+    instruction.add("Дана дробь $xCondition/$yCondition");
+    instruction.add(
+        "Возьмем $xCondition и $yCondition и применим расширенный алгоритм Евклида, как показано в таблице");
+    return instruction;
   }
 }
 
@@ -296,5 +345,27 @@ class Diafant extends Task {
   String writeQuestion() {
     String resultString = "Решите диофантово уравнение:\n $A x + $B y = $C";
     return resultString;
+  }
+
+  @override
+  List<String> generateInstruction() {
+    List<String> instruction = [];
+    instruction.add("Дано уравнение в целых числах");
+    instruction.add("${A}x + ${B}y = $C");
+    instruction.add(
+        "Имеющее решение, если  170  делится без остатка на НОД($A, $B) = $nod");
+    instruction.add(
+        "1. Разделим коэффициенты уравнения $A, $B, и $C на $nod, получим следующее уравнение");
+    instruction.add("${a1}x + ${b1}y = $c1");
+    instruction.add("2. Решим уравнение");
+    instruction.add("${a1}x + ${b1}y = 1");
+    instruction.add("применив к $a1 и $b1 расширенный алгоритм Евклида.");
+    instruction.add("3. Полученные ответы умножим на $c1 и получим");
+    instruction.add("x0 = 1 * $c1 = $c1");
+    instruction.add("y0 = -1 * $c1 = ${-c1}");
+    instruction.add("4. Выпишем окночательный ответ");
+    instruction.add("x = $xAnswer");
+    instruction.add("y = $yAnswer");
+    return instruction;
   }
 }

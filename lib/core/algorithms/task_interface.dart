@@ -7,4 +7,5 @@ abstract class Task {
 
   List<List<int>> generateVariant();
   String writeQuestion();
+  List<String> generateInstruction();
 }

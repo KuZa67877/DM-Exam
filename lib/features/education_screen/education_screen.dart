@@ -74,6 +74,19 @@ class _EducationScreenState extends State<EducationScreen> {
       return AxBy1();
     }
 
+    List<Task> tasks = [
+      AxBy1(),
+      InverseNumber(),
+      NOD(),
+      ContinuedFraction(),
+      SuitableFractions(),
+      Diafant(),
+      TransferNumSystem(),
+      QuickPow(),
+      HornerRoot(),
+      HornerPoly()
+    ];
+
     void _checkAnswer(bool isCorrect) {}
 
     return Scaffold(
@@ -126,22 +139,37 @@ class _EducationScreenState extends State<EducationScreen> {
               padding: EdgeInsets.only(top: 70),
               child: MainInfo(),
             ),
-          for (var i = 0; i < 11; i++)
-            if (showWidgets[i] && i != 0)
+          for (var i = 1; i < 11; i++)
+            if (showWidgets[i])
               Padding(
                 padding: const EdgeInsets.only(top: 70),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      // ...
+                      Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Text(
+                          AppStrings.solvedTaskTemplate,
+                          textAlign: TextAlign.center,
+                          style: getTheme().textTheme.bodyLarge,
+                        ),
+                      ),
                       FullTask(
                         isSolved: false,
-                        taskGenerator: getTaskGenerator(i),
+                        taskGenerator: tasks[i - 1],
                         isEducation: false,
                         isExample: true,
                         onAnswer: _checkAnswer,
                       ),
-                      // ...
+                      Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Text(
+                          tasks[i - 1].generateInstruction().join(
+                              '\n'), // TODO создается новое задание, не совпадает с созданным выше примером
+                          textAlign: TextAlign.center,
+                          style: getTheme().textTheme.bodyLarge,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -151,30 +179,30 @@ class _EducationScreenState extends State<EducationScreen> {
     );
   }
 
-  Task getTaskGenerator(int index) {
-    switch (index) {
-      case 1:
-        return AxBy1();
-      case 2:
-        return InverseNumber();
-      case 3:
-        return NOD();
-      case 4:
-        return ContinuedFraction();
-      case 5:
-        return SuitableFractions();
-      case 6:
-        return Diafant();
-      case 7:
-        return TransferNumSystem();
-      case 8:
-        return QuickPow();
-      case 9:
-        return HornerRoot();
-      case 10:
-        return HornerPoly();
-      default:
-        return AxBy1();
-    }
-  }
+  // Task getTaskGenerator(int index) {
+  //   switch (index) {
+  //     case 1:
+  //       return AxBy1();
+  //     case 2:
+  //       return InverseNumber();
+  //     case 3:
+  //       return NOD();
+  //     case 4:
+  //       return ContinuedFraction();
+  //     case 5:
+  //       return SuitableFractions();
+  //     case 6:
+  //       return Diafant();
+  //     case 7:
+  //       return TransferNumSystem();
+  //     case 8:
+  //       return QuickPow();
+  //     case 9:
+  //       return HornerRoot();
+  //     case 10:
+  //       return HornerPoly();
+  //     default:
+  //       return AxBy1();
+  //   }
+  // }
 }

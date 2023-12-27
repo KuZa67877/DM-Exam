@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:dmiti_project/core/alert_dialog.dart';
 import 'package:dmiti_project/core/algorithms/task_interface.dart';
 import 'package:dmiti_project/core/default_button.dart';
@@ -327,7 +325,23 @@ class _FieldMatrixState extends State<FieldMatrix> {
 
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: children,
+        children: line.map((number) {
+          if (controllerIndex < controllers.length) {
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 3, right: 3),
+                child: FieldCell(
+                  answer: number,
+                  controller: controllers[controllerIndex++],
+                  isExample: widget.isExample,
+                  isEducation: widget.isEducation,
+                ),
+              ),
+            );
+          } else {
+            return SizedBox();
+          }
+        }).toList(),
       );
     }).toList();
   }

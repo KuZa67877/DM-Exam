@@ -4,9 +4,11 @@ import 'dart:math';
 class QuickPow extends Task {
   late int num;
   late int power;
+  late String bin_power;
 
   QuickPow() {
     data = generateVariant();
+    bin_power = power.toRadixString(2);
     lines = data;
     linesCount = 2;
   }
@@ -25,6 +27,31 @@ class QuickPow extends Task {
   String writeQuestion() {
     String question = "Возведите $num в степень $power";
     return question;
+  }
+
+  @override
+  List<String> generateInstruction() {
+    List<String> instruction = [];
+    instruction.add(
+        "Даны число $num и степень $power, в которую нужно возвести это число");
+    instruction.add(
+        "Чтобы возвести число в степень, вы должны использовать алгоритм быстрого возведения в степень");
+    instruction.add(
+        "Сначала степень, в которую нужно возвести число, приведем к двоичному предствалению, получим");
+    instruction.add("$power = $bin_power");
+    instruction.add(
+        "Далее цифры двоичного представления запишем в первый ряд таблицы");
+    instruction.add(
+        "Для возведения числа в степень в первую ячейку второго ряда перенесем основание $num");
+    instruction.add(
+        "Далее для определения значения в каждой следующей ячейке юудем использовать значение предыдущей ячейки следующим образом:");
+    instruction.add(
+        "1. Если в первом ряду над очередной незаполненной ячейки находится 0, то возводим значение предыдущей ячейки в квадрат");
+    instruction.add(
+        "2. Если в первом ряду над очередной незаполненной ячейки находится 1, то возводим значение предыдущей ячейки в квадрат и умножаем на основание $num");
+    instruction.add(
+        "Такаим образом в последней ячейке второго ряда получим число $num в $power-ной системе счисления");
+    return instruction;
   }
 
   List<List<int>> quick_pow(int a, int deg) {

@@ -42,9 +42,14 @@ class MainInfo extends StatelessWidget {
               child: Text(AppStrings.testInfo,
                   style: getTheme().textTheme.bodyLarge),
             ),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 32),
+            //   child: Text(AppStrings.profileInfo,
+            //       style: getTheme().textTheme.bodyLarge),
+            // ),
             Padding(
               padding: const EdgeInsets.only(left: 32),
-              child: Text(AppStrings.profileInfo,
+              child: Text(AppStrings.aboutProgram,
                   style: getTheme().textTheme.bodyLarge),
             ),
             Text(AppStrings.questions, style: getTheme().textTheme.bodyLarge),

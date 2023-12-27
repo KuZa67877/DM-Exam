@@ -35,6 +35,22 @@ class TransferNumSystem extends Task {
     return question;
   }
 
+  @override
+  List<String> generateInstruction() {
+    List<String> instruction = [];
+    instruction.add(
+        "Дано число $num в $sourceSystem-ной СС, которое нужно перевести в $toTransferSystem-ную СС");
+    instruction.add("Для этого запишем $num в верхний ряд таблицы");
+    instruction.add(
+        "Алгоритм переведения числа $num в $toTransferSystem-ную CC схож с алгоритмом Горнера, а именно - таблица заполняется таким же образом");
+    instruction.add("Но есть одно важное отличие");
+    instruction.add(
+        "ВАЖНО!!! Для переведения в $toTransferSystem-ную СС все арифметические операции должны проводиться в $toTransferSystem-ной СС.");
+    instruction.add(
+        "Возможно, для этого понадобится таблица умножения в $toTransferSystem-ной СС");
+    return instruction;
+  }
+
   List<List<int>> transferNumSystem(
       int num, int numSystem, int toTransferSystem) {
     List<int> numList =
