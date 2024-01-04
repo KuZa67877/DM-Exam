@@ -36,16 +36,15 @@ class _FieldMatrixState extends State<FieldMatrix> {
   void initState() {
     super.initState();
     int count = 0;
-    for (List<int> dataList in widget.task.data) {
+    for (List<int> line in widget.task.lines) {
       if (count >= widget.task.linesCount) {
         break;
       }
       controllers.addAll(List.generate(
-          dataList.length,
+          line.length,
           (index) => TextEditingController(
-              text:
-                  widget.isExample == true ? dataList[index].toString() : '')));
-      allData.addAll(dataList.map((item) => item.toString()));
+              text: widget.isExample == true ? line[index].toString() : '')));
+      allData.addAll(line.map((item) => item.toString()));
       count++;
     }
   }
@@ -71,13 +70,13 @@ class _FieldMatrixState extends State<FieldMatrix> {
       controllers.clear();
       allData.clear();
       int count = 0;
-      for (List<int> dataList in widget.task.data) {
+      for (List<int> line in widget.task.lines) {
         if (count >= widget.task.linesCount) {
           break;
         }
         controllers.addAll(
-            List.generate(dataList.length, (index) => TextEditingController()));
-        allData.addAll(dataList.map((item) => item.toString()));
+            List.generate(line.length, (index) => TextEditingController()));
+        allData.addAll(line.map((item) => item.toString()));
         count++;
       }
     }
@@ -87,11 +86,11 @@ class _FieldMatrixState extends State<FieldMatrix> {
     List<String> inputValues = getValues();
 
     print(inputValues);
-
     print(allData);
     if (inputValues.length == allData.length &&
         inputValues.asMap().entries.every((entry) {
-          return entry.value == allData[entry.key];
+          return entry.value == allData[entry.key] ||
+              (entry.value == '' && allData[entry.key] == '0');
         })) {
       setState(() {
         widget.isSolved = true;
@@ -167,6 +166,15 @@ class _FieldMatrixState extends State<FieldMatrix> {
     );
   }
 
+//   void switchTask() {
+//    setState(() {
+//      // Обновляем ключи всех FieldCell
+//      for (var i = 0; i < controllers.length; i++) {
+//        controllers[i].key = UniqueKey();
+//      }
+//    });
+//  }
+
   List<Widget> _buildMatrix() {
     var allLines = widget.task.lines;
     final maxLength = widget.task.lines[0].length;
@@ -185,6 +193,7 @@ class _FieldMatrixState extends State<FieldMatrix> {
                     controller: controllers[controllerIndex++],
                     isExample: widget.isExample,
                     isEducation: widget.isEducation,
+                    key1: UniqueKey(),
                   ),
                 ),
               ],
@@ -194,6 +203,8 @@ class _FieldMatrixState extends State<FieldMatrix> {
           return SizedBox();
         }
       }).toList();
+
+      // Добавление SizedBox в конец строки, если длина строки меньше максимальной
       int diff = maxLength - children.length;
       if (diff > 0) {
         children.addAll(List.filled(diff, SizedBox(width: 50, height: 50)));
