@@ -6,6 +6,7 @@ import 'package:dmiti_project/core/default_button.dart';
 import 'package:dmiti_project/core/textfield/field_cell.dart';
 import 'package:dmiti_project/res/colors.dart';
 import 'package:dmiti_project/res/text.dart';
+import 'package:dmiti_project/res/theme.dart';
 
 import 'package:flutter/material.dart';
 
@@ -178,22 +179,136 @@ class _FieldMatrixState extends State<FieldMatrix> {
   List<Widget> _buildMatrix() {
     var allLines = widget.task.lines;
     final maxLength = widget.task.lines[0].length;
-
     int controllerIndex = 0;
     return allLines.map((line) {
       var children = line.map((number) {
+        var dimen = 0.0;
         if (controllerIndex < controllers.length) {
+          var fieldCell = FieldCell(
+            answer: number,
+            controller: controllers[controllerIndex++],
+            isExample: widget.isExample,
+            isEducation: widget.isEducation,
+            key1: UniqueKey(),
+          );
+          dynamic myChild = fieldCell;
+
+          // Простите меня, пожалуйста
+          if (controllerIndex == maxLength * 4 + 2 &&
+              widget.task.linesCount == 8) {
+            myChild = Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: Row(
+                children: [
+                  Text(
+                    "a1:",
+                    style: getTheme().textTheme.bodyLarge,
+                  ),
+                  fieldCell,
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Text(
+                    "b1:",
+                    style: getTheme().textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+            );
+          } else if (controllerIndex == maxLength * 4 + 4 &&
+              widget.task.linesCount == 8) {
+            myChild = Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: Row(
+                children: [
+                  Text(
+                    "c1:",
+                    style: getTheme().textTheme.bodyLarge,
+                  ),
+                  fieldCell,
+                ],
+              ),
+            );
+          } else if (controllerIndex == maxLength * 4 + 5 &&
+              widget.task.linesCount == 8) {
+            myChild = Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: Row(
+                children: [
+                  Text(
+                    "x=",
+                    style: getTheme().textTheme.bodyLarge,
+                  ),
+                  fieldCell,
+                ],
+              ),
+            );
+          } else if (controllerIndex == maxLength * 4 + 7 &&
+              widget.task.linesCount == 8) {
+            myChild = Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: Row(
+                children: [
+                  Text(
+                    "y=",
+                    style: getTheme().textTheme.bodyLarge,
+                  ),
+                  fieldCell,
+                ],
+              ),
+            );
+          }
+          if ((controllerIndex == maxLength * 4 + 6) ||
+              (controllerIndex == maxLength * 4 + 8) &&
+                  widget.task.linesCount == 8) {
+            myChild = Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: Row(
+                children: [
+                  Text(
+                    "+",
+                    style: getTheme().textTheme.bodyLarge,
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  fieldCell,
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Text(
+                    "t",
+                    style: getTheme().textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+            );
+          } else if (controllerIndex == maxLength * 4 + 1 &&
+              widget.task.linesCount == 8) {
+            myChild = Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Row(
+                children: [
+                  Text(
+                    "НОД:",
+                    style: getTheme().textTheme.bodyLarge,
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  fieldCell,
+                ],
+              ),
+            );
+          }
           return SingleChildScrollView(
             child: Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 3, right: 3),
-                  child: FieldCell(
-                    answer: number,
-                    controller: controllers[controllerIndex++],
-                    isExample: widget.isExample,
-                    isEducation: widget.isEducation,
-                    key1: UniqueKey(),
+                  padding: EdgeInsets.symmetric(vertical: dimen),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 3, right: 3),
+                    child: myChild,
                   ),
                 ),
               ],
@@ -203,10 +318,10 @@ class _FieldMatrixState extends State<FieldMatrix> {
           return SizedBox();
         }
       }).toList();
-
+      //controllerIndex++;
       // Добавление SizedBox в конец строки, если длина строки меньше максимальной
       int diff = maxLength - children.length;
-      if (diff > 0) {
+      if (diff > 0 && widget.task.linesCount != 8) {
         children.addAll(List.filled(diff, SizedBox(width: 50, height: 50)));
       }
 
