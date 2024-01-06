@@ -240,8 +240,10 @@ class Diafant extends Task {
   late int tY;
   late String xAnswer;
   late String yAnswer;
+  late List<List<int>> additionalLines;
 
   Diafant() {
+    linesCount = 8;
     data = generateVariant();
     a1 = data[0][0];
     b1 = data[0][1];
@@ -258,8 +260,18 @@ class Diafant extends Task {
     y1Answer = y1DivC1 * c1;
     tX = (-1) * data[2][data[2].length - 1];
     tY = (-1) * data[3][data[3].length - 1];
-
-    lines = [data[0], data[1], data[2], data[3]];
+    List<int> nodList = [nod];
+    lines = [
+      data[0],
+      data[1],
+      data[2],
+      data[3],
+      nodList,
+      [a1, b1, c1],
+      [x1Answer, tX],
+      [y1Answer, tY]
+    ];
+    additionalLines = [nodList];
     xAnswer = '$x1Answer + $tX t';
     yAnswer = '$y1Answer + $tY t';
   }
