@@ -262,14 +262,14 @@ class Diafant extends Task {
     tY = (-1) * data[3][data[3].length - 1];
     List<int> nodList = [nod];
     lines = [
+      nodList,
+      [a1, b1, c1],
       data[0],
       data[1],
       data[2],
       data[3],
-      nodList,
-      [a1, b1, c1],
       [x1Answer, tX],
-      [y1Answer, tY]
+      [y1Answer, tY],
     ];
     additionalLines = [nodList];
     xAnswer = '$x1Answer + $tX t';
