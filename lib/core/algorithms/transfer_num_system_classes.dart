@@ -45,7 +45,7 @@ class TransferNumSystem extends Task {
         "Алгоритм переведения числа $num в $toTransferSystem-ную CC схож с алгоритмом Горнера, а именно - в качестве корня монома берется основание данного числа, цифры числа представляются как коэффициенты мн-на");
     instruction.add("Но есть одно важное отличие");
     instruction.add(
-        "ВАЖНО!!! Для переведения в $toTransferSystem-ную СС все арифметические операции должны проводиться в $toTransferSystem-ной СС.");
+        "# ВАЖНО!!! Для переведения в $toTransferSystem-ную СС все арифметические операции должны проводиться в $toTransferSystem-ной СС.");
     instruction.add(
         "Возможно, для этого понадобится таблица умножения в $toTransferSystem-ной СС");
     return instruction;

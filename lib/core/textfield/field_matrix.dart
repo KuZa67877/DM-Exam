@@ -187,7 +187,7 @@ class _FieldMatrixState extends State<FieldMatrix> {
             controller: controllers[controllerIndex++],
             isExample: widget.isExample,
             isEducation: widget.isEducation,
-            key1: UniqueKey(),
+            key: UniqueKey(),
           );
           dynamic myChild = fieldCell;
 

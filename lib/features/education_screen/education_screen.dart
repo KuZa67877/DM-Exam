@@ -75,15 +75,9 @@ class _EducationScreenState extends State<EducationScreen> {
     }
 
     Task task = AxBy1();
-    Text taskText = const Text("");
 
     bool setTask(int index) {
       task = getTaskGenerator(index);
-      taskText = Text(
-        task.generateInstruction().join('\n'),
-        textAlign: TextAlign.center,
-        style: getTheme().textTheme.bodyLarge,
-      );
       return true;
     }
 
@@ -150,7 +144,7 @@ class _EducationScreenState extends State<EducationScreen> {
                         padding: const EdgeInsets.all(30.0),
                         child: Text(
                           AppStrings.solvedTaskTemplate,
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.left,
                           style: getTheme().textTheme.bodyLarge,
                         ),
                       ),
@@ -161,8 +155,7 @@ class _EducationScreenState extends State<EducationScreen> {
                         isExample: true,
                         onAnswer: _checkAnswer,
                       ),
-                      Padding(
-                          padding: const EdgeInsets.all(30.0), child: taskText),
+                      formatTaskText(task.generateInstruction())
                     ],
                   ),
                 ),
@@ -198,4 +191,86 @@ class _EducationScreenState extends State<EducationScreen> {
         return AxBy1();
     }
   }
+
+  Column formatTaskText(List<String> instructions) {
+    return Column(
+      children: [
+        for (var i = 0; i < instructions.length; i++)
+          (instructions[i][0] == "#")
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    instructions[i].substring(2),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontFamily: "WorkSans",
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
+              : Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                  child: Text(
+                    instructions[i],
+                    textAlign: TextAlign.left,
+                    style: getTheme().textTheme.bodyLarge,
+                  ),
+                ),
+      ],
+    );
+  }
+
+  // Column getTaskText(Task task) {
+  //   List<String> instructions = task.generateInstruction();
+  //   if (task is AxBy1) {
+  //     return Column(
+  //       children: [
+  //         Padding(
+  //           padding: const EdgeInsets.all(30.0),
+  //           child: Text(
+  //             instructions[0],
+  //             style: getTheme().textTheme.bodyLarge,
+  //             textAlign: TextAlign.justify,
+  //           ),
+  //         )
+  //       ],
+  //     );
+  //   } else if (task is NOD) {
+  //     return Column(
+  //       children: [
+  //         Padding(
+  //           padding: const EdgeInsets.all(30.0),
+  //           child: Text(
+  //             instructions[0],
+  //             style: getTheme().textTheme.bodyLarge,
+  //             textAlign: TextAlign.justify,
+  //           ),
+  //         ),
+  //         Padding(
+  //           padding: const EdgeInsets.all(30.0),
+  //           child: Text(
+  //             instructions[1],
+  //             style: getTheme().textTheme.bodyLarge,
+  //             textAlign: TextAlign.justify,
+  //           ),
+  //         )
+  //       ],
+  //     );
+  //   } else if (task is ContinuedFraction) {
+  //     return Column(
+  //       children: [
+  //         Padding(
+  //           padding: const EdgeInsets.all(30.0),
+  //           child: Text(
+  //             instructions[0],
+  //             style: getTheme().textTheme.bodyLarge,
+  //             textAlign: TextAlign.justify,
+  //           ),
+  //         )
+  //       ],
+  //     );
+  //   } else if (task is )
+  // }
 }

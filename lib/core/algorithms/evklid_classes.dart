@@ -211,9 +211,9 @@ class InverseNumber extends Task {
     instruction
         .add("Классы вычетов определяется остатком по модулю $yCondition");
     instruction.add("Или другими словами мы имеем уравнение");
-    instruction.add("${xCondition}x = 1 mod $yCondition");
+    instruction.add("# ${xCondition}x = 1 mod $yCondition");
     instruction.add("где x обратное число, перейдём к уравнению");
-    instruction.add("${xCondition}x - ${yCondition}y = 1");
+    instruction.add("# ${xCondition}x - ${yCondition}y = 1");
     instruction.add(
         "Применим к $xCondition и $yCondition расширенный алгоритм Евклида.");
     return instruction;
@@ -309,6 +309,7 @@ class Diafant extends Task {
     y1Answer = y1DivC1 * c1;
     tX = (-1) * data[2][data[2].length - 1];
     tY = (-1) * data[3][data[3].length - 1];
+
     List<int> nodList = [nod];
     lines = [
       data[0],
@@ -351,21 +352,21 @@ class Diafant extends Task {
   List<String> generateInstruction() {
     List<String> instruction = [];
     instruction.add("Дано уравнение в целых числах");
-    instruction.add("${A}x + ${B}y = $C");
+    instruction.add("# ${A}x + ${B}y = $C");
     instruction.add(
         "Имеющее решение, если  170  делится без остатка на НОД($A, $B) = $nod");
     instruction.add(
         "1. Разделим коэффициенты уравнения $A, $B, и $C на $nod, получим следующее уравнение");
-    instruction.add("${a1}x + ${b1}y = $c1");
+    instruction.add("# ${a1}x + ${b1}y = $c1");
     instruction.add("2. Решим уравнение");
-    instruction.add("${a1}x + ${b1}y = 1");
+    instruction.add("# ${a1}x + ${b1}y = 1");
     instruction.add("применив к $a1 и $b1 расширенный алгоритм Евклида.");
     instruction.add("3. Полученные ответы умножим на $c1 и получим");
-    instruction.add("x0 = 1 * $c1 = $c1");
-    instruction.add("y0 = -1 * $c1 = ${-c1}");
+    instruction.add("# x0 = 1 * $c1 = $c1");
+    instruction.add("# y0 = -1 * $c1 = ${-c1}");
     instruction.add("4. Выпишем окночательный ответ");
-    instruction.add("x = $xAnswer");
-    instruction.add("y = $yAnswer");
+    instruction.add("# x = $xAnswer");
+    instruction.add("# y = $yAnswer");
     return instruction;
   }
 }
