@@ -50,9 +50,12 @@ class HornerRoot extends Task {
   @override
   List<String> generateInstruction() {
     List<String> instruction = [];
-    instruction.add("Дан многочлен $poly_string");
+    instruction.add("Дан многочлен");
+    instruction.add("# $poly_string");
     instruction.add(
-        "Чтобы найти значение многочлена в точке $root, можно применить схему Горнера для деления многочлена на ${_monomialStr(root)}, как показано в таблице");
+        "Чтобы найти значение многочлена в точке $root, можно применить схему Горнера для деления многочлена на");
+    instruction.add("# ${_monomialStr(root)}");
+    instruction.add("как показано в таблице");
     return instruction;
   }
 
@@ -120,8 +123,10 @@ class HornerPoly extends Task {
   @override
   List<String> generateInstruction() {
     List<String> instruction = [];
-    instruction
-        .add("Дан многочлен $condition_string и моном ${_monomialStr(root)}");
+    instruction.add("Дан многочлен");
+    instruction.add("# $condition_string");
+    instruction.add("и моном");
+    instruction.add("# ${_monomialStr(root)}");
     instruction.add(
         "Чтобы поделить многочлен на моном, можно использовать схему Горнера, как показано в таблице");
     return instruction;

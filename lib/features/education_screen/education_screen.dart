@@ -155,7 +155,10 @@ class _EducationScreenState extends State<EducationScreen> {
                         isExample: true,
                         onAnswer: _checkAnswer,
                       ),
-                      formatTaskText(task.generateInstruction())
+                      Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: formatTaskText(task.generateInstruction()))
                     ],
                   ),
                 ),
@@ -194,6 +197,7 @@ class _EducationScreenState extends State<EducationScreen> {
 
   Column formatTaskText(List<String> instructions) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (var i = 0; i < instructions.length; i++)
           (instructions[i][0] == "#")
@@ -221,56 +225,4 @@ class _EducationScreenState extends State<EducationScreen> {
       ],
     );
   }
-
-  // Column getTaskText(Task task) {
-  //   List<String> instructions = task.generateInstruction();
-  //   if (task is AxBy1) {
-  //     return Column(
-  //       children: [
-  //         Padding(
-  //           padding: const EdgeInsets.all(30.0),
-  //           child: Text(
-  //             instructions[0],
-  //             style: getTheme().textTheme.bodyLarge,
-  //             textAlign: TextAlign.justify,
-  //           ),
-  //         )
-  //       ],
-  //     );
-  //   } else if (task is NOD) {
-  //     return Column(
-  //       children: [
-  //         Padding(
-  //           padding: const EdgeInsets.all(30.0),
-  //           child: Text(
-  //             instructions[0],
-  //             style: getTheme().textTheme.bodyLarge,
-  //             textAlign: TextAlign.justify,
-  //           ),
-  //         ),
-  //         Padding(
-  //           padding: const EdgeInsets.all(30.0),
-  //           child: Text(
-  //             instructions[1],
-  //             style: getTheme().textTheme.bodyLarge,
-  //             textAlign: TextAlign.justify,
-  //           ),
-  //         )
-  //       ],
-  //     );
-  //   } else if (task is ContinuedFraction) {
-  //     return Column(
-  //       children: [
-  //         Padding(
-  //           padding: const EdgeInsets.all(30.0),
-  //           child: Text(
-  //             instructions[0],
-  //             style: getTheme().textTheme.bodyLarge,
-  //             textAlign: TextAlign.justify,
-  //           ),
-  //         )
-  //       ],
-  //     );
-  //   } else if (task is )
-  // }
 }

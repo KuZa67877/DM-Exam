@@ -265,7 +265,8 @@ class SuitableFractions extends Task {
   @override
   List<String> generateInstruction() {
     List<String> instruction = [];
-    instruction.add("Дана дробь $xCondition/$yCondition");
+    instruction.add("Дана дробь");
+    instruction.add("# $xCondition/$yCondition");
     instruction.add(
         "Возьмем $xCondition и $yCondition и применим расширенный алгоритм Евклида, как показано в таблице");
     return instruction;
@@ -312,14 +313,14 @@ class Diafant extends Task {
 
     List<int> nodList = [nod];
     lines = [
+      nodList,
+      [a1, b1, c1],
       data[0],
       data[1],
       data[2],
       data[3],
-      nodList,
-      [a1, b1, c1],
       [x1Answer, tX],
-      [y1Answer, tY]
+      [y1Answer, tY],
     ];
     additionalLines = [nodList];
     xAnswer = '$x1Answer + $tX t';
@@ -362,8 +363,8 @@ class Diafant extends Task {
     instruction.add("# ${a1}x + ${b1}y = 1");
     instruction.add("применив к $a1 и $b1 расширенный алгоритм Евклида.");
     instruction.add("3. Полученные ответы умножим на $c1 и получим");
-    instruction.add("# x0 = 1 * $c1 = $c1");
-    instruction.add("# y0 = -1 * $c1 = ${-c1}");
+    instruction.add("# x0 = $x1DivC1 * $c1 = ${x1DivC1 * c1}");
+    instruction.add("# y0 = $y1DivC1 * $c1 = ${y1DivC1 * c1}");
     instruction.add("4. Выпишем окночательный ответ");
     instruction.add("# x = $xAnswer");
     instruction.add("# y = $yAnswer");
