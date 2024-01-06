@@ -178,7 +178,7 @@ class _FieldMatrixState extends State<FieldMatrix> {
 
   List<Widget> _buildMatrix() {
     var allLines = widget.task.lines;
-    final maxLength = widget.task.lines[0].length;
+    final maxLength = allLines.map((line) => line.length).reduce(max);
     int controllerIndex = 0;
     return allLines.map((line) {
       var children = line.map((number) {
@@ -194,35 +194,57 @@ class _FieldMatrixState extends State<FieldMatrix> {
           dynamic myChild = fieldCell;
 
           // Простите меня, пожалуйста
-          if (controllerIndex == maxLength * 4 + 2 &&
-              widget.task.linesCount == 8) {
+          if (controllerIndex == maxLength * 2 && widget.task.linesCount == 3) {
             myChild = Padding(
-              padding: EdgeInsets.only(left: 20),
+              padding: EdgeInsets.only(left: 3, bottom: 16, top: 6),
               child: Row(
                 children: [
                   Text(
-                    "a1:",
+                    "Ответ: ",
                     style: getTheme().textTheme.bodyLarge,
                   ),
                   fieldCell,
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text(
-                    "b1:",
-                    style: getTheme().textTheme.bodyLarge,
-                  ),
                 ],
               ),
             );
-          } else if (controllerIndex == maxLength * 4 + 4 &&
-              widget.task.linesCount == 8) {
+          }
+          if (controllerIndex == 2 && widget.task.linesCount == 8) {
             myChild = Padding(
-              padding: EdgeInsets.only(left: 20),
+              padding: EdgeInsets.only(left: 3, bottom: 16, top: 6),
               child: Row(
                 children: [
                   Text(
-                    "c1:",
+                    "a1: ",
+                    style: getTheme().textTheme.bodyLarge,
+                  ),
+                  fieldCell,
+                ],
+              ),
+            );
+          }
+          if (controllerIndex == 3 && widget.task.linesCount == 8) {
+            myChild = Padding(
+              padding: EdgeInsets.only(left: 3, bottom: 16, top: 6),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 13,
+                  ),
+                  Text(
+                    "b1: ",
+                    style: getTheme().textTheme.bodyLarge,
+                  ),
+                  fieldCell
+                ],
+              ),
+            );
+          } else if (controllerIndex == 4 && widget.task.linesCount == 8) {
+            myChild = Padding(
+              padding: EdgeInsets.only(left: 20, bottom: 16, top: 6),
+              child: Row(
+                children: [
+                  Text(
+                    "c1: ",
                     style: getTheme().textTheme.bodyLarge,
                   ),
                   fieldCell,
@@ -232,11 +254,11 @@ class _FieldMatrixState extends State<FieldMatrix> {
           } else if (controllerIndex == maxLength * 4 + 5 &&
               widget.task.linesCount == 8) {
             myChild = Padding(
-              padding: EdgeInsets.only(left: 20),
+              padding: EdgeInsets.only(left: 20, top: 6),
               child: Row(
                 children: [
                   Text(
-                    "x=",
+                    "x= ",
                     style: getTheme().textTheme.bodyLarge,
                   ),
                   fieldCell,
@@ -246,11 +268,11 @@ class _FieldMatrixState extends State<FieldMatrix> {
           } else if (controllerIndex == maxLength * 4 + 7 &&
               widget.task.linesCount == 8) {
             myChild = Padding(
-              padding: EdgeInsets.only(left: 20),
+              padding: EdgeInsets.only(left: 20, top: 6),
               child: Row(
                 children: [
                   Text(
-                    "y=",
+                    "y= ",
                     style: getTheme().textTheme.bodyLarge,
                   ),
                   fieldCell,
@@ -262,19 +284,19 @@ class _FieldMatrixState extends State<FieldMatrix> {
               (controllerIndex == maxLength * 4 + 8) &&
                   widget.task.linesCount == 8) {
             myChild = Padding(
-              padding: EdgeInsets.only(left: 20),
+              padding: EdgeInsets.only(left: 6, top: 6),
               child: Row(
                 children: [
                   Text(
                     "+",
                     style: getTheme().textTheme.bodyLarge,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                   fieldCell,
-                  SizedBox(
-                    width: 15,
+                  const SizedBox(
+                    width: 10,
                   ),
                   Text(
                     "t",
@@ -283,14 +305,13 @@ class _FieldMatrixState extends State<FieldMatrix> {
                 ],
               ),
             );
-          } else if (controllerIndex == maxLength * 4 + 1 &&
-              widget.task.linesCount == 8) {
+          } else if (controllerIndex == 1 && widget.task.linesCount == 8) {
             myChild = Padding(
-              padding: EdgeInsets.only(top: 20),
+              padding: EdgeInsets.only(right: 35),
               child: Row(
                 children: [
                   Text(
-                    "НОД:",
+                    "НОД: ",
                     style: getTheme().textTheme.bodyLarge,
                   ),
                   SizedBox(
@@ -318,13 +339,10 @@ class _FieldMatrixState extends State<FieldMatrix> {
           return SizedBox();
         }
       }).toList();
-      //controllerIndex++;
-      // Добавление SizedBox в конец строки, если длина строки меньше максимальной
       int diff = maxLength - children.length;
       if (diff > 0 && widget.task.linesCount != 8) {
         children.addAll(List.filled(diff, SizedBox(width: 50, height: 50)));
       }
-
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: children,
