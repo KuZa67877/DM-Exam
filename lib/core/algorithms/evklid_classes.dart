@@ -355,7 +355,7 @@ class Diafant extends Task {
     instruction.add("Дано уравнение в целых числах");
     instruction.add("# ${A}x + ${B}y = $C");
     instruction.add(
-        "Имеющее решение, если  170  делится без остатка на НОД($A, $B) = $nod");
+        "Имеющее решение, если  $C  делится без остатка на НОД($A, $B) = $nod");
     instruction.add(
         "1. Разделим коэффициенты уравнения $A, $B, и $C на $nod, получим следующее уравнение");
     instruction.add("# ${a1}x + ${b1}y = $c1");
