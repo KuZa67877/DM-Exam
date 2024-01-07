@@ -9,7 +9,8 @@ class TransferNumSystem extends Task {
   TransferNumSystem() {
     data = generateVariant();
     lines = data;
-    linesCount = 2;
+    lines.add([data[1][data[1].length - 1]]);
+    linesCount = 3;
   }
 
   @override
