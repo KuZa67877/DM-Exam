@@ -194,6 +194,36 @@ class _FieldMatrixState extends State<FieldMatrix> {
           dynamic myChild = fieldCell;
 
           // Простите меня, пожалуйста
+          if (controllerIndex == maxLength * 4 + 1 &&
+              widget.task.linesCount == 5) {
+            myChild = Padding(
+              padding: EdgeInsets.only(top: 30, left: 5),
+              child: Row(
+                children: [
+                  Text(
+                    "x = ",
+                    style: getTheme().textTheme.bodyLarge,
+                  ),
+                  fieldCell,
+                ],
+              ),
+            );
+          }
+          if (controllerIndex == maxLength * 4 + 2 &&
+              widget.task.linesCount == 5) {
+            myChild = Padding(
+              padding: EdgeInsets.only(top: 30, left: 20),
+              child: Row(
+                children: [
+                  Text(
+                    "y = ",
+                    style: getTheme().textTheme.bodyLarge,
+                  ),
+                  fieldCell,
+                ],
+              ),
+            );
+          }
           if (controllerIndex == maxLength * 2 + 1 &&
               widget.task.linesCount == 3) {
             myChild = Padding(

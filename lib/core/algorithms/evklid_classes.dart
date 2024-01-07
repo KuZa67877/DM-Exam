@@ -46,6 +46,8 @@ class AxBy1 extends Task {
     xAnswer = data[2][data[2].length - 2];
     yAnswer = data[3][data[3].length - 2];
     lines = data;
+    lines.add([xAnswer, yAnswer]);
+    linesCount = 5;
   }
 }
 
@@ -60,8 +62,12 @@ class NOD extends Task {
     xCondition = data[0][0];
     yCondition = data[0][1];
     answer = data[0][data[0].length - 2];
-    lines = [data[0], data[1]];
-    linesCount = 2; // Устанавливаем 2 строки
+    lines = [
+      data[0],
+      data[1],
+      [answer]
+    ];
+    linesCount = 3;
   }
 
   @override
@@ -178,8 +184,17 @@ class InverseNumber extends Task {
     List<int> secondline = data[1];
     List<int> thirdline = List.filled(data[2].length, 0);
     List<int> fourthLine = data[3];
-    lines = [firstline, secondline, thirdline, fourthLine];
-    answer = 0;
+    answer = fourthLine[fourthLine.length - 2] > 0
+        ? fourthLine[fourthLine.length - 2]
+        : xCondition - fourthLine[fourthLine.length - 2].abs();
+    lines = [
+      firstline,
+      secondline,
+      thirdline,
+      fourthLine,
+      [answer]
+    ];
+    linesCount = 5;
   }
 
   @override
@@ -355,7 +370,7 @@ class Diafant extends Task {
     instruction.add("Дано уравнение в целых числах");
     instruction.add("# ${A}x + ${B}y = $C");
     instruction.add(
-        "Имеющее решение, если  $C  делится без остатка на НОД($A, $B) = $nod");
+        "Имеющее решение, если  170  делится без остатка на НОД($A, $B) = $nod");
     instruction.add(
         "1. Разделим коэффициенты уравнения $A, $B, и $C на $nod, получим следующее уравнение");
     instruction.add("# ${a1}x + ${b1}y = $c1");
