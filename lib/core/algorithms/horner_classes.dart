@@ -14,10 +14,14 @@ class HornerRoot extends Task {
     data = generateVariant();
     coefficients = data[0];
     process = data[1];
-    lines = [coefficients, process];
+    lines = [
+      coefficients,
+      process,
+      [process.last]
+    ];
     poly_string = listConvertToPolyString(coefficients, 0);
     answer = process.last;
-    linesCount = 2;
+    linesCount = 3;
   }
 
   @override
@@ -43,7 +47,7 @@ class HornerRoot extends Task {
   @override
   String writeQuestion() {
     String resultString =
-        "Вычислите значение многочлена $poly_string в точке $root";
+        "Вычислите значение многочлена \n$poly_string\n в точке $root";
     return resultString;
   }
 
@@ -116,7 +120,7 @@ class HornerPoly extends Task {
   @override
   String writeQuestion() {
     String resultString =
-        "Разделите многочлен $condition_string на одночлен ${_monomialStr(root)} с помощью схемы Горнера";
+        "Разделите многочлен \n$condition_string\n на одночлен ${_monomialStr(root)} с помощью схемы Горнера";
     return resultString;
   }
 

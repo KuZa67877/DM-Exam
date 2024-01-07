@@ -16,6 +16,12 @@ class BottomNavigationBarWidget extends StatefulWidget {
 }
 
 class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
+  final List<String> labels = [
+    "Демонстрация",
+    "Тестирование",
+    "Контроль",
+    "О программе"
+  ];
   final List<Widget> _widgets = [
     const EducationScreen(),
     const StudyScreen(
@@ -62,7 +68,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
             currentIndex: _currentIndex,
             buttonIndex: index,
           ),
-          label: '',
+          label: labels[index],
         ),
       );
 
