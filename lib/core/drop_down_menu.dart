@@ -5,19 +5,30 @@ import 'package:flutter/material.dart';
 
 class DropDownMenuButton extends StatefulWidget {
   final List<String> list;
+  final bool isInfo;
   const DropDownMenuButton(
-      {Key? key, required this.updateWidgets, required this.list})
+      {Key? key,
+      required this.isInfo,
+      required this.updateWidgets,
+      required this.list})
       : super(key: key);
 
   final Function(String) updateWidgets;
 
   @override
-  State<DropDownMenuButton> createState() => _DropDownMenuButtonState();
+  State<DropDownMenuButton> createState() =>
+      _DropDownMenuButtonState(isInfo: isInfo);
 }
 
 class _DropDownMenuButtonState extends State<DropDownMenuButton> {
   final theme = getTheme();
-  String? dropItem = AppStrings.diofantLittle;
+  String? dropItem;
+  bool isInfo;
+
+  _DropDownMenuButtonState({required this.isInfo}) {
+    (isInfo) ? dropItem = "Информация" : dropItem = AppStrings.diofantLittle;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(

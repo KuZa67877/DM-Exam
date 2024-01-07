@@ -125,6 +125,7 @@ class _EducationScreenState extends State<EducationScreen> {
                   AppStrings.bezu,
                   AppStrings.horner
                 ],
+                isInfo: true,
               ),
             ),
           ),

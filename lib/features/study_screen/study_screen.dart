@@ -142,6 +142,7 @@ class _StudyScreenState extends State<StudyScreen> {
                   AppStrings.bezu,
                   AppStrings.horner
                 ],
+                isInfo: false,
               ),
             ),
           ),
