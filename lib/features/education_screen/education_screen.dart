@@ -74,6 +74,13 @@ class _EducationScreenState extends State<EducationScreen> {
       return AxBy1();
     }
 
+    Task task = AxBy1();
+
+    bool setTask(int index) {
+      task = getTaskGenerator(index);
+      return true;
+    }
+
     void _checkAnswer(bool isCorrect) {}
 
     return Scaffold(
@@ -126,22 +133,32 @@ class _EducationScreenState extends State<EducationScreen> {
               padding: EdgeInsets.only(top: 70),
               child: MainInfo(),
             ),
-          for (var i = 0; i < 11; i++)
-            if (showWidgets[i] && i != 0)
+          for (var i = 1; i < 11; i++)
+            if (showWidgets[i] && setTask(i))
               Padding(
                 padding: const EdgeInsets.only(top: 70),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      // ...
+                      Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Text(
+                          AppStrings.solvedTaskTemplate,
+                          textAlign: TextAlign.left,
+                          style: getTheme().textTheme.bodyLarge,
+                        ),
+                      ),
                       FullTask(
                         isSolved: false,
-                        taskGenerator: getTaskGenerator(i),
+                        taskGenerator: task,
                         isEducation: false,
                         isExample: true,
                         onAnswer: _checkAnswer,
                       ),
-                      // ...
+                      Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: formatTaskText(task.generateInstruction()))
                     ],
                   ),
                 ),
@@ -176,5 +193,36 @@ class _EducationScreenState extends State<EducationScreen> {
       default:
         return AxBy1();
     }
+  }
+
+  Column formatTaskText(List<String> instructions) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (var i = 0; i < instructions.length; i++)
+          (instructions[i][0] == "#")
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    instructions[i].substring(2),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontFamily: "WorkSans",
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
+              : Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                  child: Text(
+                    instructions[i],
+                    textAlign: TextAlign.left,
+                    style: getTheme().textTheme.bodyLarge,
+                  ),
+                ),
+      ],
+    );
   }
 }

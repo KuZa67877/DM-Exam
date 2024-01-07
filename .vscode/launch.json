@@ -6,6 +6,12 @@
     "configurations": [
         {
             "name": "DM-Exam",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/app/main.dart"
+        },
+        {
+            "name": "DM-Exam",
             "request": "launch",
             "type": "dart"
         },

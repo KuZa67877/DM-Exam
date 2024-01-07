@@ -32,6 +32,7 @@ class HornerRoot extends Task {
       root = list_root[Random().nextInt(list_root.length)];
       conditions = List<int>.generate(
           rand_len, (i) => list_cond[Random().nextInt(list_cond.length)]);
+      conditions[0] = list_root[Random().nextInt(list_root.length)];
       result = hornerScheme(conditions, root);
     } while (((result.last).abs() > 140) ||
         ((result.last).abs() < 15) ||
@@ -41,10 +42,29 @@ class HornerRoot extends Task {
 
   @override
   String writeQuestion() {
-    if (root < 0) {}
     String resultString =
         "Вычислите значение многочлена $poly_string в точке $root";
     return resultString;
+  }
+
+  @override
+  List<String> generateInstruction() {
+    List<String> instruction = [];
+    instruction.add("Дан многочлен");
+    instruction.add("# $poly_string");
+    instruction.add(
+        "Чтобы найти значение многочлена в точке $root, можно применить схему Горнера для деления многочлена на");
+    instruction.add("# ${_monomialStr(root)}");
+    instruction.add("как показано в таблице");
+    return instruction;
+  }
+
+  String _monomialStr(int root) {
+    String monomial = "(x - $root)";
+    if (root < 0) {
+      monomial = "(x + ${-root})";
+    }
+    return monomial;
   }
 }
 
@@ -95,13 +115,29 @@ class HornerPoly extends Task {
 
   @override
   String writeQuestion() {
+    String resultString =
+        "Разделите многочлен $condition_string на одночлен ${_monomialStr(root)} с помощью схемы Горнера";
+    return resultString;
+  }
+
+  @override
+  List<String> generateInstruction() {
+    List<String> instruction = [];
+    instruction.add("Дан многочлен");
+    instruction.add("# $condition_string");
+    instruction.add("и моном");
+    instruction.add("# ${_monomialStr(root)}");
+    instruction.add(
+        "Чтобы поделить многочлен на моном, можно использовать схему Горнера, как показано в таблице");
+    return instruction;
+  }
+
+  String _monomialStr(int root) {
     String monomial = "(x - $root)";
     if (root < 0) {
       monomial = "(x + ${-root})";
     }
-    String resultString =
-        "Разделите многочлен\n $condition_string\n на одночлен $monomial с помощью схемы Горнера";
-    return resultString;
+    return monomial;
   }
 
   List<int> _getCoeffs(List<List<int>> lines) {
