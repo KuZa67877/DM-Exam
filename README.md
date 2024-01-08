@@ -6,8 +6,11 @@ DM-Exam repository.
 Как запустить на windows - на диске скачать папку DM-Windows, запустить файл dmiti_project.exe
 
 Как запустить на linux - на диске скачать папку DM-Linux, запустить файл dmiti_project 
+
 В случае получения ошибки прописать следующие команды в терминале:
+
 chmod +x dmiti_project
+
 ./dmiti_project
 
 Как запустить на android - установить файл app-release.apk с диска
