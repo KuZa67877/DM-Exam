@@ -43,7 +43,7 @@ class _InfoProfileState extends State<InfoProfile> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "Разработали: Дамакин Р.П. Кузьминых Е.М. Шурыгин Д.Л.",
+                      "Разработали: Дамакин Р.П. Кузьминых Е.М. Шурыгин Д.Л. Борисов И.П.",
                       style: getTheme().textTheme.bodyLarge,
                     ),
                   ),

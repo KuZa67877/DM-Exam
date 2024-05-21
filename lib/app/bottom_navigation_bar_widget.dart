@@ -1,9 +1,17 @@
 import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
+import 'package:dmiti_project/core/algorithms/graph_tree/BinaryTree.dart';
+import 'package:dmiti_project/core/algorithms/graph_tree/DirectedRandGraph.dart';
+import 'package:dmiti_project/core/algorithms/graph_tree/Graphs.dart';
+import 'package:dmiti_project/core/algorithms/graph_tree/UndirectedSmallGraph.dart';
+import 'package:dmiti_project/core/graph_task.dart';
+import 'package:dmiti_project/core/graph_visualizer.dart';
+import 'package:dmiti_project/core/tree_visualizer.dart';
 import 'package:dmiti_project/features/exam_screen/exam_screen.dart';
 import 'package:dmiti_project/features/info_profile.dart';
 import 'package:dmiti_project/features/user_profile.dart';
 import 'package:dmiti_project/res/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:graphview/GraphView.dart';
 import '../features/education_screen/education_screen.dart';
 import '../features/study_screen/study_screen.dart';
 
@@ -32,7 +40,8 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
       isEducation: false,
       title: "Контроль",
     ),
-    const InfoProfile()
+    //TreeWidget(root: BinaryTree().head!)
+    GraphTask(graph: UndirectedSmallGraph())
   ];
   int _currentIndex = 0;
 

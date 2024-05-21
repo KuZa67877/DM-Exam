@@ -44,7 +44,11 @@ class _FieldMatrixState extends State<FieldMatrix> {
       controllers.addAll(List.generate(
           line.length,
           (index) => TextEditingController(
-              text: widget.isExample == true ? line[index].toString() : '')));
+              text: widget.isExample == true
+                  ? (count == 1 && (index == 0 || index == 1)
+                      ? '' // Для lines[1][0] и lines[1][1] устанавливаем пустую строку
+                      : line[index].toString())
+                  : '')));
       allData.addAll(line.map((item) => item.toString()));
       count++;
     }
@@ -128,6 +132,7 @@ class _FieldMatrixState extends State<FieldMatrix> {
   }
 
   void printValues1() {
+    //использовалось для режима экзамена
     List<String> inputValues = getValues();
 
     print(inputValues);
