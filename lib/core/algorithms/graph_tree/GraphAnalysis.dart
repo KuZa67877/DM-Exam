@@ -71,3 +71,99 @@ class GraphAnalysis {
     return centerVertex;
   }
 }
+
+class PrueferCodeGenerator {
+  static String generatePrueferCodeAsString(Map<int, Set<int>> graph) {
+    // Инициализация переменных для обхода графа
+    final visited = Set<int>();
+    final order = Queue<int>();
+
+    // Функция для обхода графа в глубину
+    void dfs(int vertex) {
+      visited.add(vertex);
+      for (final neighbor in graph[vertex]!) {
+        if (!visited.contains(neighbor)) {
+          dfs(neighbor);
+        }
+      }
+      order.addLast(
+          vertex); // Добавляем вершину в конец очереди после посещения всех её соседей
+    }
+
+    // Обходим граф в глубину
+    for (final vertex in graph.keys) {
+      if (!visited.contains(vertex)) {
+        dfs(vertex);
+      }
+    }
+
+    // Генерируем код Прюфера как строку
+    final prueferCodeList = <int>[];
+    while (order.isNotEmpty) {
+      final vertex = order.removeFirst();
+      prueferCodeList.add(vertex);
+      if (vertex == 1) break; // Выходим из цикла, если достигли первой вершины
+    }
+
+    // Преобразуем список в строку
+    return prueferCodeList.join(' ');
+  }
+}
+
+class Stack<T> {
+  List<T> elements = [];
+
+  void push(T item) {
+    elements.add(item);
+  }
+
+  T pop() {
+    return elements.removeAt(elements.length - 1);
+  }
+
+  bool isEmpty() {
+    return elements.isEmpty;
+  }
+}
+
+class GraphTraversal {
+  static String dfsTraversal(Map<int, Set<int>> graph, int startVertex) {
+    final visited = Set<int>();
+    final stack = Stack<int>();
+    final result = StringBuffer();
+
+    stack.push(startVertex);
+    while (!stack.isEmpty()) {
+      final currentVertex = stack.pop();
+      if (!visited.contains(currentVertex)) {
+        visited.add(currentVertex);
+        result.write('$currentVertex ');
+        for (final neighbor in graph[currentVertex]!) {
+          stack.push(neighbor);
+        }
+      }
+    }
+
+    return result.toString().trim();
+  }
+
+  static String bfsTraversal(Map<int, Set<int>> graph, int startVertex) {
+    final visited = Set<int>();
+    final queue = Queue<int>();
+    final result = StringBuffer();
+
+    queue.add(startVertex);
+    while (queue.isNotEmpty) {
+      final currentVertex = queue.removeFirst();
+      if (!visited.contains(currentVertex)) {
+        visited.add(currentVertex);
+        result.write('$currentVertex ');
+        for (final neighbor in graph[currentVertex]!) {
+          queue.add(neighbor);
+        }
+      }
+    }
+
+    return result.toString().trim();
+  }
+}
