@@ -1,3 +1,4 @@
+import 'package:dmiti_project/core/algorithms/graph_tree/UndirectedSmallGraph.dart';
 import 'package:dmiti_project/core/algorithms/task_interface.dart';
 import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
 import 'package:dmiti_project/core/algorithms/quick_pow_classes.dart';
@@ -5,6 +6,9 @@ import 'package:dmiti_project/core/algorithms/transfer_num_system_classes.dart';
 import 'package:dmiti_project/core/algorithms/horner_classes.dart';
 import 'package:dmiti_project/core/drop_down_menu.dart';
 import 'package:dmiti_project/core/full_task.dart';
+import 'package:dmiti_project/core/graph_dfs_task.dart';
+import 'package:dmiti_project/core/graph_prufer_task.dart';
+import 'package:dmiti_project/core/graph_task.dart';
 import 'package:dmiti_project/features/education_screen/info_about_program.dart';
 import 'package:dmiti_project/res/text.dart';
 import 'package:dmiti_project/res/theme.dart';
@@ -18,13 +22,14 @@ class EducationScreen extends StatefulWidget {
 }
 
 class _EducationScreenState extends State<EducationScreen> {
-  var showWidgets = List<bool>.filled(11, false);
+  var showWidgets = List<bool>.filled(14, false); // Увеличение размера списка
 
   var theme = getTheme();
-//TODO - добавить массив со строками, куда будут записываться описания верно решенных задач
+
   void updateWidgets(String item) {
     setState(() {
-      for (var i = 0; i < 11; i++) {
+      for (var i = 0; i < 14; i++) {
+        // Обновление для нового размера списка
         showWidgets[i] = item == getTaskName(i);
       }
     });
@@ -34,7 +39,7 @@ class _EducationScreenState extends State<EducationScreen> {
   void initState() {
     super.initState();
     setState(() {
-      showWidgets[0] = true;
+      showWidgets[0] = true; // Установка первого виджета как активного
     });
   }
 
@@ -62,6 +67,14 @@ class _EducationScreenState extends State<EducationScreen> {
         return AppStrings.bezu;
       case 10:
         return AppStrings.horner;
+      case 11:
+        return "Диаметр графа";
+      case 12:
+        return "Код Прюфера";
+      case 13:
+        return "Bfs";
+      case 14:
+        return "Dfs";
       default:
         return AppStrings.horner;
     }
@@ -123,7 +136,11 @@ class _EducationScreenState extends State<EducationScreen> {
                   AppStrings.numSystems,
                   AppStrings.quickPow,
                   AppStrings.bezu,
-                  AppStrings.horner
+                  AppStrings.horner,
+                  "Диаметр графа",
+                  "Код Прюфера",
+                  "Bfs",
+                  "Dfs"
                 ],
                 isInfo: true,
               ),
@@ -134,96 +151,130 @@ class _EducationScreenState extends State<EducationScreen> {
               padding: EdgeInsets.only(top: 70),
               child: MainInfo(),
             ),
-          for (var i = 1; i < 11; i++)
-            if (showWidgets[i] && setTask(i))
+          for (var i = 1;
+              i < 14;
+              i++) // Изменение на 14 для включения новых виджетов
+            if (showWidgets[i])
               Padding(
-                padding: const EdgeInsets.only(top: 70),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: Text(
-                          AppStrings.solvedTaskTemplate,
-                          textAlign: TextAlign.left,
-                          style: getTheme().textTheme.bodyLarge,
+                padding:
+                    EdgeInsets.only(top: 60), // Адаптация под новые виджеты
+                child: i >= 10
+                    ? i == 10
+                        ? GraphTask(
+                            graph: UndirectedSmallGraph(),
+                            isEducation: true,
+                          ) // Добавление нового виджета
+                        : i == 11
+                            ? PrueferCodeTaskScreen(
+                                graph: UndirectedSmallGraph(),
+                                isEducation: true,
+                              ) // Добавление нового виджета
+                            : i == 12
+                                ? DfsBfsTraversalTaskScreen(
+                                    graph: UndirectedSmallGraph(),
+                                    isEducation: true,
+                                    isDfs: true) // Добавление нового виджета
+                                : i == 13
+                                    ? DfsBfsTraversalTaskScreen(
+                                        graph: UndirectedSmallGraph(),
+                                        isEducation: true,
+                                        isDfs: false)
+                                    : Container() // Добавление нового виджета
+                    : SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(30.0),
+                              child: Text(
+                                AppStrings.solvedTaskTemplate,
+                                textAlign: TextAlign.left,
+                                style: getTheme().textTheme.bodyLarge,
+                              ),
+                            ),
+                            FullTask(
+                              isSolved: false,
+                              taskGenerator: getTaskGenerator(i),
+                              isEducation: false,
+                              isExample: true,
+                              onAnswer: _checkAnswer,
+                            ),
+                            Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child:
+                                    formatTaskText(task.generateInstruction()))
+                          ],
                         ),
                       ),
-                      FullTask(
-                        isSolved: false,
-                        taskGenerator: task,
-                        isEducation: false,
-                        isExample: true,
-                        onAnswer: _checkAnswer,
-                      ),
-                      Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: formatTaskText(task.generateInstruction()))
-                    ],
-                  ),
-                ),
-              ),
+              )
         ],
       ),
     );
   }
+}
 
-  Task getTaskGenerator(int index) {
-    switch (index) {
-      case 1:
-        return AxBy1();
-      case 2:
-        return InverseNumber();
-      case 3:
-        return NOD();
-      case 4:
-        return ContinuedFraction();
-      case 5:
-        return SuitableFractions();
-      case 6:
-        return Diafant();
-      case 7:
-        return TransferNumSystem();
-      case 8:
-        return QuickPow();
-      case 9:
-        return HornerRoot();
-      case 10:
-        return HornerPoly();
-      default:
-        return AxBy1();
-    }
+Task getTaskGenerator(int index) {
+  switch (index) {
+    case 1:
+      return AxBy1();
+    case 2:
+      return InverseNumber();
+    case 3:
+      return NOD();
+    case 4:
+      return ContinuedFraction();
+    case 5:
+      return SuitableFractions();
+    case 6:
+      return Diafant();
+    case 7:
+      return TransferNumSystem();
+    case 8:
+      return QuickPow();
+    case 9:
+      return HornerRoot();
+    case 10:
+      return HornerPoly();
+    case 11:
+      return HornerPoly();
+    case 12:
+      return HornerPoly();
+    case 13:
+      return HornerPoly();
+    case 14:
+      return HornerPoly();
+    default:
+      return AxBy1();
   }
+}
 
-  Column formatTaskText(List<String> instructions) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        for (var i = 0; i < instructions.length; i++)
-          (instructions[i][0] == "#")
-              ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    instructions[i].substring(2),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontFamily: "WorkSans",
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                )
-              : Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  child: Text(
-                    instructions[i],
-                    textAlign: TextAlign.left,
-                    style: getTheme().textTheme.bodyLarge,
+Column formatTaskText(List<String> instructions) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      for (var i = 0; i < instructions.length; i++)
+        (instructions[i][0] == "#")
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  instructions[i].substring(2),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontFamily: "WorkSans",
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-      ],
-    );
-  }
+              )
+            : Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                child: Text(
+                  instructions[i],
+                  textAlign: TextAlign.left,
+                  style: getTheme().textTheme.bodyLarge,
+                ),
+              ),
+    ],
+  );
 }

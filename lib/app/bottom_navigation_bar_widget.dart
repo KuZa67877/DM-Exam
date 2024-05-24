@@ -3,6 +3,8 @@ import 'package:dmiti_project/core/algorithms/graph_tree/BinaryTree.dart';
 import 'package:dmiti_project/core/algorithms/graph_tree/DirectedRandGraph.dart';
 import 'package:dmiti_project/core/algorithms/graph_tree/Graphs.dart';
 import 'package:dmiti_project/core/algorithms/graph_tree/UndirectedSmallGraph.dart';
+import 'package:dmiti_project/core/graph_dfs_task.dart';
+import 'package:dmiti_project/core/graph_prufer_task.dart';
 import 'package:dmiti_project/core/graph_task.dart';
 import 'package:dmiti_project/core/graph_visualizer.dart';
 import 'package:dmiti_project/core/tree_visualizer.dart';
@@ -41,7 +43,13 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
       title: "Контроль",
     ),
     //TreeWidget(root: BinaryTree().head!)
-    GraphTask(graph: UndirectedSmallGraph())
+    //GraphTask(graph: UndirectedSmallGraph())
+    //PrueferCodeTaskScreen(graph: UndirectedSmallGraph())
+    DfsBfsTraversalTaskScreen(
+      graph: UndirectedSmallGraph(),
+      isDfs: true,
+      isEducation: true,
+    )
   ];
   int _currentIndex = 0;
 

@@ -1,3 +1,5 @@
+import 'package:dmiti_project/core/algorithms/graph_tree/Graphs.dart';
+import 'package:dmiti_project/core/algorithms/graph_tree/UndirectedSmallGraph.dart';
 import 'package:dmiti_project/core/algorithms/task_interface.dart';
 import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
 import 'package:dmiti_project/core/algorithms/quick_pow_classes.dart';
@@ -5,9 +7,13 @@ import 'package:dmiti_project/core/algorithms/transfer_num_system_classes.dart';
 import 'package:dmiti_project/core/algorithms/horner_classes.dart';
 import 'package:dmiti_project/core/drop_down_menu.dart';
 import 'package:dmiti_project/core/full_task.dart';
+import 'package:dmiti_project/core/graph_prufer_task.dart';
+import 'package:dmiti_project/core/graph_task.dart';
 import 'package:dmiti_project/res/text.dart';
 import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';
+
+import '../../core/graph_dfs_task.dart';
 
 class StudyScreen extends StatefulWidget {
   final bool isEducation;
@@ -25,7 +31,7 @@ class _StudyScreenState extends State<StudyScreen> {
     return AxBy1();
   }
 
-  List<bool> showWidgets = List<bool>.filled(11, false);
+  List<bool> showWidgets = List<bool>.filled(14, false);
   @override
   void initState() {
     super.initState();
@@ -39,7 +45,7 @@ class _StudyScreenState extends State<StudyScreen> {
 
   void updateWidgets(String item) {
     setState(() {
-      for (var i = 0; i < 11; i++) {
+      for (var i = 0; i < 14; i++) {
         showWidgets[i] = item == getTaskName(i);
       }
     });
@@ -67,6 +73,14 @@ class _StudyScreenState extends State<StudyScreen> {
         return AppStrings.bezu;
       case 9:
         return AppStrings.horner;
+      case 10:
+        return "Диаметр графа";
+      case 11:
+        return "Код Прюфера";
+      case 12:
+        return "Dfs";
+      case 13:
+        return "Bfs";
       default:
         return AppStrings.horner;
     }
@@ -93,6 +107,14 @@ class _StudyScreenState extends State<StudyScreen> {
       case 8:
         return HornerRoot();
       case 9:
+        return HornerPoly();
+      case 10:
+        return HornerPoly();
+      case 11:
+        return HornerPoly();
+      case 12:
+        return HornerPoly();
+      case 13:
         return HornerPoly();
       default:
         return HornerPoly();
@@ -140,23 +162,49 @@ class _StudyScreenState extends State<StudyScreen> {
                   AppStrings.numSystems,
                   AppStrings.quickPow,
                   AppStrings.bezu,
-                  AppStrings.horner
+                  AppStrings.horner,
+                  "Диаметр графа",
+                  "Код Прюфера",
+                  "Bfs",
+                  "Dfs"
                 ],
                 isInfo: false,
               ),
             ),
           ),
-          for (var i = 0; i < 10; i++)
+          for (var i = 0;
+              i < 14;
+              i++) // Увеличиваем размер до 14, чтобы вместить новые виджеты
             if (showWidgets[i])
               Padding(
-                padding: EdgeInsets.only(top: 120),
-                child: FullTask(
-                    isSolved: false,
-                    taskGenerator: getTaskGenerator(i),
-                    isExample: false,
-                    onAnswer: null,
-                    isEducation: widget.isEducation),
-              )
+                padding: EdgeInsets.only(top: i >= 10 ? 60 : 120),
+                child: i >= 10
+                    ? i == 10
+                        ? GraphTask(
+                            graph: UndirectedSmallGraph(),
+                            isEducation: widget.isEducation,
+                          )
+                        : i == 11
+                            ? PrueferCodeTaskScreen(
+                                graph: UndirectedSmallGraph(),
+                                isEducation: false,
+                              )
+                            : i == 12
+                                ? DfsBfsTraversalTaskScreen(
+                                    graph: UndirectedSmallGraph(),
+                                    isDfs: true,
+                                    isEducation: false)
+                                : DfsBfsTraversalTaskScreen(
+                                    graph: UndirectedSmallGraph(),
+                                    isDfs: false,
+                                    isEducation: false)
+                    : FullTask(
+                        isSolved: false,
+                        taskGenerator: getTaskGenerator(i),
+                        isExample: false,
+                        onAnswer: null,
+                        isEducation: widget.isEducation),
+              ),
         ],
       ),
     );
