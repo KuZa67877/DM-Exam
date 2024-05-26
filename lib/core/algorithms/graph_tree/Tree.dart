@@ -1,21 +1,18 @@
 import './Node.dart';
 import 'dart:math';
 
-abstract class Tree
-{
+abstract class Tree {
   Node? head;
   var size = 0;
 
-  Tree()
-  {
+  Tree() {
     generate_tree();
   }
 
-  void generate_tree()
-  {
+  void generate_tree() {
     var rand = Random();
-    this.size = rand.nextInt(3)+8;
-    this.head = Node(size/2+1);
+    this.size = rand.nextInt(3) + 8;
+    this.head = Node(size / 2 + 1);
   }
 
   void fill_tree();
