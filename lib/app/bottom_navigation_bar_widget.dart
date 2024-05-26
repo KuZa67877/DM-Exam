@@ -46,7 +46,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
     //GraphTask(graph: UndirectedSmallGraph())
     //PrueferCodeTaskScreen(graph: UndirectedSmallGraph())
     DfsBfsTraversalTaskScreen(
-      graph: UndirectedSmallGraph(),
+      graph: DirectedRandGraph(),
       isDfs: true,
       isEducation: true,
     )
