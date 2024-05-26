@@ -1,5 +1,7 @@
-# DM-Exam
-DM-Exam repository. 
+# KiTG-Exam
+KiTG-Exam repository.
+
+**Задачи с графами на данный момент тестируются** 
 
 Ссылка на диск с файлами программы (обновляются по мере дополнения кода) - https://drive.google.com/drive/folders/1LWuRERktdy9dOKG_ia-fPovR2TpHU6BI?usp=sharing
 
