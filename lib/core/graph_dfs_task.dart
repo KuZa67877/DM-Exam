@@ -81,7 +81,9 @@ class _DfsBfsTraversalTaskScreenState extends State<DfsBfsTraversalTaskScreen> {
           ),
           Text(
               style: getTheme().textTheme.bodyLarge,
-              "Выполните обход графа в глубину (DFS)"),
+              widget.isDfs
+                  ? "Выполните обход графа в глубину (DFS)"
+                  : "Выполните обход графа в ширину (BFS)"),
           Padding(
             padding: EdgeInsets.only(top: 20),
             child: GraphTextField(

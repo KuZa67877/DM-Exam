@@ -177,12 +177,12 @@ class _StudyScreenState extends State<StudyScreen> {
               i++) // Увеличиваем размер до 14, чтобы вместить новые виджеты
             if (showWidgets[i])
               Padding(
-                padding: EdgeInsets.only(top: i >= 10 ? 60 : 120),
+                padding: EdgeInsets.only(top: 60),
                 child: i >= 10
                     ? i == 10
                         ? GraphTask(
                             graph: UndirectedSmallGraph(),
-                            isEducation: widget.isEducation,
+                            isEducation: false,
                           )
                         : i == 11
                             ? PrueferCodeTaskScreen(

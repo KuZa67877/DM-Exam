@@ -1,9 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
-import 'package:dmiti_project/core/algorithms/graph_tree/Graphs.dart';
-import 'package:dmiti_project/core/algorithms/graph_tree/Tree.dart';
 import 'package:dmiti_project/res/colors.dart';
-import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';
 
 class GraphWidget extends StatelessWidget {
@@ -14,7 +11,7 @@ class GraphWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: GraphPainter(graph, context, isEdgeBlack: true),
+      painter: GraphPainter(graph, context, isEdgeBlack: false),
       child: Container(),
     );
   }
@@ -41,13 +38,12 @@ class GraphPainter extends CustomPainter {
     final centerX = size.width / 2;
     final centerY = size.height / 2;
 
-    // Используйте количество ключей в graph для определения количества вершин
     final int numVertices = graph.keys.length;
     final angleStep = 2 * pi / numVertices;
     final angles =
         List<double>.generate(numVertices, (index) => index * angleStep);
 
-    isEdgeBlack = true;
+    isEdgeBlack = false;
     for (final vertex in graph.keys) {
       final edges = graph[vertex] ?? {};
       for (final edge in edges) {
@@ -58,7 +54,6 @@ class GraphPainter extends CustomPainter {
         final x2 = centerX + radius * cos(angle2) * 10;
         final y2 = centerY + radius * sin(angle2) * 10;
 
-        // Рисование линии ребра
         canvas.drawLine(
             Offset(x1, y1),
             Offset(x2, y2),
@@ -66,47 +61,54 @@ class GraphPainter extends CustomPainter {
               ..color = AppColors.black
               ..style = PaintingStyle.stroke
               ..strokeWidth = 2.0);
+        if (isEdgeBlack) {
+          final dx = x2 - x1;
+          final dy = y2 - y1;
+          final direction = atan2(dy, dx); // Угол направления от x1 до x2
 
-        // Рисование стрелки
-        final dx = x2 - x1;
-        final dy = y2 - y1;
-        final direction = atan2(dy, dx); // Угол направления от x1 до x2
+          // Вычисление тангенса угла наклона и пересечения с осью Y
+          final m = dy / dx;
+          final c = y1 - m * x1;
 
-// Вычисление тангенса угла наклона и пересечения с осью Y
-        final m = dy / dx;
-        final c = y1 - m * x1;
+          // Определение, является ли прямая вертикальной или горизонтальной
+          final isVertical =
+              m.abs() > 100; // Можно настроить пороговое значение
+          final isHorizontal =
+              m.abs() < 0.01; // Можно настроить пороговое значение
 
-// Корректируем начальную точку стрелки, чтобы избежать пересечения с вершинами
-// Здесь добавляем небольшое смещение к x2 и y2, чтобы начальная точка стрелки была немного дальше от вершины
-        final correctionFactor =
-            -20; // Экспериментируйте с этим значением для достижения желаемого результата
-        final adjustedX2 = x2 + correctionFactor * cos(direction);
-        final adjustedY2 = y2 + correctionFactor * sin(direction);
+          // Коррекция положения стрелки в зависимости от типа прямой
+          final correctionFactor =
+              isVertical ? -90 : -20; // Настройте этот параметр
+          final adjustedX2 = x2 +
+              correctionFactor *
+                  cos(direction); //TODO на будущее: коэфициент подбирать в зависимости от того, вертикальная или горизонтальная вершина, условно тут нормальный кэф в случае, если ребро вертикальное и направленно сверху вниз, для горизонтальных скорее всего ставить положительные значения коэфициента
+          final adjustedY2 = y2 + correctionFactor * sin(direction);
 
-// Выбираем точку для начала стрелки, которая лежит на прямой
-        final arrowStartX = adjustedX2; // Используем скорректированное значение
-        final arrowStartY = m * arrowStartX + c;
+          // Выбор точки для начала стрелки, которая лежит на прямой
+          final arrowStartX = adjustedX2;
+          final arrowStartY = m * arrowStartX + c;
 
-        final arrowSize = 15.0;
-        final arrowXLeft = arrowStartX - arrowSize * cos(direction - pi / 6);
-        final arrowYLeft = arrowStartY - arrowSize * sin(direction - pi / 6);
-        canvas.drawLine(
-            Offset(arrowStartX, arrowStartY),
-            Offset(arrowXLeft, arrowYLeft),
-            Paint()
-              ..color = AppColors.black
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 2.0);
+          final arrowSize = 15.0;
+          final arrowXLeft = arrowStartX - arrowSize * cos(direction - pi / 6);
+          final arrowYLeft = arrowStartY - arrowSize * sin(direction - pi / 6);
+          canvas.drawLine(
+              Offset(arrowStartX, arrowStartY),
+              Offset(arrowXLeft, arrowYLeft),
+              Paint()
+                ..color = AppColors.black
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = 2.0);
 
-        final arrowXRight = arrowStartX - arrowSize * cos(direction + pi / 6);
-        final arrowYRight = arrowStartY - arrowSize * sin(direction + pi / 6);
-        canvas.drawLine(
-            Offset(arrowStartX, arrowStartY),
-            Offset(arrowXRight, arrowYRight),
-            Paint()
-              ..color = AppColors.black
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 2.0);
+          final arrowXRight = arrowStartX - arrowSize * cos(direction + pi / 6);
+          final arrowYRight = arrowStartY - arrowSize * sin(direction + pi / 6);
+          canvas.drawLine(
+              Offset(arrowStartX, arrowStartY),
+              Offset(arrowXRight, arrowYRight),
+              Paint()
+                ..color = AppColors.black
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = 2.0);
+        }
       }
     }
     for (int i = 0; i < numVertices; i++) {

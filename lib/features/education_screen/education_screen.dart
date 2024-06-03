@@ -22,13 +22,13 @@ class EducationScreen extends StatefulWidget {
 }
 
 class _EducationScreenState extends State<EducationScreen> {
-  var showWidgets = List<bool>.filled(14, false); // Увеличение размера списка
+  var showWidgets = List<bool>.filled(15, false); // Увеличение размера списка
 
   var theme = getTheme();
 
   void updateWidgets(String item) {
     setState(() {
-      for (var i = 0; i < 14; i++) {
+      for (var i = 0; i < 15; i++) {
         // Обновление для нового размера списка
         showWidgets[i] = item == getTaskName(i);
       }
@@ -152,34 +152,31 @@ class _EducationScreenState extends State<EducationScreen> {
               child: MainInfo(),
             ),
           for (var i = 1;
-              i < 14;
+              i < 15;
               i++) // Изменение на 14 для включения новых виджетов
             if (showWidgets[i])
               Padding(
-                padding:
-                    EdgeInsets.only(top: 60), // Адаптация под новые виджеты
-                child: i >= 10
-                    ? i == 10
+                padding: EdgeInsets.only(top: 60),
+                child: i > 10
+                    ? i == 11
                         ? GraphTask(
                             graph: UndirectedSmallGraph(),
                             isEducation: true,
-                          ) // Добавление нового виджета
-                        : i == 11
+                          )
+                        : i == 12
                             ? PrueferCodeTaskScreen(
                                 graph: UndirectedSmallGraph(),
                                 isEducation: true,
-                              ) // Добавление нового виджета
-                            : i == 12
+                              )
+                            : i == 13
                                 ? DfsBfsTraversalTaskScreen(
                                     graph: UndirectedSmallGraph(),
-                                    isEducation: true,
-                                    isDfs: true) // Добавление нового виджета
-                                : i == 13
-                                    ? DfsBfsTraversalTaskScreen(
-                                        graph: UndirectedSmallGraph(),
-                                        isEducation: true,
-                                        isDfs: false)
-                                    : Container() // Добавление нового виджета
+                                    isDfs: true,
+                                    isEducation: true)
+                                : DfsBfsTraversalTaskScreen(
+                                    graph: UndirectedSmallGraph(),
+                                    isDfs: false,
+                                    isEducation: true)
                     : SingleChildScrollView(
                         child: Column(
                           children: [

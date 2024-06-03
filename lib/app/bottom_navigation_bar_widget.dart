@@ -3,6 +3,7 @@ import 'package:dmiti_project/core/algorithms/graph_tree/BinaryTree.dart';
 import 'package:dmiti_project/core/algorithms/graph_tree/DirectedRandGraph.dart';
 import 'package:dmiti_project/core/algorithms/graph_tree/Graphs.dart';
 import 'package:dmiti_project/core/algorithms/graph_tree/UndirectedSmallGraph.dart';
+import 'package:dmiti_project/core/algorithms/tree_visualize.dart';
 import 'package:dmiti_project/core/graph_dfs_task.dart';
 import 'package:dmiti_project/core/graph_prufer_task.dart';
 import 'package:dmiti_project/core/graph_task.dart';
@@ -26,6 +27,8 @@ class BottomNavigationBarWidget extends StatefulWidget {
 }
 
 class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
+  // final BinaryTree myTree = BinaryTree();
+
   final List<String> labels = [
     "Демонстрация",
     "Тестирование",
@@ -42,9 +45,11 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
       isEducation: false,
       title: "Контроль",
     ),
-    //TreeWidget(root: BinaryTree().head!)
-    //GraphTask(graph: UndirectedSmallGraph())
-    //PrueferCodeTaskScreen(graph: UndirectedSmallGraph())
+    // TreeWidget(
+    //   root: BinaryTree().head!,
+    // )
+    // //GraphTask(graph: UndirectedSmallGraph())
+    // PrueferCodeTaskScreen(graph: UndirectedSmallGraph())
     DfsBfsTraversalTaskScreen(
       graph: DirectedRandGraph(),
       isDfs: true,
