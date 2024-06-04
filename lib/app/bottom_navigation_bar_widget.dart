@@ -8,6 +8,7 @@ import 'package:dmiti_project/core/graph_dfs_task.dart';
 import 'package:dmiti_project/core/graph_prufer_task.dart';
 import 'package:dmiti_project/core/graph_task.dart';
 import 'package:dmiti_project/core/graph_visualizer.dart';
+import 'package:dmiti_project/core/graph_weight_vizualizer.dart';
 import 'package:dmiti_project/core/tree_visualizer.dart';
 import 'package:dmiti_project/features/exam_screen/exam_screen.dart';
 import 'package:dmiti_project/features/info_profile.dart';
@@ -50,11 +51,46 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
     // )
     // //GraphTask(graph: UndirectedSmallGraph())
     // PrueferCodeTaskScreen(graph: UndirectedSmallGraph())
-    DfsBfsTraversalTaskScreen(
-      graph: DirectedRandGraph(),
-      isDfs: true,
-      isEducation: true,
+    // DfsBfsTraversalTaskScreen(
+    //   graph: DirectedRandGraph(),
+    //   isDfs: true,
+    //   isEducation: true,
+    // )
+    GraphWeightWidget(
+      graph: {
+        1: {2, 3, 4},
+        2: {5},
+        3: {5, 6},
+        4: {6, 7},
+        5: {8},
+        6: {8, 9, 10},
+        7: {10},
+        8: {11, 12},
+        9: {12},
+        10: {12, 13},
+        11: {14},
+        12: {14},
+        13: {14},
+        14: {}
+      },
+      weights: {
+        1: 10,
+        2: 15,
+        3: 20,
+        4: 25,
+        5: 30,
+        6: 35,
+        7: 40,
+        8: 45,
+        9: 50,
+        10: 55,
+        11: 60,
+        12: 45,
+        13: 50,
+        14: 55,
+      },
     )
+    //TreeWidget(head: BinaryTree().head)
   ];
   int _currentIndex = 0;
 
