@@ -1,6 +1,7 @@
 import 'Graphs.dart';
 import 'dart:math';
 
+//НЕ ИСПОЛЬЗУЕТСЯ
 class DirectedRandGraph extends MyGraph {
   @override
   void generate_graph() {

@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:math';
 
 import 'package:dmiti_project/core/algorithms/graph_tree/Graphs.dart';
+import 'package:dmiti_project/core/algorithms/graph_tree/Node.dart';
 
 abstract class GraphTaskInterface {
   final MyGraph graph;
@@ -165,5 +166,118 @@ class GraphTraversal {
     }
 
     return result.toString().trim();
+  }
+}
+
+class TreeAnalysis {
+  final Node treeRoot;
+
+  TreeAnalysis(this.treeRoot);
+
+  // Вычисление радиуса дерева
+  int calculateRadius() {
+    int radius = 0;
+    _forEachNode((Node node) {
+      int distance = _maxDistanceFromNode(node);
+      radius = max(radius, distance);
+    });
+    return radius;
+  }
+
+  // Вычисление диаметра дерева
+  int calculateDiameter() {
+    int diameter = 0;
+    _forEachNode((Node node) {
+      int distance = _maxDistanceFromNode(node);
+      diameter = max(diameter, distance);
+    });
+    return diameter;
+  }
+
+  // Поиск максимального расстояния от данной вершины
+  int _maxDistanceFromNode(Node startNode) {
+    Queue<Node> queue = Queue<Node>();
+    Map<Node, int> distances = {startNode: 0};
+    queue.add(startNode);
+
+    while (queue.isNotEmpty) {
+      Node currentNode = queue.removeFirst();
+      for (Node? neighbor in currentNode.childs) {
+        if (neighbor != null && !distances.containsKey(neighbor)) {
+          distances[neighbor] = distances[currentNode]! + 1;
+          queue.add(neighbor);
+        }
+      }
+    }
+
+    return distances.values.reduce(max);
+  }
+
+  // Вычисление центра дерева
+  Node? calculateCenter() {
+    int minDegree = 1000000;
+    Node? centerNode;
+    _forEachNode((Node node) {
+      int degree = node.childs.length;
+      if (degree < minDegree) {
+        minDegree = degree;
+        centerNode = node;
+      }
+    });
+    return centerNode;
+  }
+
+  // Обход всех узлов дерева
+  void _forEachNode(void Function(Node) action) {
+    Set<Node> visited = {};
+    void _dfs(Node node) {
+      if (visited.contains(node)) return;
+      visited.add(node);
+      action(node);
+      for (Node? child in node.childs) {
+        if (child != null) _dfs(child);
+      }
+    }
+
+    _dfs(treeRoot);
+  }
+}
+
+class PrueferCodeTreeGenerator {
+  static String generatePrueferCodeAsString(Node treeRoot) {
+    if (treeRoot.childs.isEmpty) return '';
+    List<int> prueferCode = [];
+    Map<Node, int> degree = {};
+
+    // Инициализируем степени всех узлов
+    void _initializeDegrees(Node node) {
+      degree[node] = node.childs.length;
+      for (Node? child in node.childs) {
+        if (child != null) _initializeDegrees(child);
+      }
+    }
+
+    _initializeDegrees(treeRoot);
+
+    List<Node> leaves = degree.keys.where((node) => degree[node] == 1).toList();
+    leaves.sort((a, b) => a.name.compareTo(b.name));
+
+    for (int i = 0; i < degree.length - 2; i++) {
+      Node leaf = leaves.removeAt(0);
+      for (Node? neighbor in leaf.childs) {
+        if (neighbor != null && degree.containsKey(neighbor)) {
+          prueferCode.add(neighbor.name);
+          degree[neighbor] = degree[neighbor]! - 1;
+          if (degree[neighbor] == 1) {
+            leaves.add(neighbor);
+            leaves.sort((a, b) => a.name.compareTo(b.name));
+          }
+          break;
+        }
+      }
+      degree.remove(leaf);
+    }
+
+    return prueferCode.join(' ');
   }
 }

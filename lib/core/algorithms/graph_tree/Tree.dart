@@ -6,13 +6,11 @@ abstract class Tree {
   var size = 0;
   List<int> nodes = [];
 
-  Tree() 
-  {
+  Tree() {
     fill_tree();
   }
 
-  void generate_tree() 
-  {
+  void generate_tree() {
     var rand = Random();
     this.size = rand.nextInt(3) + 9;
     this.nodes = List<int>.generate(this.size, (index) => index + 1);
