@@ -1,7 +1,9 @@
+import 'package:dmiti_project/core/algorithms/graph_tree/BinaryTree.dart';
 import 'package:dmiti_project/core/algorithms/graph_tree/GraphAnalysis.dart';
 import 'package:dmiti_project/core/algorithms/graph_tree/Graphs.dart';
 import 'package:dmiti_project/core/alert_dialog.dart';
 import 'package:dmiti_project/core/default_button.dart';
+import 'package:dmiti_project/core/graph_tree_vizualize/tree_visualizer.dart';
 import 'package:dmiti_project/core/textfield/graph_textfield.dart';
 import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +11,13 @@ import 'package:dmiti_project/core/graph_tree_vizualize/graph_visualizer.dart';
 import 'package:dmiti_project/res/colors.dart';
 
 class DfsBfsTraversalTaskScreen extends StatefulWidget {
-  final MyGraph graph;
+  final BinaryTree tree;
   final bool isDfs;
   final bool isEducation;
 
   DfsBfsTraversalTaskScreen(
       {Key? key,
-      required this.graph,
+      required this.tree,
       required this.isDfs,
       required this.isEducation})
       : super(key: key);
@@ -32,16 +34,16 @@ class _DfsBfsTraversalTaskScreenState extends State<DfsBfsTraversalTaskScreen> {
   @override
   void initState() {
     super.initState();
-    correctAnswer = widget.isDfs
-        ? GraphTraversal.dfsTraversal(widget.graph.graph, 1)
-        : GraphTraversal.bfsTraversal(widget.graph.graph,
-            1); // Используйте любую вершину в качестве начальной
+    correctAnswer = widget.isDfs ? widget.tree.dfs(widget.tree.head) : "";
+    if (!widget.isDfs) {
+      // Реализация BFS
+      // correctAnswer = widget.tree.bfs(widget.tree.head); // Необходимо реализовать метод BFS
+    }
   }
 
   void checkAnswer() {
     String userInput = controller.text.trim();
     bool isCorrect = userInput == correctAnswer;
-    print(correctAnswer);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -69,11 +71,9 @@ class _DfsBfsTraversalTaskScreenState extends State<DfsBfsTraversalTaskScreen> {
         children: [
           Center(
             child: Container(
-              height: 350,
-              width: 300,
-              child: GraphWidget(
-                graph: widget.graph.graph,
-              ),
+              height: 250,
+              width: 200,
+              child: TreePainterWidget(tree: widget.tree),
             ),
           ),
           Text(

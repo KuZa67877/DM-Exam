@@ -1,18 +1,18 @@
+import 'package:flutter/material.dart';
 import 'package:dmiti_project/core/alert_dialog.dart';
-import 'package:dmiti_project/core/algorithms/graph_tree/GraphAnalysis.dart';
+import 'package:dmiti_project/core/algorithms/graph_tree/NonBinaryTree.dart';
 import 'package:dmiti_project/core/default_button.dart';
+import 'package:dmiti_project/core/graph_tree_vizualize/tree_visualizer.dart';
 import 'package:dmiti_project/core/textfield/graph_textfield.dart';
 import 'package:dmiti_project/res/theme.dart';
-import 'package:flutter/material.dart';
-import 'package:dmiti_project/core/algorithms/graph_tree/Graphs.dart';
-import 'package:dmiti_project/core/graph_tree_vizualize/graph_visualizer.dart';
 import 'package:dmiti_project/res/colors.dart';
 
 class PrueferCodeTaskScreen extends StatefulWidget {
-  final MyGraph graph;
+  final NonBinaryTree myTree;
   final bool isEducation;
+
   PrueferCodeTaskScreen(
-      {Key? key, required this.graph, required this.isEducation})
+      {Key? key, required this.myTree, required this.isEducation})
       : super(key: key);
 
   @override
@@ -26,8 +26,16 @@ class _PrueferCodeTaskScreenState extends State<PrueferCodeTaskScreen> {
   @override
   void initState() {
     super.initState();
-    correctAnswer =
-        PrueferCodeGenerator.generatePrueferCodeAsString(widget.graph.graph);
+    widget.myTree.fill_tree();
+
+    if (widget.myTree.head != null) {
+      correctAnswer = widget.myTree.generatePruferCode();
+      print(widget.myTree.calculateTreeProperties());
+      print(correctAnswer);
+    } else {
+      correctAnswer = "";
+      print("Ошибка: дерево пустое.");
+    }
   }
 
   void checkAnswer() {
@@ -56,38 +64,41 @@ class _PrueferCodeTaskScreenState extends State<PrueferCodeTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(child: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints viewportConstraints) {
-      return Column(
-        children: [
-          Center(
-            child: Container(
-              height: 350,
-              width: 300,
-              child: GraphWidget(
-                graph: widget.graph.graph,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Center(
+              child: Container(
+                height: 250,
+                width: 200,
+                child: TreePainterWidget(tree: widget.myTree),
               ),
             ),
-          ),
-          Text(
+            SizedBox(height: 20),
+            Text(
+              "Вычислите код Прюфера для заданного дерева",
               style: getTheme().textTheme.bodyLarge,
-              "Вычислите код Прюфера для заданного графа"),
-          Padding(
-            padding: EdgeInsets.only(top: 20),
-            child: GraphTextField(
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20),
+            GraphTextField(
               controller: controller,
               isEducation: widget.isEducation,
               answer: correctAnswer,
             ),
-          ),
-          DefaultButton(
-            info: "Отправить",
-            buttonColor: AppColors.green,
-            onPressedFunction: widget.isEducation ? () {} : checkAnswer,
-            isSettings: false,
-          ),
-        ],
-      );
-    }));
+            SizedBox(height: 20),
+            DefaultButton(
+              info: "Отправить",
+              buttonColor: AppColors.green,
+              onPressedFunction: widget.isEducation ? () {} : checkAnswer,
+              isSettings: false,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -67,4 +67,17 @@ class BinaryTree extends Tree {
       print_tree(curr.childs[1]);
     }
   }
+
+  // Метод обхода в глубину (DFS)
+  String dfs(Node? node) {
+    if (node == null) return '';
+    String result = node.name.toString();
+    if (node.childs[0] != null) {
+      result += dfs(node.childs[0]);
+    }
+    if (node.childs[1] != null) {
+      result += dfs(node.childs[1]);
+    }
+    return result;
+  }
 }

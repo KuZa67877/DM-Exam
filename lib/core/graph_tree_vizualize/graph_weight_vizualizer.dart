@@ -31,9 +31,9 @@ class GraphPainter extends CustomPainter {
       ..color = AppColors.green
       ..style = PaintingStyle.fill;
 
-    final textPaint = Paint()
-      ..color = Colors.white
-      ..style = PaintingStyle.fill;
+    // final textPaint = Paint()
+    //   ..color = Colors.white
+    //   ..style = PaintingStyle.fill;
 
     final radius = 15.0;
     final centerX = size.width / 2;

@@ -1,27 +1,23 @@
 import 'package:dmiti_project/core/alert_dialog.dart';
-import 'package:dmiti_project/core/algorithms/graph_tree/GraphAnalysis.dart';
-import 'package:dmiti_project/core/algorithms/graph_tree/Graphs.dart';
-import 'package:dmiti_project/core/algorithms/graph_tree/NonBinaryTree.dart';
+import 'package:dmiti_project/core/algorithms/graph_tree/GraphWeightFlow.dart';
 import 'package:dmiti_project/core/default_button.dart';
-import 'package:dmiti_project/core/graph_tree_vizualize/graph_visualizer.dart';
-import 'package:dmiti_project/core/graph_tree_vizualize/tree_visualizer.dart';
+import 'package:dmiti_project/core/graph_tree_vizualize/graph_weight_vizualizer.dart';
 import 'package:dmiti_project/core/textfield/graph_textfield.dart';
 import 'package:dmiti_project/res/colors.dart';
 import 'package:dmiti_project/res/theme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-class GraphTask extends StatefulWidget {
-  final NonBinaryTree myTree;
+class GraphWeightFlowTask extends StatefulWidget {
+  final GraphWeightFlow myGraph;
   final bool isEducation;
-  const GraphTask({super.key, required this.myTree, required this.isEducation});
+  const GraphWeightFlowTask(
+      {super.key, required this.myGraph, required this.isEducation});
 
   @override
-  State<GraphTask> createState() => _GraphTaskState();
+  State<GraphWeightFlowTask> createState() => _GraphWeightFlowTaskState();
 }
 
-class _GraphTaskState extends State<GraphTask> {
+class _GraphWeightFlowTaskState extends State<GraphWeightFlowTask> {
   TextEditingController controller = TextEditingController();
   String correctAnswer = ""; // Переменная для хранения правильного ответа
 
@@ -29,10 +25,11 @@ class _GraphTaskState extends State<GraphTask> {
   void initState() {
     super.initState();
     // Рассчитываем правильные значения для радиуса, диаметра и центра графа
-    widget.myTree.generate_tree();
-    var analysis = widget.myTree.calculateTreeProperties();
-    String centers = (analysis['centers'] as List).join(', ');
-    correctAnswer = "${analysis['radius']} ${analysis['diameter']} $centers";
+    // widget.myTree.generate_tree();
+    // var analysis = widget.myTree.calculateTreeProperties();
+    // String centers = (analysis['centers'] as List).join(', ');
+    // correctAnswer = "${analysis['radius']} ${analysis['diameter']} $centers";
+    correctAnswer = widget.myGraph.find_flow().toString();
     print(correctAnswer);
   }
 
@@ -105,11 +102,13 @@ class _GraphTaskState extends State<GraphTask> {
                 child: Container(
                   height: 250,
                   width: 200,
-                  child: TreePainterWidget(tree: widget.myTree),
+                  child: GraphWeightWidget(
+                    graphGenerator: widget.myGraph,
+                  ),
                 ),
               ),
               Text(
-                "Найдите диаметр, радиус и центр данного графа",
+                "Найдите максимальный поток для этого графа",
                 style: getTheme().textTheme.bodyLarge,
               ),
               Padding(

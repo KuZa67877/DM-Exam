@@ -246,6 +246,7 @@ class TreeAnalysis {
 class PrueferCodeTreeGenerator {
   static String generatePrueferCodeAsString(Node treeRoot) {
     if (treeRoot.childs.isEmpty) return '';
+
     List<int> prueferCode = [];
     Map<Node, int> degree = {};
 
@@ -258,11 +259,16 @@ class PrueferCodeTreeGenerator {
     }
 
     _initializeDegrees(treeRoot);
+    print(degree);
 
+    // Инициализация листьев
     List<Node> leaves = degree.keys.where((node) => degree[node] == 1).toList();
     leaves.sort((a, b) => a.name.compareTo(b.name));
+    print(leaves);
 
-    for (int i = 0; i < degree.length - 2; i++) {
+    while (degree.length > 2) {
+      if (leaves.isEmpty) break; // Добавляем проверку на пустоту списка листьев
+
       Node leaf = leaves.removeAt(0);
       for (Node? neighbor in leaf.childs) {
         if (neighbor != null && degree.containsKey(neighbor)) {
@@ -276,6 +282,8 @@ class PrueferCodeTreeGenerator {
         }
       }
       degree.remove(leaf);
+      leaves = degree.keys.where((node) => degree[node] == 1).toList();
+      leaves.sort((a, b) => a.name.compareTo(b.name));
     }
 
     return prueferCode.join(' ');

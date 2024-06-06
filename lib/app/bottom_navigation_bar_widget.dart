@@ -1,4 +1,6 @@
+import 'package:dmiti_project/core/algorithms/graph_tree/GraphWeightPath.dart';
 import 'package:dmiti_project/core/algorithms/graph_tree/NonBinaryTree.dart';
+import 'package:dmiti_project/core/graph_tree_tasks/graph_weight_path_task.dart';
 import 'package:dmiti_project/core/graph_tree_vizualize/tree_visualizer.dart';
 
 import 'package:dmiti_project/res/colors.dart';
@@ -33,7 +35,11 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
       isEducation: false,
       title: "Контроль",
     ),
-    TreePainterWidget(tree: NonBinaryTree()..fill_tree())
+    GraphWeightPathTask(
+      myGraph: GraphWeightPath(),
+      isEducation: true,
+    )
+    //TreePainterWidget(tree: NonBinaryTree()..fill_tree())
     // GraphWeightWidget(
     //   graphGenerator: GraphWeightFlow(),
     // )
