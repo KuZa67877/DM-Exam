@@ -1,4 +1,7 @@
-import 'package:dmiti_project/core/algorithms/graph_tree/Graphs.dart';
+import 'package:dmiti_project/core/algorithms/graph_tree/BinaryTree.dart';
+import 'package:dmiti_project/core/algorithms/graph_tree/GraphWeightFlow.dart';
+import 'package:dmiti_project/core/algorithms/graph_tree/GraphWeightPath.dart';
+import 'package:dmiti_project/core/algorithms/graph_tree/NonBinaryTree.dart';
 import 'package:dmiti_project/core/algorithms/graph_tree/UndirectedSmallGraph.dart';
 import 'package:dmiti_project/core/algorithms/task_interface.dart';
 import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
@@ -7,13 +10,15 @@ import 'package:dmiti_project/core/algorithms/transfer_num_system_classes.dart';
 import 'package:dmiti_project/core/algorithms/horner_classes.dart';
 import 'package:dmiti_project/core/drop_down_menu.dart';
 import 'package:dmiti_project/core/full_task.dart';
-import 'package:dmiti_project/core/graph_prufer_task.dart';
-import 'package:dmiti_project/core/graph_task.dart';
+import 'package:dmiti_project/core/graph_tree_tasks/graph_prufer_task.dart';
+import 'package:dmiti_project/core/graph_tree_tasks/graph_task.dart';
+import 'package:dmiti_project/core/graph_tree_tasks/graph_weight_path_task.dart';
 import 'package:dmiti_project/res/text.dart';
 import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/graph_dfs_task.dart';
+import '../../core/graph_tree_tasks/graph_dfs_task.dart';
+import '../../core/graph_tree_tasks/graph_weight_flow_task.dart'; // Импортируем GraphWeightFlowTask
 
 class StudyScreen extends StatefulWidget {
   final bool isEducation;
@@ -31,7 +36,7 @@ class _StudyScreenState extends State<StudyScreen> {
     return AxBy1();
   }
 
-  List<bool> showWidgets = List<bool>.filled(14, false);
+  List<bool> showWidgets = List<bool>.filled(16, false); // Увеличиваем до 15
   @override
   void initState() {
     super.initState();
@@ -40,12 +45,12 @@ class _StudyScreenState extends State<StudyScreen> {
     });
   }
 
-  //showWidgets[]
   var theme = getTheme();
 
   void updateWidgets(String item) {
     setState(() {
-      for (var i = 0; i < 14; i++) {
+      for (var i = 0; i < 16; i++) {
+        // Увеличиваем до 15
         showWidgets[i] = item == getTaskName(i);
       }
     });
@@ -81,6 +86,10 @@ class _StudyScreenState extends State<StudyScreen> {
         return "Dfs";
       case 13:
         return "Bfs";
+      case 14:
+        return "Максимальный поток"; // Добавляем новый элемент
+      case 15:
+        return "Кратчайший путь";
       default:
         return AppStrings.horner;
     }
@@ -115,6 +124,10 @@ class _StudyScreenState extends State<StudyScreen> {
       case 12:
         return HornerPoly();
       case 13:
+        return HornerPoly();
+      case 14:
+        return HornerPoly(); // Возвращаем GraphWeightFlow для максимального потока
+      case 15:
         return HornerPoly();
       default:
         return HornerPoly();
@@ -166,38 +179,48 @@ class _StudyScreenState extends State<StudyScreen> {
                   "Диаметр графа",
                   "Код Прюфера",
                   "Bfs",
-                  "Dfs"
+                  "Dfs",
+                  "Максимальный поток",
+                  "Кратчайший путь" // Добавляем новый элемент
                 ],
                 isInfo: false,
               ),
             ),
           ),
-          for (var i = 0;
-              i < 14;
-              i++) // Увеличиваем размер до 14, чтобы вместить новые виджеты
+          for (var i = 0; i < 16; i++) // Увеличиваем размер до 15
             if (showWidgets[i])
               Padding(
                 padding: EdgeInsets.only(top: 60),
                 child: i >= 10
                     ? i == 10
                         ? GraphTask(
-                            graph: UndirectedSmallGraph(),
+                            myTree: NonBinaryTree(),
                             isEducation: false,
                           )
                         : i == 11
                             ? PrueferCodeTaskScreen(
-                                graph: UndirectedSmallGraph(),
+                                myTree: NonBinaryTree(),
                                 isEducation: false,
                               )
                             : i == 12
                                 ? DfsBfsTraversalTaskScreen(
-                                    graph: UndirectedSmallGraph(),
+                                    tree: BinaryTree(),
                                     isDfs: true,
                                     isEducation: false)
-                                : DfsBfsTraversalTaskScreen(
-                                    graph: UndirectedSmallGraph(),
-                                    isDfs: false,
-                                    isEducation: false)
+                                : i == 13
+                                    ? DfsBfsTraversalTaskScreen(
+                                        tree: BinaryTree(),
+                                        isDfs: false,
+                                        isEducation: false)
+                                    : i == 14
+                                        ? GraphWeightFlowTask(
+                                            isEducation: false,
+                                            myGraph: GraphWeightFlow(),
+                                          )
+                                        : GraphWeightPathTask(
+                                            isEducation: false,
+                                            myGraph: GraphWeightPath(),
+                                          ) // Добавляем новый виджет
                     : FullTask(
                         isSolved: false,
                         taskGenerator: getTaskGenerator(i),

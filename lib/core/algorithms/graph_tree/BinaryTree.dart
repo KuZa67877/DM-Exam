@@ -1,10 +1,7 @@
 import './Node.dart';
 import './Tree.dart';
-import 'dart:math';
-import 'dart:collection';
 
-class BinaryTree extends Tree 
-{
+class BinaryTree extends Tree {
   @override
   void fill_tree() {
     generate_tree();
@@ -61,14 +58,26 @@ class BinaryTree extends Tree
     nodeR.childs[0] = root;
     return nodeR;
   }
+
   @override
-  void print_tree(Node? curr) 
-  {
-    if (curr != null) 
-    {
+  void print_tree(Node? curr) {
+    if (curr != null) {
       print_tree(curr.childs[0]);
       print(curr.name);
       print_tree(curr.childs[1]);
     }
+  }
+
+  // Метод обхода в глубину (DFS)
+  String dfs(Node? node) {
+    if (node == null) return '';
+    String result = node.name.toString();
+    if (node.childs[0] != null) {
+      result += dfs(node.childs[0]);
+    }
+    if (node.childs[1] != null) {
+      result += dfs(node.childs[1]);
+    }
+    return result;
   }
 }

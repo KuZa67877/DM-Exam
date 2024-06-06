@@ -26,6 +26,5 @@ class _DemonstrationButtonState extends State<DemonstrationButton> {
                 getTheme().textTheme.bodyLarge)),
         onPressed: () {},
         child: Text(widget.info, style: getTheme().textTheme.labelSmall));
-    ;
   }
 }

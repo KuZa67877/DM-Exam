@@ -1,20 +1,10 @@
-import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
-import 'package:dmiti_project/core/algorithms/graph_tree/BinaryTree.dart';
-import 'package:dmiti_project/core/algorithms/graph_tree/DirectedRandGraph.dart';
-import 'package:dmiti_project/core/algorithms/graph_tree/Graphs.dart';
-import 'package:dmiti_project/core/algorithms/graph_tree/UndirectedSmallGraph.dart';
-import 'package:dmiti_project/core/algorithms/tree_visualize.dart';
-import 'package:dmiti_project/core/graph_dfs_task.dart';
-import 'package:dmiti_project/core/graph_prufer_task.dart';
-import 'package:dmiti_project/core/graph_task.dart';
-import 'package:dmiti_project/core/graph_visualizer.dart';
-import 'package:dmiti_project/core/tree_visualizer.dart';
-import 'package:dmiti_project/features/exam_screen/exam_screen.dart';
-import 'package:dmiti_project/features/info_profile.dart';
-import 'package:dmiti_project/features/user_profile.dart';
+import 'package:dmiti_project/core/algorithms/graph_tree/GraphWeightPath.dart';
+import 'package:dmiti_project/core/algorithms/graph_tree/NonBinaryTree.dart';
+import 'package:dmiti_project/core/graph_tree_tasks/graph_weight_path_task.dart';
+import 'package:dmiti_project/core/graph_tree_vizualize/tree_visualizer.dart';
+
 import 'package:dmiti_project/res/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:graphview/GraphView.dart';
 import '../features/education_screen/education_screen.dart';
 import '../features/study_screen/study_screen.dart';
 
@@ -45,16 +35,14 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
       isEducation: false,
       title: "Контроль",
     ),
-    // TreeWidget(
-    //   root: BinaryTree().head!,
-    // )
-    // //GraphTask(graph: UndirectedSmallGraph())
-    // PrueferCodeTaskScreen(graph: UndirectedSmallGraph())
-    DfsBfsTraversalTaskScreen(
-      graph: DirectedRandGraph(),
-      isDfs: true,
+    GraphWeightPathTask(
+      myGraph: GraphWeightPath(),
       isEducation: true,
     )
+    //TreePainterWidget(tree: NonBinaryTree()..fill_tree())
+    // GraphWeightWidget(
+    //   graphGenerator: GraphWeightFlow(),
+    // )
   ];
   int _currentIndex = 0;
 
