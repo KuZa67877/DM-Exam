@@ -1,5 +1,6 @@
 import './Node.dart';
 import './Tree.dart';
+import 'dart:collection';
 
 class BinaryTree extends Tree {
   @override
@@ -73,11 +74,29 @@ class BinaryTree extends Tree {
     if (node == null) return '';
     String result = node.name.toString();
     if (node.childs[0] != null) {
-      result += dfs(node.childs[0]);
+      result += ' ' + dfs(node.childs[0]);
     }
     if (node.childs[1] != null) {
-      result += dfs(node.childs[1]);
+      result += ' ' + dfs(node.childs[1]);
     }
     return result;
+  }
+
+  // Метод обхода в ширину (BFS)
+  String bfs(Node? root) {
+    if (root == null) return '';
+    Queue<Node?> queue = Queue<Node?>();
+    queue.add(root);
+    String result = '';
+
+    while (queue.isNotEmpty) {
+      Node? node = queue.removeFirst();
+      if (node != null) {
+        result += node.name.toString() + ' ';
+        if (node.childs[0] != null) queue.add(node.childs[0]);
+        if (node.childs[1] != null) queue.add(node.childs[1]);
+      }
+    }
+    return result.trim();
   }
 }

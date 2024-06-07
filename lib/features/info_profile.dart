@@ -54,7 +54,8 @@ class _InfoProfileState extends State<InfoProfile> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 15),
-                    child: Text("2023", style: getTheme().textTheme.bodyLarge),
+                    child: Text("2023-2024",
+                        style: getTheme().textTheme.bodyLarge),
                   )
                 ],
               ),

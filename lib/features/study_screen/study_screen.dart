@@ -203,12 +203,12 @@ class _StudyScreenState extends State<StudyScreen> {
                                 isEducation: false,
                               )
                             : i == 12
-                                ? DfsBfsTraversalTaskScreen(
+                                ? DfsTraversalTaskScreen(
                                     tree: BinaryTree(),
                                     isDfs: true,
                                     isEducation: false)
                                 : i == 13
-                                    ? DfsBfsTraversalTaskScreen(
+                                    ? DfsTraversalTaskScreen(
                                         tree: BinaryTree(),
                                         isDfs: false,
                                         isEducation: false)

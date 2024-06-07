@@ -93,14 +93,11 @@ class GraphWeightFlow extends GraphWeight {
         // Создаем новую LinkedHashMap из отсортированных пар
         LinkedHashMap<int, int> sortedMap =
             LinkedHashMap.fromEntries(sortedEntries);
-        print(sortedMap);
         for (var vertexes in sortedMap.entries) {
           //проверяем, нет ли уже обратного пути
           bool fl = w_graph[pair.key]?.containsKey(vertexes.key) ?? false;
           //проверка, можно ли вообще в эту вершину путь построить
           if ((neighbours[vertexes.key]?.contains(pair.key) ?? false) && !fl) {
-            print(vertexes.key);
-            print(pair.key);
             w_graph[vertexes.key]![pair.key] = random.nextInt(15) + 4;
 
             vertex_to[pair.key] = (vertex_to[pair.key] ?? 0) + 1;
@@ -137,18 +134,19 @@ class GraphWeightFlow extends GraphWeight {
     }
   }
 
-  int dfs(int u, int t, int cMin, List<bool> visited) {
+  int dfs(int u, int t, int cMin, List<bool> visited,
+      Map<int, Map<int, int>> copy) {
     if (u == t) {
       return cMin;
     }
     visited[u] = true;
 
-    for (var v in w_graph[u]!.keys) {
-      if (!visited[v] && w_graph[u]![v]! > 0) {
-        int delta = dfs(v, t, min(cMin, w_graph[u]![v]!), visited);
+    for (var v in copy[u]!.keys) {
+      if (!visited[v] && copy[u]![v]! > 0) {
+        int delta = dfs(v, t, min(cMin, copy[u]![v]!), visited, copy);
         if (delta > 0) {
-          w_graph[u]![v] = w_graph[u]![v]! - delta;
-          w_graph[v]?[u] = (w_graph[v]?[u] ?? 0) + delta;
+          copy[u]![v] = copy[u]![v]! - delta;
+          copy[v]?[u] = (copy[v]?[u] ?? 0) + delta;
           return delta;
         }
       }
@@ -164,15 +162,21 @@ class GraphWeightFlow extends GraphWeight {
     List<bool> visited = List.filled(12, false);
     var max;
 
+    Map<int, Map<int, int>> copy = {};
+    w_graph.forEach((key, value) {
+      copy[key] = Map<int, int>.from(value);
+    });
+
     while (true) {
       max = 10 ^ 6;
       visited = List.filled(12, false);
-      int flow = dfs(source, sink, max, visited);
+      int flow = dfs(source, sink, max, visited, copy);
       if (flow == 0) {
         break;
       }
       maxFlow += flow;
     }
+    print(copy);
     return maxFlow;
   }
 }

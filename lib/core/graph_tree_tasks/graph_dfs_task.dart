@@ -10,12 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:dmiti_project/core/graph_tree_vizualize/graph_visualizer.dart';
 import 'package:dmiti_project/res/colors.dart';
 
-class DfsBfsTraversalTaskScreen extends StatefulWidget {
+class DfsTraversalTaskScreen extends StatefulWidget {
   final BinaryTree tree;
   final bool isDfs;
   final bool isEducation;
 
-  DfsBfsTraversalTaskScreen(
+  DfsTraversalTaskScreen(
       {Key? key,
       required this.tree,
       required this.isDfs,
@@ -23,21 +23,22 @@ class DfsBfsTraversalTaskScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  _DfsBfsTraversalTaskScreenState createState() =>
-      _DfsBfsTraversalTaskScreenState();
+  _DfsTraversalTaskScreenState createState() => _DfsTraversalTaskScreenState();
 }
 
-class _DfsBfsTraversalTaskScreenState extends State<DfsBfsTraversalTaskScreen> {
+class _DfsTraversalTaskScreenState extends State<DfsTraversalTaskScreen> {
   TextEditingController controller = TextEditingController();
-  String correctAnswer = "";
+  late String correctAnswer;
 
   @override
   void initState() {
     super.initState();
-    correctAnswer = widget.isDfs ? widget.tree.dfs(widget.tree.head) : "";
-    if (!widget.isDfs) {
-      // Реализация BFS
-      // correctAnswer = widget.tree.bfs(widget.tree.head); // Необходимо реализовать метод BFS
+    if (widget.isDfs) {
+      widget.tree.fill_tree(); // Добавляем заполнение дерева перед обходом
+      correctAnswer = widget.tree.dfs(widget.tree.head);
+    } else {
+      widget.tree.fill_tree(); // Добавляем заполнение дерева перед обходом
+      correctAnswer = widget.tree.bfs(widget.tree.head);
     }
   }
 
@@ -75,6 +76,9 @@ class _DfsBfsTraversalTaskScreenState extends State<DfsBfsTraversalTaskScreen> {
               width: 200,
               child: TreePainterWidget(tree: widget.tree),
             ),
+          ),
+          SizedBox(
+            height: 50,
           ),
           Text(
               style: getTheme().textTheme.bodyLarge,

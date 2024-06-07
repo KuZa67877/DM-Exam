@@ -15,7 +15,7 @@ class NonBinaryTree extends Tree {
     List<Node?> queue = [head];
     while (nodes.isNotEmpty) {
       Node? current = queue.removeAt(0);
-      int childCount = rand.nextInt(3) + 1; // Количество детей от 1 до 3
+      int childCount = rand.nextInt(2) + 1; // Количество детей от 1 до 2
       current?.childs = List.filled(childCount, null);
       for (int i = 0; i < childCount && nodes.isNotEmpty; i++) {
         Node newNode = Node(nodes.removeAt(0));
@@ -145,7 +145,6 @@ class NonBinaryTree extends Tree {
 
     int farthestNode = start;
     int maxDistance = 0;
-
     while (queue.isNotEmpty) {
       int node = queue.removeFirst();
       for (var neighbor in adjList[node]!) {

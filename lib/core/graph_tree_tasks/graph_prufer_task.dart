@@ -77,7 +77,7 @@ class _PrueferCodeTaskScreenState extends State<PrueferCodeTaskScreen> {
                 child: TreePainterWidget(tree: widget.myTree),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 200),
             Text(
               "Вычислите код Прюфера для заданного дерева",
               style: getTheme().textTheme.bodyLarge,

@@ -35,8 +35,11 @@ class _EducationScreenState extends State<EducationScreen> {
   void updateWidgets(String item) {
     setState(() {
       for (var i = 0; i < 17; i++) {
-        // Обновление для нового размера списка
         showWidgets[i] = item == getTaskName(i);
+      }
+      if (item == "Bfs" || item == "Dfs") {
+        showWidgets[13] = item == "Bfs";
+        showWidgets[14] = item == "Dfs";
       }
     });
   }
@@ -179,12 +182,12 @@ class _EducationScreenState extends State<EducationScreen> {
                                 isEducation: true,
                               )
                             : i == 13
-                                ? DfsBfsTraversalTaskScreen(
+                                ? DfsTraversalTaskScreen(
                                     tree: BinaryTree(),
                                     isDfs: false,
                                     isEducation: true)
                                 : i == 14
-                                    ? DfsBfsTraversalTaskScreen(
+                                    ? DfsTraversalTaskScreen(
                                         tree: BinaryTree(),
                                         isDfs: true,
                                         isEducation: true)

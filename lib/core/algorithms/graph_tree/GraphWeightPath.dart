@@ -34,7 +34,7 @@ class GraphWeightPath extends GraphWeight {
           !(was_yet ||
               was_reverse)) //если вершины не совпадают и два условия выше выполняются
       {
-        w_graph[min_to.key]?[min_in.key] = random.nextInt(5) + 3;
+        w_graph[min_to.key]?[min_in.key] = random.nextInt(12) + 3;
         vertexes_to[min_to.key] = (vertexes_to[min_to.key] ?? 0) + 1;
         vertexes_in[min_in.key] = (vertexes_in[min_in.key] ?? 0) + 1;
       } else {
@@ -54,7 +54,7 @@ class GraphWeightPath extends GraphWeight {
           if (min_to.key == ver_in.key || (was_yet || was_reverse))
             continue;
           else {
-            w_graph[min_to.key]?[ver_in.key] = random.nextInt(5) + 3;
+            w_graph[min_to.key]?[ver_in.key] = random.nextInt(12) + 3;
             vertexes_to[min_to.key] = (vertexes_to[min_to.key] ?? 0) + 1;
             vertexes_in[ver_in.key] = (vertexes_in[ver_in.key] ?? 0) + 1;
             fl =
