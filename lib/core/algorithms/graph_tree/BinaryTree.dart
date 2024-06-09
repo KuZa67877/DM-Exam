@@ -99,4 +99,38 @@ class BinaryTree extends Tree {
     }
     return result.trim();
   }
+
+  List<String> bfs_steps(Node? root) {
+    if (root == null) return [];
+    Queue<Node?> queue = Queue<Node?>();
+    queue.add(root);
+    List<String> steps = [];
+
+    while (queue.isNotEmpty) {
+      Node? node = queue.removeFirst();
+      if (node != null) {
+        steps.add("Посещаем узел: ${node.name}");
+        if (node.childs[0] != null) queue.add(node.childs[0]);
+        if (node.childs[1] != null) queue.add(node.childs[1]);
+      }
+    }
+    return steps;
+  }
+
+  List<String> dfs_steps(Node? node) {
+    List<String> steps = [];
+    _dfs_helper(node, steps);
+    return steps;
+  }
+
+  void _dfs_helper(Node? node, List<String> steps) {
+    if (node == null) return;
+    steps.add("Посещаем узел: ${node.name}");
+    if (node.childs[0] != null) {
+      _dfs_helper(node.childs[0], steps);
+    }
+    if (node.childs[1] != null) {
+      _dfs_helper(node.childs[1], steps);
+    }
+  }
 }

@@ -10,23 +10,19 @@ import 'package:flutter/material.dart';
 import 'package:dmiti_project/core/graph_tree_vizualize/graph_visualizer.dart';
 import 'package:dmiti_project/res/colors.dart';
 
-class DfsTraversalTaskScreen extends StatefulWidget {
+class BfsTraversalTaskScreen extends StatefulWidget {
   final BinaryTree tree;
-  final bool isDfs;
   final bool isEducation;
 
-  DfsTraversalTaskScreen(
-      {Key? key,
-      required this.tree,
-      required this.isDfs,
-      required this.isEducation})
+  BfsTraversalTaskScreen(
+      {Key? key, required this.tree, required this.isEducation})
       : super(key: key);
 
   @override
-  _DfsTraversalTaskScreenState createState() => _DfsTraversalTaskScreenState();
+  _BfsTraversalTaskScreenState createState() => _BfsTraversalTaskScreenState();
 }
 
-class _DfsTraversalTaskScreenState extends State<DfsTraversalTaskScreen> {
+class _BfsTraversalTaskScreenState extends State<BfsTraversalTaskScreen> {
   TextEditingController controller = TextEditingController();
   late String correctAnswer;
   List<String> steps = [];
@@ -36,16 +32,9 @@ class _DfsTraversalTaskScreenState extends State<DfsTraversalTaskScreen> {
   void initState() {
     super.initState();
     widget.tree.fill_tree();
-    if (widget.isDfs) {
-      correctAnswer = widget.tree.dfs(widget.tree.head);
-      if (widget.isEducation) {
-        steps = widget.tree.dfs_steps(widget.tree.head);
-      }
-    } else {
-      correctAnswer = widget.tree.bfs(widget.tree.head);
-      if (widget.isEducation) {
-        steps = widget.tree.bfs_steps(widget.tree.head);
-      }
+    correctAnswer = widget.tree.bfs(widget.tree.head);
+    if (widget.isEducation) {
+      steps = widget.tree.bfs_steps(widget.tree.head);
     }
   }
 
@@ -98,9 +87,7 @@ class _DfsTraversalTaskScreenState extends State<DfsTraversalTaskScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    widget.isDfs
-                        ? "Метод обхода в глубину (DFS) заключается в посещении дочерних узлов каждого узла перед посещением его соседей."
-                        : "Метод обхода в ширину (BFS) заключается в посещении каждого уровня дерева по очереди, начиная с корня.",
+                    "Метод обхода в ширину (BFS) заключается в посещении каждого уровня дерева по очереди, начиная с корня.",
                     style: getTheme().textTheme.bodyLarge,
                   ),
                 ),
@@ -115,9 +102,7 @@ class _DfsTraversalTaskScreenState extends State<DfsTraversalTaskScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 40),
                 child: Text(
-                  widget.isDfs
-                      ? "Выполните обход графа в глубину (DFS)"
-                      : "Выполните обход графа в ширину (BFS)",
+                  "Выполните обход графа в ширину (BFS)",
                   style: getTheme().textTheme.bodyLarge,
                 ),
               ),

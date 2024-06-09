@@ -24,6 +24,8 @@ class GraphTask extends StatefulWidget {
 class _GraphTaskState extends State<GraphTask> {
   TextEditingController controller = TextEditingController();
   String correctAnswer = ""; // Переменная для хранения правильного ответа
+  List<String> steps = [];
+  int currentStep = 0;
 
   @override
   void initState() {
@@ -33,7 +35,28 @@ class _GraphTaskState extends State<GraphTask> {
     var analysis = widget.myTree.calculateTreeProperties();
     String centers = (analysis['centers'] as List).join(', ');
     correctAnswer = "${analysis['radius']} ${analysis['diameter']} $centers";
+
+    if (widget.isEducation) {
+      steps = widget.myTree.calculateTreePropertiesSteps();
+    }
+
     print(correctAnswer);
+  }
+
+  void nextStep() {
+    if (currentStep < steps.length - 1) {
+      setState(() {
+        currentStep++;
+      });
+    }
+  }
+
+  void previousStep() {
+    if (currentStep > 0) {
+      setState(() {
+        currentStep--;
+      });
+    }
   }
 
   void checkAnswer() {
@@ -97,38 +120,80 @@ class _GraphTaskState extends State<GraphTask> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints viewportConstraints) {
-          return Column(
-            children: [
-              Center(
-                child: Container(
-                  height: 250,
-                  width: 200,
-                  child: TreePainterWidget(tree: widget.myTree),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Center(
+              child: Container(
+                height: 250,
+                width: 200,
+                child: TreePainterWidget(tree: widget.myTree),
+              ),
+            ),
+            SizedBox(height: 50),
+            Text(
+              "Найдите диаметр, радиус и центр данного графа",
+              style: getTheme().textTheme.bodyLarge,
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20),
+            if (widget.isEducation) ...[
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "В графовой теории диаметр графа - это максимальное расстояние между всеми парами вершин в графе. Радиус графа - это минимальное расстояние от одной вершины графа до самой удаленной от нее вершины в графе. Центр графа - это множество вершин графа, имеющих минимальный эксцентриситет.",
+                  style: getTheme().textTheme.bodyLarge,
+                  textAlign: TextAlign.center,
                 ),
               ),
+              SizedBox(height: 20),
               Text(
-                "Найдите диаметр, радиус и центр данного графа",
+                steps[currentStep],
                 style: getTheme().textTheme.bodyLarge,
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: GraphTextField(
-                  controller: controller,
-                  isEducation: widget.isEducation,
-                  answer: correctAnswer,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    DefaultButton(
+                      info: "Предыдущий шаг",
+                      buttonColor: AppColors.green,
+                      onPressedFunction: previousStep,
+                      isSettings: false,
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    DefaultButton(
+                      info: "Следующий шаг",
+                      buttonColor: AppColors.green,
+                      onPressedFunction: nextStep,
+                      isSettings: false,
+                    ),
+                  ],
                 ),
               ),
+            ],
+            if (!widget.isEducation) ...[
+              GraphTextField(
+                controller: controller,
+                isEducation: widget.isEducation,
+                answer: correctAnswer,
+              ),
+              SizedBox(height: 20),
               DefaultButton(
                 info: "Отправить",
                 buttonColor: AppColors.green,
-                onPressedFunction: widget.isEducation ? () {} : checkAnswer,
+                onPressedFunction: checkAnswer,
                 isSettings: false,
               ),
             ],
-          );
-        },
+          ],
+        ),
       ),
     );
   }

@@ -22,6 +22,8 @@ class PrueferCodeTaskScreen extends StatefulWidget {
 class _PrueferCodeTaskScreenState extends State<PrueferCodeTaskScreen> {
   TextEditingController controller = TextEditingController();
   String correctAnswer = "";
+  List<String> steps = [];
+  int currentStep = 0;
 
   @override
   void initState() {
@@ -30,11 +32,30 @@ class _PrueferCodeTaskScreenState extends State<PrueferCodeTaskScreen> {
 
     if (widget.myTree.head != null) {
       correctAnswer = widget.myTree.generatePruferCode();
+      if (widget.isEducation) {
+        steps = widget.myTree.generatePruferCodeSteps();
+      }
       print(widget.myTree.calculateTreeProperties());
       print(correctAnswer);
     } else {
       correctAnswer = "";
       print("Ошибка: дерево пустое.");
+    }
+  }
+
+  void nextStep() {
+    if (currentStep < steps.length - 1) {
+      setState(() {
+        currentStep++;
+      });
+    }
+  }
+
+  void previousStep() {
+    if (currentStep > 0) {
+      setState(() {
+        currentStep--;
+      });
     }
   }
 
@@ -54,8 +75,8 @@ class _PrueferCodeTaskScreenState extends State<PrueferCodeTaskScreen> {
               isCorrect ? "Вы успешно решили задачу" : "Повторите попытку",
           buttonText: "Начать заново",
           onPressedFunction: () {
-            Navigator.of(context).pop(); // Закрыть диалоговое окно
-            controller.clear(); // Очистить поле ввода
+            Navigator.of(context).pop();
+            controller.clear();
           },
         );
       },
@@ -77,25 +98,66 @@ class _PrueferCodeTaskScreenState extends State<PrueferCodeTaskScreen> {
                 child: TreePainterWidget(tree: widget.myTree),
               ),
             ),
-            SizedBox(height: 200),
+            SizedBox(height: 50),
             Text(
               "Вычислите код Прюфера для заданного дерева",
               style: getTheme().textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 20),
-            GraphTextField(
-              controller: controller,
-              isEducation: widget.isEducation,
-              answer: correctAnswer,
-            ),
-            SizedBox(height: 20),
-            DefaultButton(
-              info: "Отправить",
-              buttonColor: AppColors.green,
-              onPressedFunction: widget.isEducation ? () {} : checkAnswer,
-              isSettings: false,
-            ),
+            if (widget.isEducation) ...[
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Код Прюфера представляет собой последовательность номеров вершин, образованную в результате последовательного удаления листьев из дерева.",
+                  style: getTheme().textTheme.bodyLarge,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+                steps[currentStep],
+                style: getTheme().textTheme.bodyLarge,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    DefaultButton(
+                      info: "Предыдущий шаг",
+                      buttonColor: AppColors.green,
+                      onPressedFunction: previousStep,
+                      isSettings: false,
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    DefaultButton(
+                      info: "Следующий шаг",
+                      buttonColor: AppColors.green,
+                      onPressedFunction: nextStep,
+                      isSettings: false,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+            if (!widget.isEducation) ...[
+              SizedBox(height: 20),
+              GraphTextField(
+                controller: controller,
+                isEducation: widget.isEducation,
+                answer: correctAnswer,
+              ),
+              SizedBox(height: 20),
+              DefaultButton(
+                info: "Отправить",
+                buttonColor: AppColors.green,
+                onPressedFunction: checkAnswer,
+                isSettings: false,
+              ),
+            ],
           ],
         ),
       ),

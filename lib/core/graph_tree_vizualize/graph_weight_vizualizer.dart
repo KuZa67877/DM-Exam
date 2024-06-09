@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:dmiti_project/core/algorithms/graph_tree/GraphWeightFlow.dart';
 import 'package:dmiti_project/res/colors.dart';
+import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';
 
 class GraphWeightWidget extends StatelessWidget {
@@ -30,10 +31,6 @@ class GraphPainter extends CustomPainter {
     final paint = Paint()
       ..color = AppColors.green
       ..style = PaintingStyle.fill;
-
-    // final textPaint = Paint()
-    //   ..color = Colors.white
-    //   ..style = PaintingStyle.fill;
 
     final radius = 15.0;
     final centerX = size.width / 2;
@@ -81,17 +78,20 @@ class GraphPainter extends CustomPainter {
             ..style = PaintingStyle.stroke
             ..strokeWidth = 2.0,
         );
+
         // Рисуем стрелку
         drawArrow(canvas, startAdjusted, endAdjusted);
 
-        // Рисуем вес ребра
-        final middle = Offset(
-          (startAdjusted.dx + endAdjusted.dx) / 2,
-          (startAdjusted.dy + endAdjusted.dy) / 2,
+        // Новая позиция для веса ребра (четверть от начала ребра)
+        final weightPosition = Offset(
+          startAdjusted.dx + (endAdjusted.dx - startAdjusted.dx) * 0.25,
+          startAdjusted.dy + (endAdjusted.dy - startAdjusted.dy) * 0.25,
         );
+
+        // Рисуем вес ребра
         final weightText = edges[edge].toString();
         final weightTextSpan =
-            TextSpan(text: weightText, style: TextStyle(color: Colors.red));
+            TextSpan(text: weightText, style: getTheme().textTheme.labelLarge);
         final weightTextPainter = TextPainter(
           text: weightTextSpan,
           textDirection: TextDirection.ltr,
@@ -99,7 +99,9 @@ class GraphPainter extends CustomPainter {
         );
         weightTextPainter.layout(maxWidth: radius * 2);
         weightTextPainter.paint(
-            canvas, Offset(middle.dx - radius / 2, middle.dy - radius / 2));
+            canvas,
+            Offset(weightPosition.dx - radius / 2,
+                weightPosition.dy - radius / 2));
       }
     }
 

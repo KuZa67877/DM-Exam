@@ -10,6 +10,7 @@ import 'package:dmiti_project/core/algorithms/transfer_num_system_classes.dart';
 import 'package:dmiti_project/core/algorithms/horner_classes.dart';
 import 'package:dmiti_project/core/drop_down_menu.dart';
 import 'package:dmiti_project/core/full_task.dart';
+import 'package:dmiti_project/core/graph_tree_tasks/graph_bfs_task.dart';
 import 'package:dmiti_project/core/graph_tree_tasks/graph_dfs_task.dart';
 import 'package:dmiti_project/core/graph_tree_tasks/graph_prufer_task.dart';
 import 'package:dmiti_project/core/graph_tree_tasks/graph_task.dart';
@@ -182,10 +183,10 @@ class _EducationScreenState extends State<EducationScreen> {
                                 isEducation: true,
                               )
                             : i == 13
-                                ? DfsTraversalTaskScreen(
+                                ? BfsTraversalTaskScreen(
                                     tree: BinaryTree(),
-                                    isDfs: false,
-                                    isEducation: true)
+                                    isEducation: true,
+                                  )
                                 : i == 14
                                     ? DfsTraversalTaskScreen(
                                         tree: BinaryTree(),

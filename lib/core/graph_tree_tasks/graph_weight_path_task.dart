@@ -23,6 +23,8 @@ class GraphWeightPathTask extends StatefulWidget {
 class _GraphWeightPathTaskState extends State<GraphWeightPathTask> {
   List<List<TextEditingController>> controllers = [];
   late List<List<int>> correctAnswer;
+  List<String> steps = [];
+  int currentStep = 0;
 
   @override
   void initState() {
@@ -31,6 +33,10 @@ class _GraphWeightPathTaskState extends State<GraphWeightPathTask> {
     for (int i = 0; i < correctAnswer.length; i++) {
       controllers.add(List.generate(
           correctAnswer[i].length, (index) => TextEditingController()));
+    }
+
+    if (widget.isEducation) {
+      steps = widget.myGraph.findPathSteps();
     }
   }
 
@@ -42,6 +48,22 @@ class _GraphWeightPathTaskState extends State<GraphWeightPathTask> {
       }
     }
     super.dispose();
+  }
+
+  void nextStep() {
+    if (currentStep < steps.length - 1) {
+      setState(() {
+        currentStep++;
+      });
+    }
+  }
+
+  void previousStep() {
+    if (currentStep > 0) {
+      setState(() {
+        currentStep--;
+      });
+    }
   }
 
   void checkAnswer() {
@@ -101,29 +123,48 @@ class _GraphWeightPathTaskState extends State<GraphWeightPathTask> {
                 "Найдите кратчайший путь для каждой вершины",
                 style: getTheme().textTheme.bodyLarge,
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: Column(
-                  children: List.generate(correctAnswer.length, (i) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(correctAnswer[i].length, (j) {
-                        return Container(
-                          width: 50,
-                          height: 50,
-                          margin: EdgeInsets.all(4),
-                          child: FieldCell(
-                            answer: correctAnswer[i][j],
-                            controller: controllers[i][j],
-                            isExample: widget.isEducation,
-                            isEducation: widget.isEducation,
-                          ),
-                        );
-                      }),
-                    );
-                  }),
+              if (widget.isEducation) ...[
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "В теории графов кратчайший путь между двумя вершинами графа - это путь с наименьшим весом (суммой весов ребер) между этими вершинами.",
+                    style: getTheme().textTheme.bodyLarge,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30),
+                  child: Text(
+                    steps[currentStep],
+                    style: getTheme().textTheme.bodyLarge,
+                  ),
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      DefaultButton(
+                        info: "Предыдущий шаг",
+                        buttonColor: AppColors.green,
+                        onPressedFunction: previousStep,
+                        isSettings: false,
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      DefaultButton(
+                        info: "Следующий шаг",
+                        buttonColor: AppColors.green,
+                        onPressedFunction: nextStep,
+                        isSettings: false,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
               DefaultButton(
                 info: "Отправить",
                 buttonColor: AppColors.green,

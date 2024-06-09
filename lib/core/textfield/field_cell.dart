@@ -38,20 +38,21 @@ class _FieldCellState extends State<FieldCell> {
         textAlign: TextAlign.center,
         style: getTheme().textTheme.bodyLarge,
         decoration: InputDecoration(
-            hintText:
-                widget.isExample == true ? (widget.answer.toString()) : '',
+            hintText: widget.isExample ? widget.answer.toString() : '',
             hintStyle: getTheme().textTheme.bodyLarge,
             border: InputBorder.none,
             counterText: '',
             fillColor: _textFieldColor),
-        onSubmitted: (value) {
-          if (widget.isEducation) {
-            setState(() {
-              _textFieldColor = value == widget.answer.toString()
-                  ? AppColors.grayContainer
-                  : AppColors.red;
-            });
-          }
+        onTap: () {
+          setState(() {
+            _textFieldColor = AppColors.white;
+          });
+        },
+        onEditingComplete: () {
+          setState(() {
+            _textFieldColor = AppColors.grayContainer;
+          });
+          FocusScope.of(context).unfocus();
         },
       ),
     );

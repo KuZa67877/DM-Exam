@@ -3,25 +3,31 @@ import 'dart:math';
 import 'Tree.dart';
 import 'Node.dart';
 
-import 'dart:collection';
-import 'dart:math';
-
 class NonBinaryTree extends Tree {
+  int maxDepth = 4; // Максимальная глубина дерева
+
   @override
   void fill_tree() {
     generate_tree();
     var rand = Random();
     head = Node(nodes.removeAt(0));
-    List<Node?> queue = [head];
-    while (nodes.isNotEmpty) {
-      Node? current = queue.removeAt(0);
-      int childCount = rand.nextInt(2) + 1; // Количество детей от 1 до 2
-      current?.childs = List.filled(childCount, null);
-      for (int i = 0; i < childCount && nodes.isNotEmpty; i++) {
-        Node newNode = Node(nodes.removeAt(0));
-        print(newNode.name);
-        current?.childs[i] = newNode;
-        queue.add(newNode);
+    List<Map<String, dynamic>> queue = [
+      {'node': head, 'depth': 1}
+    ];
+    while (nodes.isNotEmpty && queue.isNotEmpty) {
+      var current = queue.removeAt(0);
+      Node? currentNode = current['node'];
+      int currentDepth = current['depth'];
+
+      if (currentDepth < maxDepth) {
+        int childCount = rand.nextInt(3) + 2; // Количество детей от 2 до 4
+        currentNode?.childs = List.filled(childCount, null);
+        for (int i = 0; i < childCount && nodes.isNotEmpty; i++) {
+          Node newNode = Node(nodes.removeAt(0));
+          print(newNode.name);
+          currentNode?.childs[i] = newNode;
+          queue.add({'node': newNode, 'depth': currentDepth + 1});
+        }
       }
     }
   }
@@ -38,7 +44,6 @@ class NonBinaryTree extends Tree {
     }
   }
 
-  // Новый метод для генерации кода Прюфера
   String generatePruferCode() {
     if (head == null) {
       return "";
@@ -77,6 +82,47 @@ class NonBinaryTree extends Tree {
     return pruferCode.join(" ");
   }
 
+  List<String> generatePruferCodeSteps() {
+    List<String> steps = [];
+    if (head == null) {
+      return steps;
+    }
+
+    Map<int, List<Node?>> adjList = {};
+    _createAdjList(head, adjList);
+
+    int n = adjList.length;
+    List<int> degree = List.filled(n + 1, 0);
+    for (int i = 1; i <= n; i++) {
+      if (adjList[i] != null) {
+        degree[i] = adjList[i]!.length;
+      }
+    }
+
+    Queue<int> leafQueue = Queue();
+    for (int i = 1; i <= n; i++) {
+      if (degree[i] == 1) {
+        leafQueue.add(i);
+      }
+    }
+
+    List<int> pruferCode = [];
+    for (int i = 0; i < n - 2; i++) {
+      int leaf = leafQueue.removeFirst();
+      int parent = _findParent(leaf, adjList);
+      pruferCode.add(parent);
+
+      steps.add("Удаляем лист ${leaf} с родителем ${parent}");
+      degree[parent]--;
+      if (degree[parent] == 1) {
+        leafQueue.add(parent);
+      }
+    }
+
+    steps.add("Полученный код Прюфера: ${pruferCode.join(" ")}");
+    return steps;
+  }
+
   void _createAdjList(Node? node, Map<int, List<Node?>> adjList) {
     if (node == null) return;
     if (!adjList.containsKey(node.name)) {
@@ -112,21 +158,17 @@ class NonBinaryTree extends Tree {
     Map<int, List<Node?>> adjList = {};
     _createAdjList(head, adjList);
 
-    // Первый BFS для нахождения самого удаленного узла (A)
     var firstBfs = _bfs(1, adjList);
     var farthestNodeA = firstBfs['farthestNode'];
     var distancesA = firstBfs['distances'];
 
-    // Второй BFS для нахождения другого самого удаленного узла (B)
     var secondBfs = _bfs(farthestNodeA, adjList);
     var diameter = secondBfs['maxDistance'];
     var farthestNodeB = secondBfs['farthestNode'];
     var distancesB = secondBfs['distances'];
 
-    // Радиус - это половина диаметра (округленная вверх)
     var radius = (diameter / 2).ceil();
 
-    // Центры - узлы, у которых расстояние до самого удаленного узла (B) равно радиусу
     var centers = [];
     for (var node in distancesB.keys) {
       if (distancesB[node] == radius) {
@@ -165,56 +207,44 @@ class NonBinaryTree extends Tree {
       'distances': distances
     };
   }
+
+  // Метод для пошагового нахождения радиуса, диаметра и центра(ов)
+  List<String> calculateTreePropertiesSteps() {
+    List<String> steps = [];
+    if (head == null) {
+      return steps;
+    }
+
+    Map<int, List<Node?>> adjList = {};
+    _createAdjList(head, adjList);
+
+    var firstBfs = _bfs(1, adjList);
+    var farthestNodeA = firstBfs['farthestNode'];
+    var distancesA = firstBfs['distances'];
+
+    steps.add(
+        "Выполняем первый BFS от корня дерева: найдена дальняя вершина $farthestNodeA");
+
+    var secondBfs = _bfs(farthestNodeA, adjList);
+    var diameter = secondBfs['maxDistance'];
+    var farthestNodeB = secondBfs['farthestNode'];
+    var distancesB = secondBfs['distances'];
+
+    steps.add(
+        "Выполняем второй BFS от вершины $farthestNodeA: найдена дальняя вершина $farthestNodeB и вычислен диаметр $diameter");
+
+    var radius = (diameter / 2).ceil();
+    steps.add("Радиус дерева равен $radius");
+
+    var centers = [];
+    for (var node in distancesB.keys) {
+      if (distancesB[node] == radius) {
+        centers.add(node);
+      }
+    }
+
+    steps.add("Центральные вершины дерева: ${centers.join(', ')}");
+
+    return steps;
+  }
 }
-
-
-// import 'dart:collection';
-// import 'dart:math';
-
-// class TreeGenerator {
-//   Map<int, Set<int>> treeData = {};
-
-//   TreeGenerator() {
-//     generateTree();
-//   }
-
-//   void generateTree() {
-//     var rng = Random();
-//     var allVertices = List.generate(
-//         11, (index) => index + 1); // Создаем список всех возможных вершин
-
-//     // Начинаем с центральной вершины
-//     int centralVertex = 1;
-//     treeData[centralVertex] = <int>{};
-
-//     // Добавляем первую ветвь к центральной вершине
-//     addBranch(rng, centralVertex, allVertices, treeData);
-
-//     // Удаляем центральную вершину из списка всех вершин, так как она уже была обработана
-//     allVertices.remove(centralVertex);
-
-//     // Продолжаем добавлять ветви до тех пор, пока все вершины не будут использованы
-//     while (allVertices.isNotEmpty) {
-//       int newParent = rng.nextInt(allVertices.length) +
-//           1; // Выбираем случайную вершину из оставшихся
-//       addBranch(rng, newParent, allVertices, treeData);
-//       allVertices.remove(newParent); // Удаляем использованную вершину из списка
-//     }
-//   }
-
-//   void addBranch(Random rng, int parent, List<int> remainingVertices,
-//       Map<int, Set<int>> treeData) {
-//     int child = remainingVertices[
-//         rng.nextInt(remainingVertices.length)]; // Выбираем случайного ребенка
-//     treeData[parent]?.add(child); // Добавляем ребро от родителя к ребенку
-//     treeData[child] = <int>{
-//       parent
-//     }; // Добавляем ребенка в дерево как потомка родителя
-//     remainingVertices
-//         .remove(child); // Удаляем использованного ребенка из списка
-//   }
-
-//   Map<int, Set<int>> getTree() {
-//     return treeData;
-//   }
-// }

@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:dmiti_project/core/algorithms/graph_tree/GraphWeightPath.dart';
 import 'package:dmiti_project/res/colors.dart'; // Импорт цветов
+import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';
 
 class GraphLittlePathWidget extends StatelessWidget {
@@ -79,7 +80,7 @@ class GraphPainter extends CustomPainter {
             .translate(-radius / 2, -radius / 2);
         final weightText = edges[edge].toString(); // Используем вес ребра
         final weightTextSpan =
-            TextSpan(style: TextStyle(color: Colors.red), text: weightText);
+            TextSpan(text: weightText, style: getTheme().textTheme.labelLarge);
         final weightTextPainter = TextPainter(
             text: weightTextSpan,
             textDirection: TextDirection.ltr,

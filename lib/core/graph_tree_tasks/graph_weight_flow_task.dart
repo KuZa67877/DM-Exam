@@ -19,18 +19,33 @@ class GraphWeightFlowTask extends StatefulWidget {
 
 class _GraphWeightFlowTaskState extends State<GraphWeightFlowTask> {
   TextEditingController controller = TextEditingController();
-  String correctAnswer = ""; // Переменная для хранения правильного ответа
+  String correctAnswer = "";
+  List<String> steps = [];
+  int currentStep = 0;
 
   @override
   void initState() {
     super.initState();
-    // Рассчитываем правильные значения для радиуса, диаметра и центра графа
-    // widget.myTree.generate_tree();
-    // var analysis = widget.myTree.calculateTreeProperties();
-    // String centers = (analysis['centers'] as List).join(', ');
-    // correctAnswer = "${analysis['radius']} ${analysis['diameter']} $centers";
-    correctAnswer = widget.myGraph.find_flow().toString();
-    print(correctAnswer);
+    correctAnswer = widget.myGraph.ford_fulkerson().toString();
+    if (widget.isEducation) {
+      steps = widget.myGraph.ford_fulkerson_steps();
+    }
+  }
+
+  void nextStep() {
+    if (currentStep < steps.length - 1) {
+      setState(() {
+        currentStep++;
+      });
+    }
+  }
+
+  void previousStep() {
+    if (currentStep > 0) {
+      setState(() {
+        currentStep--;
+      });
+    }
   }
 
   void checkAnswer() {
@@ -98,6 +113,20 @@ class _GraphWeightFlowTaskState extends State<GraphWeightFlowTask> {
         builder: (BuildContext context, BoxConstraints viewportConstraints) {
           return Column(
             children: [
+              if (widget.isEducation) ...[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Метод Форда-Фалкерсона заключается в следующем:\n"
+                    "1. Начинаем с нулевого потока.\n"
+                    "2. Находим путь от истока к стоку, вдоль которого еще можно увеличить поток.\n"
+                    "3. Увеличиваем поток по этому пути на возможную величину.\n"
+                    "4. Повторяем шаги 2 и 3, пока не удается найти путь для увеличения потока.\n"
+                    "На каждом шагу отображается текущий найденный поток, путь, по которому он идет, и текущий максимальный поток.",
+                    style: getTheme().textTheme.bodyLarge,
+                  ),
+                ),
+              ],
               Center(
                 child: Container(
                   height: 250,
@@ -111,20 +140,51 @@ class _GraphWeightFlowTaskState extends State<GraphWeightFlowTask> {
                 "Найдите максимальный поток для этого графа",
                 style: getTheme().textTheme.bodyLarge,
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: GraphTextField(
-                  controller: controller,
-                  isEducation: widget.isEducation,
-                  answer: correctAnswer,
+              if (widget.isEducation) ...[
+                Text(
+                  steps[currentStep],
+                  style: getTheme().textTheme.bodyLarge,
                 ),
-              ),
-              DefaultButton(
-                info: "Отправить",
-                buttonColor: AppColors.green,
-                onPressedFunction: widget.isEducation ? () {} : checkAnswer,
-                isSettings: false,
-              ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      DefaultButton(
+                        info: "Предыдущий шаг",
+                        buttonColor: AppColors.green,
+                        onPressedFunction: previousStep,
+                        isSettings: false,
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      DefaultButton(
+                        info: "Следующий шаг",
+                        buttonColor: AppColors.green,
+                        onPressedFunction: nextStep,
+                        isSettings: false,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+              if (!widget.isEducation) ...[
+                Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: GraphTextField(
+                    controller: controller,
+                    isEducation: widget.isEducation,
+                    answer: correctAnswer,
+                  ),
+                ),
+                DefaultButton(
+                  info: "Отправить",
+                  buttonColor: AppColors.green,
+                  onPressedFunction: checkAnswer,
+                  isSettings: false,
+                ),
+              ],
             ],
           );
         },

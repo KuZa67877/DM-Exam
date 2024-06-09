@@ -154,7 +154,7 @@ class GraphWeightFlow extends GraphWeight {
     return 0;
   }
 
-  int find_flow() {
+  int ford_fulkerson() {
     int source = 1; // Источник (start)
     int sink = 11; // Сток (finish)
     int maxFlow = 0;
@@ -177,6 +177,119 @@ class GraphWeightFlow extends GraphWeight {
       maxFlow += flow;
     }
     print(copy);
+    return maxFlow;
+  }
+
+  List<String> ford_fulkerson_steps() {
+    int source = 1; // Источник (start)
+    int sink = 11; // Сток (finish)
+    int maxFlow = 0;
+    List<String> steps = [];
+
+    List<bool> visited = List.filled(12, false);
+    var max;
+
+    Map<int, Map<int, int>> copy = {};
+    w_graph.forEach((key, value) {
+      copy[key] = Map<int, int>.from(value);
+    });
+
+    while (true) {
+      max = 10 ^ 6;
+      visited = List.filled(12, false);
+      List<int> path = [];
+      int flow = dfs_with_path(source, sink, max, visited, copy, path);
+      if (flow == 0) {
+        break;
+      }
+      maxFlow += flow;
+      steps.add(
+          "Найден поток: $flow, путь: ${path.join(' -> ')}, текущий максимальный поток: $maxFlow");
+    }
+    steps.add("Итоговый максимальный поток: $maxFlow");
+    return steps;
+  }
+
+  int dfs_with_path(int u, int t, int cMin, List<bool> visited,
+      Map<int, Map<int, int>> copy, List<int> path) {
+    path.add(u);
+    if (u == t) {
+      return cMin;
+    }
+    visited[u] = true;
+
+    for (var v in copy[u]!.keys) {
+      if (!visited[v] && copy[u]![v]! > 0) {
+        int delta =
+            dfs_with_path(v, t, min(cMin, copy[u]![v]!), visited, copy, path);
+        if (delta > 0) {
+          copy[u]![v] = copy[u]![v]! - delta;
+          copy[v]?[u] = (copy[v]?[u] ?? 0) + delta;
+          return delta;
+        }
+      }
+    }
+    path.removeLast();
+    return 0;
+  }
+
+  bool bfs(
+      Map<int, Map<int, int>> graph, int source, int sink, List<int> parent) {
+    List<bool> visited = List.filled(graph.length + 1, false);
+    Queue<int> queue = Queue<int>();
+    queue.add(source);
+    visited[source] = true;
+
+    while (queue.isNotEmpty) {
+      int u = queue.removeFirst();
+
+      for (var v in graph[u]!.keys) {
+        if (!visited[v] && graph[u]![v]! > 0) {
+          queue.add(v);
+          visited[v] = true;
+          parent[v] = u;
+          if (v == sink) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  int edmonds_karp() {
+    int maxFlow = 0;
+    int source = 1; // Источник (start)
+    int sink = 11;
+
+    // Создание копии графа
+    Map<int, Map<int, int>> copy = {};
+    w_graph.forEach((key, value) {
+      copy[key] = Map<int, int>.from(value);
+    });
+
+    List<int> parent = List.filled(w_graph.length + 1, -1);
+
+    while (bfs(copy, source, sink, parent)) {
+      int pathFlow = 10 ^ 6;
+      int v = sink;
+
+      while (v != source) {
+        int u = parent[v];
+        pathFlow = min(pathFlow, copy[u]![v]!);
+        v = parent[v];
+      }
+
+      v = sink;
+      while (v != source) {
+        int u = parent[v];
+        copy[u]![v] = copy[u]![v]! - pathFlow;
+        copy[v]?[u] = (copy[v]?[u] ?? 0) + pathFlow;
+        v = parent[v];
+      }
+
+      maxFlow += pathFlow;
+    }
     return maxFlow;
   }
 }
