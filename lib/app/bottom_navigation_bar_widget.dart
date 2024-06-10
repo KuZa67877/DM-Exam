@@ -1,6 +1,8 @@
 import 'package:dmiti_project/core/algorithms/graph_tree/GraphWeightPath.dart';
+import 'package:dmiti_project/core/algorithms/graph_tree/Graphs.dart';
 import 'package:dmiti_project/core/algorithms/graph_tree/NonBinaryTree.dart';
 import 'package:dmiti_project/core/graph_tree_tasks/graph_weight_path_task.dart';
+import 'package:dmiti_project/core/graph_tree_vizualize/graph_diametr_visualizer.dart';
 import 'package:dmiti_project/core/graph_tree_vizualize/tree_visualizer.dart';
 import 'package:dmiti_project/features/info_profile.dart';
 
@@ -36,7 +38,10 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
       isEducation: false,
       title: "Контроль",
     ),
-    InfoProfile()
+    // GraphDiametrWidget(
+    //   graph: MyGraph(),
+    // )
+    const InfoProfile()
   ];
   int _currentIndex = 0;
 

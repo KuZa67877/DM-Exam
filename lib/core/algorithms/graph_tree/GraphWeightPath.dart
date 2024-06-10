@@ -7,7 +7,6 @@ class GraphWeightPath extends GraphWeight {
   Map<int, int> vertexes_to = {};
   //список с количеством входом в вершины
   Map<int, int> vertexes_in = {};
-
   @override
   void generate_graph() {
     var random = Random();
@@ -92,26 +91,29 @@ class GraphWeightPath extends GraphWeight {
   }
 
   List<List<int>> find_path() {
-    int len = w_graph.length; // количество вершин
-    List<List<int>> paths = List.generate(len, (i) => List.filled(len, 10 ^ 6));
+    int len = w_graph.length;
+    int infinity =
+        1000000000; // Большое конечное значение, используемое вместо бесконечности
+    List<List<int>> paths =
+        List.generate(len, (i) => List.filled(len, infinity));
 
-    // Заполняем матрицу путей
     for (int i = 1; i <= len; i++) {
       for (int j = 1; j <= len; j++) {
         if (i == j) {
-          paths[i - 1][j - 1] = 0; // путь самой в себя
+          paths[i - 1][j - 1] = 0;
         } else if (w_graph[i]?.containsKey(j) == true) {
           paths[i - 1][j - 1] = w_graph[i]![j]!;
         }
       }
     }
 
-    // Алгоритм Флойда-Уоршелла для нахождения кратчайших путей
     for (int k = 0; k < len; k++) {
       for (int i = 0; i < len; i++) {
         for (int j = 0; j < len; j++) {
-          if (paths[i][j] > paths[i][k] + paths[k][j]) {
-            paths[i][j] = paths[i][k] + paths[k][j];
+          if (paths[i][k] < infinity && paths[k][j] < infinity) {
+            if (paths[i][j] > paths[i][k] + paths[k][j]) {
+              paths[i][j] = paths[i][k] + paths[k][j];
+            }
           }
         }
       }

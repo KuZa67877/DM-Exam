@@ -6,8 +6,9 @@ import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';
 
 class GraphLittlePathWidget extends StatelessWidget {
-  GraphLittlePathWidget({Key? key}) : super(key: key);
-  GraphWeightPath graphWeight = GraphWeightPath();
+  final GraphWeightPath graphWeight;
+  GraphLittlePathWidget({Key? key, required this.graphWeight})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

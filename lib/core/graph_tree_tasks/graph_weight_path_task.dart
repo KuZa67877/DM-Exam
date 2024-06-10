@@ -1,6 +1,7 @@
 import 'package:dmiti_project/core/alert_dialog.dart';
 import 'package:dmiti_project/core/algorithms/graph_tree/GraphWeightFlow.dart';
 import 'package:dmiti_project/core/algorithms/graph_tree/GraphWeightPath.dart';
+import 'package:dmiti_project/core/algorithms/graph_tree/Graphs.dart';
 import 'package:dmiti_project/core/default_button.dart';
 import 'package:dmiti_project/core/graph_tree_vizualize/graph_weight_vizualizer.dart';
 import 'package:dmiti_project/core/graph_tree_vizualize/little_path_graph_vizualization.dart';
@@ -34,7 +35,8 @@ class _GraphWeightPathTaskState extends State<GraphWeightPathTask> {
       controllers.add(List.generate(
           correctAnswer[i].length, (index) => TextEditingController()));
     }
-
+    widget.myGraph.print_graph();
+    print(correctAnswer);
     if (widget.isEducation) {
       steps = widget.myGraph.findPathSteps();
     }
@@ -115,13 +117,44 @@ class _GraphWeightPathTaskState extends State<GraphWeightPathTask> {
                   child: Container(
                     height: 250,
                     width: 200,
-                    child: GraphLittlePathWidget(),
+                    child: GraphLittlePathWidget(
+                      graphWeight: widget.myGraph,
+                    ),
                   ),
                 ),
               ),
               Text(
                 "Найдите кратчайший путь для каждой вершины",
                 style: getTheme().textTheme.bodyLarge,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: Column(
+                  children: List.generate(correctAnswer.length, (i) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(correctAnswer[i].length, (j) {
+                        return Container(
+                          width: 50,
+                          height: 50,
+                          margin: EdgeInsets.all(4),
+                          child: FieldCell(
+                            answer: correctAnswer[i][j],
+                            controller: controllers[i][j],
+                            isExample: widget.isEducation,
+                            isEducation: widget.isEducation,
+                          ),
+                        );
+                      }),
+                    );
+                  }),
+                ),
+              ),
+              DefaultButton(
+                info: "Отправить",
+                buttonColor: AppColors.green,
+                onPressedFunction: widget.isEducation ? () {} : checkAnswer,
+                isSettings: false,
               ),
               if (widget.isEducation) ...[
                 SizedBox(height: 20),
@@ -165,12 +198,6 @@ class _GraphWeightPathTaskState extends State<GraphWeightPathTask> {
                   ),
                 ),
               ],
-              DefaultButton(
-                info: "Отправить",
-                buttonColor: AppColors.green,
-                onPressedFunction: widget.isEducation ? () {} : checkAnswer,
-                isSettings: false,
-              ),
             ],
           );
         },

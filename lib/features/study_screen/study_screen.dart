@@ -2,7 +2,6 @@ import 'package:dmiti_project/core/algorithms/graph_tree/BinaryTree.dart';
 import 'package:dmiti_project/core/algorithms/graph_tree/GraphWeightFlow.dart';
 import 'package:dmiti_project/core/algorithms/graph_tree/GraphWeightPath.dart';
 import 'package:dmiti_project/core/algorithms/graph_tree/NonBinaryTree.dart';
-import 'package:dmiti_project/core/algorithms/graph_tree/UndirectedSmallGraph.dart';
 import 'package:dmiti_project/core/algorithms/task_interface.dart';
 import 'package:dmiti_project/core/algorithms/evklid_classes.dart';
 import 'package:dmiti_project/core/algorithms/quick_pow_classes.dart';
@@ -80,7 +79,7 @@ class _StudyScreenState extends State<StudyScreen> {
       case 9:
         return AppStrings.horner;
       case 10:
-        return "Диаметр графа";
+        return "Диаметр дерева";
       case 11:
         return "Код Прюфера";
       case 12:
@@ -177,7 +176,7 @@ class _StudyScreenState extends State<StudyScreen> {
                   AppStrings.quickPow,
                   AppStrings.bezu,
                   AppStrings.horner,
-                  "Диаметр графа",
+                  "Диаметр дерева",
                   "Код Прюфера",
                   "Bfs",
                   "Dfs",
