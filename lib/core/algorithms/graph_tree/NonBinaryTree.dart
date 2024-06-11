@@ -158,20 +158,22 @@ class NonBinaryTree extends Tree {
     Map<int, List<Node?>> adjList = {};
     _createAdjList(head, adjList);
 
-    var firstBfs = _bfs(1, adjList);
-    var farthestNodeA = firstBfs['farthestNode'];
-    var distancesA = firstBfs['distances'];
+    int diameter = 0;
+    int radius = 10 ^ 6;
+    List<int> centers = [];
 
-    var secondBfs = _bfs(farthestNodeA, adjList);
-    var diameter = secondBfs['maxDistance'];
-    var farthestNodeB = secondBfs['farthestNode'];
-    var distancesB = secondBfs['distances'];
+    for (var node in adjList.keys) {
+      var bfsResult = _bfs(node, adjList);
+      var maxDistance = bfsResult['maxDistance'];
 
-    var radius = (diameter / 2).ceil();
+      if (maxDistance > diameter) {
+        diameter = maxDistance;
+      }
 
-    var centers = [];
-    for (var node in distancesB.keys) {
-      if (distancesB[node] == radius) {
+      if (maxDistance < radius) {
+        radius = maxDistance;
+        centers = [node];
+      } else if (maxDistance == radius) {
         centers.add(node);
       }
     }

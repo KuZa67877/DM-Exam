@@ -5,15 +5,17 @@ import 'package:flutter/material.dart';
 //Переписать следующим образом: передавать в клетку правильный ответ, в случае, если бул равен тру, вставлять ответ в ячейку, иначе делать длину ввода в качестве длины числа
 class GraphTextField extends StatefulWidget {
   final bool isEducation;
+  final bool isStudy;
   final TextEditingController controller;
   final String answer;
 
-  const GraphTextField({
-    Key? key,
-    required this.controller,
-    required this.isEducation,
-    required this.answer,
-  }) : super(key: key);
+  const GraphTextField(
+      {Key? key,
+      required this.controller,
+      required this.isEducation,
+      required this.answer,
+      required this.isStudy})
+      : super(key: key);
 
   @override
   State<GraphTextField> createState() => _GraphTextFieldState();
@@ -55,7 +57,7 @@ class _GraphTextFieldState extends State<GraphTextField> {
           fillColor: _textFieldColor,
         ),
         onSubmitted: (value) {
-          if (widget.isEducation) {
+          if (widget.isStudy) {
             setState(() {
               _textFieldColor = value == widget.answer
                   ? AppColors.grayContainer

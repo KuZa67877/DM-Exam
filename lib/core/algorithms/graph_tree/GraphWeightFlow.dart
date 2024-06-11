@@ -292,4 +292,64 @@ class GraphWeightFlow extends GraphWeight {
     }
     return maxFlow;
   }
+
+  List<String> edmonds_karp_steps() {
+    int maxFlow = 0;
+    int source = 1; // Источник (start)
+    int sink = 11;
+    List<String> steps = [];
+
+    // Создание копии графа
+    Map<int, Map<int, int>> copy = {};
+    w_graph.forEach((key, value) {
+      copy[key] = Map<int, int>.from(value);
+    });
+
+    List<int> parent = List.filled(w_graph.length + 1, -1);
+
+    while (bfs(copy, source, sink, parent)) {
+      int pathFlow = 10 ^ 6;
+      String step = "";
+
+      // Найти минимальный поток в найденном пути
+      int v = sink;
+      while (v != source) {
+        int u = parent[v];
+        pathFlow = min(pathFlow, copy[u]![v]!);
+        v = parent[v];
+      }
+
+      // Обновить емкости ребер и обратных ребер
+      v = sink;
+      while (v != source) {
+        int u = parent[v];
+        copy[u]![v] = copy[u]![v]! - pathFlow;
+        if (copy.containsKey(v) && copy[v]!.containsKey(u)) {
+          copy[v]![u] = copy[v]![u]! + pathFlow;
+        } else {
+          if (!copy.containsKey(v)) {
+            copy[v] = {};
+          }
+          copy[v]![u] = pathFlow;
+        }
+        v = parent[v];
+      }
+
+      maxFlow += pathFlow;
+
+      // Формирование шага
+      step += "Текущий максимальный поток: $maxFlow\n";
+      step += "Путь: ";
+      int node = sink;
+      while (node != source) {
+        step += "$node <- ";
+        node = parent[node];
+      }
+      step += "$source\n";
+      step += "Добавленный поток: $pathFlow\n";
+      steps.add(step);
+    }
+
+    return steps;
+  }
 }

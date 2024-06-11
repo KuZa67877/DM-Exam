@@ -8,10 +8,14 @@ import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';
 
 class GraphWeightFlowTask extends StatefulWidget {
+  final bool isStudy;
   final GraphWeightFlow myGraph;
   final bool isEducation;
   const GraphWeightFlowTask(
-      {super.key, required this.myGraph, required this.isEducation});
+      {super.key,
+      required this.myGraph,
+      required this.isEducation,
+      required this.isStudy});
 
   @override
   State<GraphWeightFlowTask> createState() => _GraphWeightFlowTaskState();
@@ -19,91 +23,105 @@ class GraphWeightFlowTask extends StatefulWidget {
 
 class _GraphWeightFlowTaskState extends State<GraphWeightFlowTask> {
   TextEditingController controller = TextEditingController();
-  String correctAnswer = "";
-  List<String> steps = [];
-  int currentStep = 0;
+  String correctAnswerFordFulkerson = "";
+  String correctAnswerEdmondsKarp = "";
+  List<String> stepsFordFulkerson = [];
+  List<String> stepsEdmondsKarp = [];
+  int currentStepFordFulkerson = 0;
+  int currentStepEdmondsKarp = 0;
 
   @override
   void initState() {
     super.initState();
-    correctAnswer = widget.myGraph.ford_fulkerson().toString();
+    correctAnswerFordFulkerson = widget.myGraph.ford_fulkerson().toString();
+    correctAnswerEdmondsKarp = widget.myGraph.edmonds_karp().toString();
     if (widget.isEducation) {
-      steps = widget.myGraph.ford_fulkerson_steps();
+      stepsFordFulkerson = widget.myGraph.ford_fulkerson_steps();
+      stepsEdmondsKarp = widget.myGraph.edmonds_karp_steps();
     }
   }
 
-  void nextStep() {
-    if (currentStep < steps.length - 1) {
+  void nextStepFordFulkerson() {
+    if (currentStepFordFulkerson < stepsFordFulkerson.length - 1) {
       setState(() {
-        currentStep++;
+        currentStepFordFulkerson++;
       });
     }
   }
 
-  void previousStep() {
-    if (currentStep > 0) {
+  void previousStepFordFulkerson() {
+    if (currentStepFordFulkerson > 0) {
       setState(() {
-        currentStep--;
+        currentStepFordFulkerson--;
+      });
+    }
+  }
+
+  void nextStepEdmondsKarp() {
+    if (currentStepEdmondsKarp < stepsEdmondsKarp.length - 1) {
+      setState(() {
+        currentStepEdmondsKarp++;
+      });
+    }
+  }
+
+  void previousStepEdmondsKarp() {
+    if (currentStepEdmondsKarp > 0) {
+      setState(() {
+        currentStepEdmondsKarp--;
       });
     }
   }
 
   void checkAnswer() {
-    String userInput =
-        controller.text.trim(); // Получаем введенный пользователем текст
-    List<String> answers = correctAnswer
-        .split(" ")
-        .map((e) => e.trim())
-        .toList(); // Разбиваем строку на отдельные ответы
-    bool isCorrect = true; // Предполагаем, что ответ верный
+    String userInput = controller.text.trim();
+    List<String> answersFordFulkerson =
+        correctAnswerFordFulkerson.split(" ").map((e) => e.trim()).toList();
+    List<String> answersEdmondsKarp =
+        correctAnswerEdmondsKarp.split(" ").map((e) => e.trim()).toList();
+    bool isCorrectFordFulkerson =
+        checkCorrectness(userInput, answersFordFulkerson);
+    bool isCorrectEdmondsKarp = checkCorrectness(userInput, answersEdmondsKarp);
 
-    // Проверяем, что введено столько же значений, сколько требуется
-    if (answers.length != userInput.split(" ").length) {
-      isCorrect = false; // Если введено меньше значений, считаем ответ неверным
-    } else {
-      // Сравниваем введенные данные с правильными
-      for (int i = 0; i < answers.length; i++) {
-        String userInputPart =
-            userInput.split(" ")[i].trim(); // Получаем часть введенного ответа
-        String correctAnswerPart =
-            answers[i]; // Получаем соответствующую часть правильного ответа
-
-        // Проверяем, что введенное значение является числом или совпадает с названием центра
-        if (correctAnswerPart == "Центр") {
-          if (userInputPart != correctAnswerPart) {
-            isCorrect = false;
-          }
-        } else {
-          if (userInputPart.isNotEmpty &&
-              RegExp(r'^\d+$').hasMatch(userInputPart)) {
-            if (int.parse(userInputPart) != int.parse(correctAnswerPart)) {
-              isCorrect = false;
-            }
-          } else {
-            isCorrect = false; // Если введено не число, считаем ответ неверным
-          }
-        }
-      }
-    }
-
-    // Показываем результат в диалоговом окне
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return DefaultDialog(
           context: context,
-          colorButton: isCorrect ? AppColors.green : AppColors.redBackground,
-          mainText: isCorrect ? "Успех" : "Неудача",
-          infoText:
-              isCorrect ? "Вы успешно решили задачу" : "Повторите попытку",
+          colorButton: (isCorrectFordFulkerson || isCorrectEdmondsKarp)
+              ? AppColors.green
+              : AppColors.redBackground,
+          mainText: (isCorrectFordFulkerson || isCorrectEdmondsKarp)
+              ? "Успех"
+              : "Неудача",
+          infoText: (isCorrectFordFulkerson || isCorrectEdmondsKarp)
+              ? "Вы успешно решили задачу"
+              : "Повторите попытку",
           buttonText: "Начать заново",
           onPressedFunction: () {
-            Navigator.of(context).pop(); // Закрыть диалоговое окно
-            controller.clear(); // Очистить поле ввода
+            Navigator.of(context).pop();
+            controller.clear();
           },
         );
       },
     );
+  }
+
+  bool checkCorrectness(String userInput, List<String> correctAnswers) {
+    List<String> inputs = userInput.split(" ").map((e) => e.trim()).toList();
+    if (inputs.length != correctAnswers.length) return false;
+    for (int i = 0; i < inputs.length; i++) {
+      if (inputs[i] != correctAnswers[i]) return false;
+    }
+    return true;
+  }
+
+  void showFirstStep() {
+    if (widget.isEducation) {
+      setState(() {
+        currentStepFordFulkerson = 0;
+      });
+    }
   }
 
   @override
@@ -142,7 +160,11 @@ class _GraphWeightFlowTaskState extends State<GraphWeightFlowTask> {
               ),
               if (widget.isEducation) ...[
                 Text(
-                  steps[currentStep],
+                  "Пошаговая демонстрация нахождения решения алгоритмом Форда-Фалкерсона:",
+                  style: getTheme().textTheme.bodyLarge,
+                ),
+                Text(
+                  stepsFordFulkerson[currentStepFordFulkerson],
                   style: getTheme().textTheme.bodyLarge,
                 ),
                 SingleChildScrollView(
@@ -153,7 +175,7 @@ class _GraphWeightFlowTaskState extends State<GraphWeightFlowTask> {
                       DefaultButton(
                         info: "Предыдущий шаг",
                         buttonColor: AppColors.green,
-                        onPressedFunction: previousStep,
+                        onPressedFunction: previousStepFordFulkerson,
                         isSettings: false,
                       ),
                       SizedBox(
@@ -162,7 +184,38 @@ class _GraphWeightFlowTaskState extends State<GraphWeightFlowTask> {
                       DefaultButton(
                         info: "Следующий шаг",
                         buttonColor: AppColors.green,
-                        onPressedFunction: nextStep,
+                        onPressedFunction: nextStepFordFulkerson,
+                        isSettings: false,
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  "Пошаговая демонстрация нахождения решения алгоритмом Эдмондса-Карпа:",
+                  style: getTheme().textTheme.bodyLarge,
+                ),
+                Text(
+                  stepsEdmondsKarp[currentStepEdmondsKarp],
+                  style: getTheme().textTheme.bodyLarge,
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      DefaultButton(
+                        info: "Предыдущий шаг",
+                        buttonColor: AppColors.green,
+                        onPressedFunction: previousStepEdmondsKarp,
+                        isSettings: false,
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      DefaultButton(
+                        info: "Следующий шаг",
+                        buttonColor: AppColors.green,
+                        onPressedFunction: nextStepEdmondsKarp,
                         isSettings: false,
                       ),
                     ],
@@ -173,9 +226,11 @@ class _GraphWeightFlowTaskState extends State<GraphWeightFlowTask> {
                 Padding(
                   padding: EdgeInsets.only(top: 20),
                   child: GraphTextField(
+                    isStudy: widget.isStudy,
                     controller: controller,
                     isEducation: widget.isEducation,
-                    answer: correctAnswer,
+                    answer:
+                        "$correctAnswerFordFulkerson $correctAnswerEdmondsKarp",
                   ),
                 ),
                 DefaultButton(
@@ -185,6 +240,21 @@ class _GraphWeightFlowTaskState extends State<GraphWeightFlowTask> {
                   isSettings: false,
                 ),
               ],
+              // if (widget.isStudy) ...[
+              //   Padding(
+              //     padding: EdgeInsets.all(8.0),
+              //     child: GestureDetector(
+              //       onTap: showFirstStep,
+              //       child: Text(
+              //         "Нажмите здесь, чтобы увидеть первый шаг решения",
+              //         style: TextStyle(
+              //           color: AppColors.black,
+              //           decoration: TextDecoration.underline,
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ],
             ],
           );
         },

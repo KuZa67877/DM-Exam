@@ -194,26 +194,31 @@ class _StudyScreenState extends State<StudyScreen> {
                 child: i >= 10
                     ? i == 10
                         ? GraphTask(
+                            isStudy: widget.isEducation,
                             myTree: NonBinaryTree(),
                             isEducation: false,
                           )
                         : i == 11
                             ? PrueferCodeTaskScreen(
+                                isStudy: widget.isEducation,
                                 myTree: NonBinaryTree(),
                                 isEducation: false,
                               )
                             : i == 12
                                 ? DfsTraversalTaskScreen(
+                                    isStudy: widget.isEducation,
                                     tree: BinaryTree(),
                                     isDfs: true,
                                     isEducation: false)
                                 : i == 13
                                     ? BfsTraversalTaskScreen(
+                                        isStudy: widget.isEducation,
                                         tree: BinaryTree(),
                                         isEducation: false,
                                       )
                                     : i == 14
                                         ? GraphWeightFlowTask(
+                                            isStudy: widget.isEducation,
                                             isEducation: false,
                                             myGraph: GraphWeightFlow(),
                                           )

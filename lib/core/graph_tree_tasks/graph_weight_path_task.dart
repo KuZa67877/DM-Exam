@@ -111,6 +111,19 @@ class _GraphWeightPathTaskState extends State<GraphWeightPathTask> {
         builder: (BuildContext context, BoxConstraints viewportConstraints) {
           return Column(
             children: [
+              if (widget.isEducation) SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Путь между двумя вершинами графа - это путь с наименьшим весом (суммой весов ребер) между этими вершинами.",
+                  style: getTheme().textTheme.bodyLarge,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Text(
+                "Найдите кратчайший путь для каждой вершины",
+                style: getTheme().textTheme.bodyLarge,
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 40),
                 child: Center(
@@ -122,10 +135,6 @@ class _GraphWeightPathTaskState extends State<GraphWeightPathTask> {
                     ),
                   ),
                 ),
-              ),
-              Text(
-                "Найдите кратчайший путь для каждой вершины",
-                style: getTheme().textTheme.bodyLarge,
               ),
               Padding(
                 padding: EdgeInsets.only(top: 20),
@@ -157,14 +166,9 @@ class _GraphWeightPathTaskState extends State<GraphWeightPathTask> {
                 isSettings: false,
               ),
               if (widget.isEducation) ...[
-                SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "В теории графов кратчайший путь между двумя вершинами графа - это путь с наименьшим весом (суммой весов ребер) между этими вершинами.",
-                    style: getTheme().textTheme.bodyLarge,
-                    textAlign: TextAlign.center,
-                  ),
+                Text(
+                  "Пошаговая демонстрация нахождения решения:",
+                  style: getTheme().textTheme.bodyLarge,
                 ),
                 SizedBox(height: 20),
                 Padding(

@@ -14,33 +14,44 @@ import 'package:flutter/widgets.dart';
 
 class GraphTask extends StatefulWidget {
   final NonBinaryTree myTree;
+  final bool isStudy;
   final bool isEducation;
-  const GraphTask({super.key, required this.myTree, required this.isEducation});
+  const GraphTask({
+    super.key,
+    required this.myTree,
+    required this.isStudy,
+    required this.isEducation,
+  });
 
   @override
   State<GraphTask> createState() => _GraphTaskState();
 }
 
 class _GraphTaskState extends State<GraphTask> {
-  TextEditingController controller = TextEditingController();
-  String correctAnswer = ""; // Переменная для хранения правильного ответа
+  TextEditingController radiusController = TextEditingController();
+  TextEditingController diameterController = TextEditingController();
+  TextEditingController centerController = TextEditingController();
+
+  String correctRadius = "";
+  String correctDiameter = "";
+  String correctCenters = "";
   List<String> steps = [];
   int currentStep = 0;
 
   @override
   void initState() {
     super.initState();
-    // Рассчитываем правильные значения для радиуса, диаметра и центра графа
     widget.myTree.generate_tree();
     var analysis = widget.myTree.calculateTreeProperties();
-    String centers = (analysis['centers'] as List).join(', ');
-    correctAnswer = "${analysis['radius']} ${analysis['diameter']} $centers";
+    correctRadius = analysis['radius'].toString();
+    correctDiameter = analysis['diameter'].toString();
+    correctCenters = (analysis['centers'] as List).join(', ');
 
     if (widget.isEducation) {
       steps = widget.myTree.calculateTreePropertiesSteps();
     }
 
-    print(correctAnswer);
+    print("$correctRadius $correctDiameter $correctCenters");
   }
 
   void nextStep() {
@@ -60,44 +71,15 @@ class _GraphTaskState extends State<GraphTask> {
   }
 
   void checkAnswer() {
-    String userInput =
-        controller.text.trim(); // Получаем введенный пользователем текст
-    List<String> answers = correctAnswer
-        .split(" ")
-        .map((e) => e.trim())
-        .toList(); // Разбиваем строку на отдельные ответы
-    bool isCorrect = true; // Предполагаем, что ответ верный
+    String userRadius = radiusController.text.trim();
+    String userDiameter = diameterController.text.trim();
+    String userCenters = centerController.text.trim();
 
-    // Проверяем, что введено столько же значений, сколько требуется
-    if (answers.length != userInput.split(" ").length) {
-      isCorrect = false; // Если введено меньше значений, считаем ответ неверным
-    } else {
-      // Сравниваем введенные данные с правильными
-      for (int i = 0; i < answers.length; i++) {
-        String userInputPart =
-            userInput.split(" ")[i].trim(); // Получаем часть введенного ответа
-        String correctAnswerPart =
-            answers[i]; // Получаем соответствующую часть правильного ответа
+    bool isCorrect = userRadius == correctRadius &&
+        userDiameter == correctDiameter &&
+        userCenters.split(',').map((e) => e.trim()).toSet() ==
+            correctCenters.split(',').map((e) => e.trim()).toSet();
 
-        // Проверяем, что введенное значение является числом или совпадает с названием центра
-        if (correctAnswerPart == "Центр") {
-          if (userInputPart != correctAnswerPart) {
-            isCorrect = false;
-          }
-        } else {
-          if (userInputPart.isNotEmpty &&
-              RegExp(r'^\d+$').hasMatch(userInputPart)) {
-            if (int.parse(userInputPart) != int.parse(correctAnswerPart)) {
-              isCorrect = false;
-            }
-          } else {
-            isCorrect = false; // Если введено не число, считаем ответ неверным
-          }
-        }
-      }
-    }
-
-    // Показываем результат в диалоговом окне
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -109,8 +91,10 @@ class _GraphTaskState extends State<GraphTask> {
               isCorrect ? "Вы успешно решили задачу" : "Повторите попытку",
           buttonText: "Начать заново",
           onPressedFunction: () {
-            Navigator.of(context).pop(); // Закрыть диалоговое окно
-            controller.clear(); // Очистить поле ввода
+            Navigator.of(context).pop();
+            radiusController.clear();
+            diameterController.clear();
+            centerController.clear();
           },
         );
       },
@@ -125,6 +109,15 @@ class _GraphTaskState extends State<GraphTask> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            if (widget.isEducation)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Диаметр - максимальная длина (в рёбрах) кратчайшего пути в дереве между любыми двумя вершинами. Эксцентриситет - расстояние до самой дальней вершины графа. Радиус - это наименьший из эксцентриситетов вершин.",
+                  style: getTheme().textTheme.bodyLarge,
+                  textAlign: TextAlign.center,
+                ),
+              ),
             Center(
               child: Container(
                 height: 250,
@@ -139,15 +132,53 @@ class _GraphTaskState extends State<GraphTask> {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 20),
+            Text(
+              "Радиус",
+              style: getTheme().textTheme.bodyLarge,
+              textAlign: TextAlign.left,
+            ),
+            GraphTextField(
+              isStudy: widget.isStudy,
+              controller: radiusController,
+              isEducation: widget.isEducation,
+              answer: correctRadius,
+            ),
+            SizedBox(height: 20),
+            Text(
+              "Диаметр",
+              style: getTheme().textTheme.bodyLarge,
+              textAlign: TextAlign.left,
+            ),
+            GraphTextField(
+              isStudy: widget.isStudy,
+              controller: diameterController,
+              isEducation: widget.isEducation,
+              answer: correctDiameter,
+            ),
+            SizedBox(height: 20),
+            Text(
+              "Центр",
+              style: getTheme().textTheme.bodyLarge,
+              textAlign: TextAlign.left,
+            ),
+            GraphTextField(
+              isStudy: widget.isStudy,
+              controller: centerController,
+              isEducation: widget.isEducation,
+              answer: correctCenters,
+            ),
+            SizedBox(height: 20),
+            DefaultButton(
+              info: "Отправить",
+              buttonColor: AppColors.green,
+              onPressedFunction: checkAnswer,
+              isSettings: false,
+            ),
             if (widget.isEducation) ...[
               SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "В графовой теории диаметр графа - это максимальное расстояние между всеми парами вершин в графе. Радиус графа - это минимальное расстояние от одной вершины графа до самой удаленной от нее вершины в графе. Центр графа - это множество вершин графа, имеющих минимальный эксцентриситет.",
-                  style: getTheme().textTheme.bodyLarge,
-                  textAlign: TextAlign.center,
-                ),
+              Text(
+                "Пошаговая демонстрация нахождения решения:",
+                style: getTheme().textTheme.bodyLarge,
               ),
               SizedBox(height: 20),
               Text(
@@ -165,9 +196,7 @@ class _GraphTaskState extends State<GraphTask> {
                       onPressedFunction: previousStep,
                       isSettings: false,
                     ),
-                    SizedBox(
-                      width: 15,
-                    ),
+                    SizedBox(width: 15),
                     DefaultButton(
                       info: "Следующий шаг",
                       buttonColor: AppColors.green,
@@ -176,20 +205,6 @@ class _GraphTaskState extends State<GraphTask> {
                     ),
                   ],
                 ),
-              ),
-            ],
-            if (!widget.isEducation) ...[
-              GraphTextField(
-                controller: controller,
-                isEducation: widget.isEducation,
-                answer: correctAnswer,
-              ),
-              SizedBox(height: 20),
-              DefaultButton(
-                info: "Отправить",
-                buttonColor: AppColors.green,
-                onPressedFunction: checkAnswer,
-                isSettings: false,
               ),
             ],
           ],

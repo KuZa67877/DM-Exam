@@ -173,26 +173,31 @@ class _EducationScreenState extends State<EducationScreen> {
                 child: i > 10
                     ? i == 11
                         ? GraphTask(
+                            isStudy: false,
                             myTree: NonBinaryTree(),
                             isEducation: true,
                           )
                         : i == 12
                             ? PrueferCodeTaskScreen(
+                                isStudy: false,
                                 myTree: NonBinaryTree(),
                                 isEducation: true,
                               )
                             : i == 13
                                 ? BfsTraversalTaskScreen(
+                                    isStudy: false,
                                     tree: BinaryTree(),
                                     isEducation: true,
                                   )
                                 : i == 14
                                     ? DfsTraversalTaskScreen(
+                                        isStudy: false,
                                         tree: BinaryTree(),
                                         isDfs: true,
                                         isEducation: true)
                                     : i == 15
                                         ? GraphWeightFlowTask(
+                                            isStudy: false,
                                             isEducation: true,
                                             myGraph: GraphWeightFlow(),
                                           )

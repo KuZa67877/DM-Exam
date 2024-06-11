@@ -1,21 +1,22 @@
 import 'package:dmiti_project/core/algorithms/graph_tree/BinaryTree.dart';
-import 'package:dmiti_project/core/algorithms/graph_tree/GraphAnalysis.dart';
-import 'package:dmiti_project/core/algorithms/graph_tree/Graphs.dart';
 import 'package:dmiti_project/core/alert_dialog.dart';
 import 'package:dmiti_project/core/default_button.dart';
 import 'package:dmiti_project/core/graph_tree_vizualize/tree_visualizer.dart';
 import 'package:dmiti_project/core/textfield/graph_textfield.dart';
 import 'package:dmiti_project/res/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:dmiti_project/core/graph_tree_vizualize/graph_visualizer.dart';
 import 'package:dmiti_project/res/colors.dart';
 
 class BfsTraversalTaskScreen extends StatefulWidget {
   final BinaryTree tree;
+  final bool isStudy;
   final bool isEducation;
 
   BfsTraversalTaskScreen(
-      {Key? key, required this.tree, required this.isEducation})
+      {Key? key,
+      required this.tree,
+      required this.isEducation,
+      required this.isStudy})
       : super(key: key);
 
   @override
@@ -108,6 +109,10 @@ class _BfsTraversalTaskScreenState extends State<BfsTraversalTaskScreen> {
               ),
               if (widget.isEducation) ...[
                 Text(
+                  "Пошаговая демонстрация нахождения решения:",
+                  style: getTheme().textTheme.bodyLarge,
+                ),
+                Text(
                   steps[currentStep],
                   style: getTheme().textTheme.bodyLarge,
                 ),
@@ -139,6 +144,7 @@ class _BfsTraversalTaskScreenState extends State<BfsTraversalTaskScreen> {
                 Padding(
                   padding: EdgeInsets.only(top: 20),
                   child: GraphTextField(
+                    isStudy: widget.isStudy,
                     controller: controller,
                     isEducation: widget.isEducation,
                     answer: correctAnswer,

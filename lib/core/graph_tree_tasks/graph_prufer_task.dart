@@ -11,8 +11,13 @@ class PrueferCodeTaskScreen extends StatefulWidget {
   final NonBinaryTree myTree;
   final bool isEducation;
 
+  final bool isStudy;
+
   PrueferCodeTaskScreen(
-      {Key? key, required this.myTree, required this.isEducation})
+      {Key? key,
+      required this.myTree,
+      required this.isEducation,
+      required this.isStudy})
       : super(key: key);
 
   @override
@@ -91,6 +96,15 @@ class _PrueferCodeTaskScreenState extends State<PrueferCodeTaskScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            if (widget.isEducation)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Код Прюфера представляет собой последовательность номеров вершин, образованную в результате последовательного удаления листьев из дерева, позволяющую востановить дерево.",
+                  style: getTheme().textTheme.bodyLarge,
+                  textAlign: TextAlign.center,
+                ),
+              ),
             Center(
               child: Container(
                 height: 250,
@@ -105,16 +119,10 @@ class _PrueferCodeTaskScreenState extends State<PrueferCodeTaskScreen> {
               textAlign: TextAlign.center,
             ),
             if (widget.isEducation) ...[
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "Код Прюфера представляет собой последовательность номеров вершин, образованную в результате последовательного удаления листьев из дерева.",
-                  style: getTheme().textTheme.bodyLarge,
-                  textAlign: TextAlign.center,
-                ),
+              Text(
+                "Пошаговая демонстрация нахождения решения:",
+                style: getTheme().textTheme.bodyLarge,
               ),
-              SizedBox(height: 20),
               Text(
                 steps[currentStep],
                 style: getTheme().textTheme.bodyLarge,
@@ -146,6 +154,7 @@ class _PrueferCodeTaskScreenState extends State<PrueferCodeTaskScreen> {
             if (!widget.isEducation) ...[
               SizedBox(height: 20),
               GraphTextField(
+                isStudy: widget.isStudy,
                 controller: controller,
                 isEducation: widget.isEducation,
                 answer: correctAnswer,
