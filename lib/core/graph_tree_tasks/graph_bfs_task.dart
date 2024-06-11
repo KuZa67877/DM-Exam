@@ -37,6 +37,7 @@ class _BfsTraversalTaskScreenState extends State<BfsTraversalTaskScreen> {
     if (widget.isEducation) {
       steps = widget.tree.bfs_steps(widget.tree.head);
     }
+    print(correctAnswer);
   }
 
   void nextStep() {

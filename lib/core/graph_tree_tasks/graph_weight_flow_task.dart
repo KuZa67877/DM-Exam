@@ -39,6 +39,7 @@ class _GraphWeightFlowTaskState extends State<GraphWeightFlowTask> {
       stepsFordFulkerson = widget.myGraph.ford_fulkerson_steps();
       stepsEdmondsKarp = widget.myGraph.edmonds_karp_steps();
     }
+    print(correctAnswerFordFulkerson);
   }
 
   void nextStepFordFulkerson() {

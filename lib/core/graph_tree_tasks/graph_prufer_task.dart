@@ -46,6 +46,7 @@ class _PrueferCodeTaskScreenState extends State<PrueferCodeTaskScreen> {
       correctAnswer = "";
       print("Ошибка: дерево пустое.");
     }
+    print(correctAnswer);
   }
 
   void nextStep() {

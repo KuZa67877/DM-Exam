@@ -46,6 +46,8 @@ class _DfsTraversalTaskScreenState extends State<DfsTraversalTaskScreen> {
         steps = widget.tree.bfs_steps(widget.tree.head);
       }
     }
+
+    print(correctAnswer);
   }
 
   void nextStep() {

@@ -43,15 +43,18 @@ class _GraphTaskState extends State<GraphTask> {
     super.initState();
     widget.myTree.generate_tree();
     var analysis = widget.myTree.calculateTreeProperties();
-    correctRadius = analysis['radius'].toString();
-    correctDiameter = analysis['diameter'].toString();
-    correctCenters = (analysis['centers'] as List).join(', ');
+    correctRadius = analysis['radius'].toString().trim();
+    correctDiameter = analysis['diameter'].toString().trim();
+    correctCenters = (analysis['centers'] as List)
+        .map((e) => e.toString().trim())
+        .join(', ');
 
     if (widget.isEducation) {
       steps = widget.myTree.calculateTreePropertiesSteps();
     }
 
     print("$correctRadius $correctDiameter $correctCenters");
+    print(centerController.text.trim());
   }
 
   void nextStep() {
@@ -75,10 +78,23 @@ class _GraphTaskState extends State<GraphTask> {
     String userDiameter = diameterController.text.trim();
     String userCenters = centerController.text.trim();
 
+    // Убедитесь, что значения правильно форматированы
+    print(
+        "$userRadius - $correctRadius   $userDiameter - $correctDiameter    $userCenters - $correctCenters");
+    print(userRadius == correctRadius);
+    print(userDiameter == correctDiameter);
+    print(userCenters == correctCenters);
+
+    // Преобразуем строки центров в списки и убираем пробелы
+    Set<String> userCentersSet =
+        userCenters.split(',').map((e) => e.trim()).toSet();
+    Set<String> correctCentersSet =
+        correctCenters.split(',').map((e) => e.trim()).toSet();
+
+    // Проверяем совпадение
     bool isCorrect = userRadius == correctRadius &&
         userDiameter == correctDiameter &&
-        userCenters.split(',').map((e) => e.trim()).toSet() ==
-            correctCenters.split(',').map((e) => e.trim()).toSet();
+        userCenters == correctCenters;
 
     showDialog(
       context: context,
